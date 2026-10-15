@@ -1,1 +1,123 @@
 @import "tailwindcss";
+
+/*
+ * XP "Luna" skin. Layout lives in Tailwind classes on the components;
+ * this file only holds the sprite-based chrome that's awkward to express
+ * as utility classes.
+ *
+ * Sprite strips (buttons, start button) stack their states vertically:
+ * normal on top, then hover, then pressed.
+ */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  font-size: 11px;
+  user-select: none;
+}
+
+/* The gradient only shows while the wallpaper is loading (or if it's missing) */
+.xp-desktop {
+  background:
+    url('/wallpaper.webp') center / cover no-repeat,
+    linear-gradient(to bottom, #3a7bd5 0%, #8ec5f5 55%, #6fbf3a 56%, #3f8f1f 100%);
+}
+
+/* ---------- Window ---------- */
+
+.xp-titlebar {
+  height: 29px;
+  /* 9-slice: the rounded corners stay fixed, the middle stretches */
+  border-style: solid;
+  border-width: 0 8px;
+  border-image: url('./assets/xp/titlebar.png') 0 8 fill / 0 8px stretch;
+}
+
+.xp-title {
+  font-family: 'Trebuchet MS', Tahoma, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px #0f1089;
+}
+
+.xp-frame {
+  padding: 0 5px 5px;
+  background:
+    /* stretched rather than tiled: its ends are the bottom corners */
+    url('./assets/xp/frame-bottom.png') left bottom / 100% 5px no-repeat,
+    url('./assets/xp/frame-left.png') left top repeat-y,
+    url('./assets/xp/frame-right.png') right top repeat-y;
+}
+
+.xp-caption-button {
+  width: 21px;
+  height: 21px;
+  background-position: 0 0;
+}
+.xp-caption-button:hover {
+  background-position: 0 -21px;
+}
+.xp-caption-button:active {
+  background-position: 0 -42px;
+}
+.xp-caption-button.minimize {
+  background-image: url('./assets/xp/btn-minimize.png');
+}
+.xp-caption-button.maximize {
+  background-image: url('./assets/xp/btn-maximize.png');
+}
+.xp-caption-button.close {
+  background-image: url('./assets/xp/btn-close.png');
+}
+
+/* ---------- Taskbar ---------- */
+
+.xp-taskbar {
+  height: 30px;
+  background: url('./assets/xp/taskbar.png') left top / auto 100% repeat-x;
+}
+
+/* The strip's frames are 31px tall; scaled to the 30px taskbar. */
+.xp-start-button {
+  width: 97px;
+  height: 30px;
+  background: url('./assets/xp/start-button.png') 0 0 / 97px 90px no-repeat;
+}
+.xp-start-button:hover {
+  background-position: 0 -30px;
+}
+.xp-start-button:active {
+  background-position: 0 -60px;
+}
+
+.xp-start-label {
+  font-family: 'Franklin Gothic Medium', 'Trebuchet MS', sans-serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgb(0 0 0 / 0.6);
+}
+
+.xp-taskbar-item {
+  height: 22px;
+  border-style: solid;
+  border-width: 3px;
+  border-image: url('./assets/xp/taskbar-button-active.png') 3 fill / 3px stretch;
+}
+
+.xp-tray {
+  height: 30px;
+  /* left 6px of the sprite is the raised edge separating it from the taskbar */
+  border-style: solid;
+  border-width: 0 0 0 6px;
+  border-image: url('./assets/xp/tray.png') 0 0 0 6 fill / 0 0 0 6px stretch;
+}
