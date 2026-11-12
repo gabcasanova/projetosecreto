@@ -10,6 +10,8 @@ import { parseFile } from 'music-metadata'
  *   info.json            title, release date ("dd/mm/yyyy" or just "yyyy") and type
  *   songs/*.mp3          tagged songs; the tags give order, title and duration
  *   art/frontcover.jpg   cover art
+ *   art/backcover.jpg    (optional) back of the CD case
+ *   art/booklet1.jpg...  (optional) booklet pages, in order; the front cover is the booklet's first page
  *
  * Tags are read here, at build time, so the browser never has to download
  * the songs just to learn what's in them.
@@ -91,8 +93,20 @@ async function readRelease(albumDir, category, folder) {
     year: parseYear(info.release),
     type: info.type ?? 'album',
     coverPath: path.join(albumDir, 'art', 'frontcover.jpg'),
+    backCoverPath: path.join(albumDir, 'art', 'backcover.jpg'),
+    bookletPaths: findBookletPages(path.join(albumDir, 'art')),
     tracks,
   }
+}
+
+// art/booklet1.jpg, booklet2.jpg... in page order (booklet10 after booklet9)
+function findBookletPages(artDir) {
+  if (!existsSync(artDir)) return []
+  const pageNumber = (file) => Number(file.match(/^booklet(\d+)\./i)[1])
+  return readdirSync(artDir)
+    .filter((file) => /^booklet\d+\.(jpe?g|png|webp)$/i.test(file))
+    .sort((a, b) => pageNumber(a) - pageNumber(b))
+    .map((file) => path.join(artDir, file))
 }
 
 // The spec puts info.json at the album root, but it currently lives in songs/, so accept both
@@ -137,6 +151,8 @@ function generateModule(releasesByCategory) {
 
   function releaseSource(release) {
     const cover = existsSync(release.coverPath) ? importAsset(release.coverPath) : 'null'
+    const backCover = existsSync(release.backCoverPath) ? importAsset(release.backCoverPath) : 'null'
+    const booklet = release.bookletPaths.map(importAsset)
     const tracks = release.tracks.map((track) => {
       const { filePath, ...data } = track
       return `{ ...${JSON.stringify(data)}, url: ${importAsset(filePath)} }`
@@ -149,7 +165,7 @@ function generateModule(releasesByCategory) {
       year: release.year,
       type: release.type,
     }
-    return `{ ...${JSON.stringify(data)}, cover: ${cover}, tracks: [${tracks.join(', ')}] }`
+    return `{ ...${JSON.stringify(data)}, cover: ${cover}, backCover: ${backCover}, booklet: [${booklet.join(', ')}], tracks: [${tracks.join(', ')}] }`
   }
 
   // One named export per category: `export const albums = [...]`, `export const singles = [...]`

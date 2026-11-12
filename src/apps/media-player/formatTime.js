@@ -7,8 +7,8 @@ export function formatTime(seconds) {
   return `${minutes}:${rest}`
 }
 
-// 1447 -> "24 minutes", for album lengths
+// 1447 -> "24 minutos", for album lengths
 export function formatTotalDuration(seconds) {
   const minutes = Math.round(seconds / 60)
-  return minutes === 1 ? '1 minute' : `${minutes} minutes`
+  return minutes === 1 ? '1 minuto' : `${minutes} minutos`
 }

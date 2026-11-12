@@ -1,25 +1,32 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import mediaPlayerIcon from '../assets/wmp/wmp-icon-48.png'
 import mediaPlayerSmallIcon from '../assets/wmp/wmp-icon-16.png'
+import jewelCaseIcon from '../assets/xp/icons/cd-audio.png'
 import MediaPlayer from '../apps/media-player/MediaPlayer'
 import useWindowManager from '../hooks/useWindowManager'
 import DesktopIcon from './DesktopIcon'
 import Taskbar from './Taskbar'
 import Window from './Window'
 
+// The 3D CD case pulls in three.js, so it's only downloaded the first time a case is opened
+const JewelCaseViewer = lazy(() => import('../apps/jewel-case/JewelCaseViewer'))
+
 function WelcomeMessage() {
   return (
     <>
-      <p>Welcome to Windows XP.</p>
-      <p className="mt-2">Drag this window around by its title bar.</p>
+      <p>Bem-vindo ao Windows XP.</p>
+      <p className="mt-2">Arraste esta janela pela barra de título.</p>
     </>
   )
 }
 
-// Everything that can be opened as a window
+/*
+ * Everything that can be opened as a window. `title` can be a function of the
+ * window's props, for windows that show something specific (like one album).
+ */
 const APPS = {
   welcome: {
-    title: 'Welcome',
+    title: 'Bem-vindo',
     initialPosition: { x: 120, y: 80 },
     width: 420,
     Content: WelcomeMessage,
@@ -34,6 +41,19 @@ const APPS = {
     width: 980,
     Content: MediaPlayer,
   },
+  jewelCase: {
+    title: ({ release }) => release.title,
+    icon: jewelCaseIcon,
+    bodyClassName: '',
+    initialPosition: { x: 80, y: 30 },
+    width: 860,
+    Content: JewelCaseViewer,
+  },
+}
+
+function titleOf(id, props) {
+  const { title } = APPS[id]
+  return typeof title === 'function' ? title(props) : title
 }
 
 const DESKTOP_SHORTCUTS = ['mediaPlayer']
@@ -57,9 +77,9 @@ function Desktop() {
     return taskbarRefCallbacks.current.get(id)
   }
 
-  const taskbarItems = windowManager.windows.map(({ id, minimized }) => ({
+  const taskbarItems = windowManager.windows.map(({ id, minimized, props }) => ({
     id,
-    title: APPS[id].title,
+    title: titleOf(id, props),
     icon: APPS[id].smallIcon ?? APPS[id].icon,
     active: id === windowManager.activeId && !minimized,
   }))
@@ -82,12 +102,12 @@ function Desktop() {
         ))}
       </div>
 
-      {windowManager.windows.map(({ id, minimized }) => {
+      {windowManager.windows.map(({ id, minimized, props }) => {
         const app = APPS[id]
         return (
           <Window
             key={id}
-            title={app.title}
+            title={titleOf(id, props)}
             icon={app.smallIcon ?? app.icon}
             bodyClassName={app.bodyClassName}
             initialPosition={app.initialPosition}
@@ -100,7 +120,10 @@ function Desktop() {
             onClose={() => windowManager.closeWindow(id)}
             getTaskbarButton={() => taskbarButtons.current.get(id)}
           >
-            <app.Content />
+            {/* Apps get their window's props, plus a way to open other windows */}
+            <Suspense fallback={null}>
+              <app.Content {...props} openWindow={windowManager.openWindow} />
+            </Suspense>
           </Window>
         )
       })}

@@ -9,7 +9,7 @@ const RING_POINTS = 96
  */
 const battery = {
   id: 'battery',
-  name: 'Battery',
+  name: 'Bateria',
 
   draw(context, frame, memory) {
     const { width, height } = frame

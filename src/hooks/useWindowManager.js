@@ -5,9 +5,10 @@ import { useState } from 'react'
  *
  * `windows` stays in the order they were opened (that's the taskbar order),
  * while `stack` holds the same ids from bottom to top for z-ordering.
+ * Each window can carry `props` for its app, e.g. which album a CD case shows.
  */
 function useWindowManager(initiallyOpen = []) {
-  const [windows, setWindows] = useState(() => initiallyOpen.map((id) => ({ id, minimized: false })))
+  const [windows, setWindows] = useState(() => initiallyOpen.map((id) => ({ id, minimized: false, props: {} })))
   const [stack, setStack] = useState(initiallyOpen)
 
   // The active window is the topmost one that isn't minimized
@@ -25,11 +26,14 @@ function useWindowManager(initiallyOpen = []) {
     setStack((current) => [...current.filter((stackedId) => stackedId !== id), id])
   }
 
-  function openWindow(id) {
+  // Opening a window that's already open restores it and swaps in the new props
+  function openWindow(id, props = {}) {
     if (!windows.some((window) => window.id === id)) {
-      setWindows((current) => [...current, { id, minimized: false }])
+      setWindows((current) => [...current, { id, minimized: false, props }])
     } else {
-      setMinimized(id, false)
+      setWindows((current) =>
+        current.map((window) => (window.id === id ? { ...window, minimized: false, props } : window)),
+      )
     }
     bringToFront(id)
   }

@@ -540,3 +540,14 @@
   height: 1px;
   background: linear-gradient(to right, #9fb4cf, transparent);
 }
+
+/* Covers with a CD case to open glow a little on hover */
+.wmp-list-pane-art-button.has-case {
+  cursor: pointer;
+}
+.wmp-list-pane-art-button.has-case:hover .wmp-list-pane-art {
+  box-shadow: 0 0 10px rgb(80 150 255 / 0.8);
+}
+.wmp-list-pane-art {
+  transition: box-shadow 250ms;
+}

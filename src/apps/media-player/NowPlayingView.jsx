@@ -4,7 +4,15 @@ import { formatTime } from './formatTime'
 import { albumArtTransitionName } from './viewTransition'
 import Visualizer from './Visualizer'
 
-function NowPlayingView({ player, visualization, listPaneOpen, onToggleListPane, onPlayAll, onGoToLibrary }) {
+function NowPlayingView({
+  player,
+  visualization,
+  listPaneOpen,
+  onToggleListPane,
+  onOpenCase,
+  onPlayAll,
+  onGoToLibrary,
+}) {
   if (!player.current) {
     return <EmptyNowPlaying onPlayAll={onPlayAll} onGoToLibrary={onGoToLibrary} />
   }
@@ -29,40 +37,50 @@ function NowPlayingView({ player, visualization, listPaneOpen, onToggleListPane,
         </div>
 
         {!listPaneOpen && (
-          <button type="button" aria-label="Show list" className="absolute top-2 right-2" onClick={onToggleListPane}>
+          <button type="button" aria-label="Mostrar lista" className="absolute top-2 right-2" onClick={onToggleListPane}>
             <img src={listPaneShowIcon} alt="" />
           </button>
         )}
       </div>
 
-      {listPaneOpen && <ListPane player={player} onHide={onToggleListPane} />}
+      {listPaneOpen && <ListPane player={player} onHide={onToggleListPane} onOpenCase={onOpenCase} />}
     </div>
   )
 }
 
 // The pane on the right: album art, album title, and the songs in the queue
-function ListPane({ player, onHide }) {
+function ListPane({ player, onHide, onOpenCase }) {
   const { album } = player.current
+  // Only releases with a back cover have a full CD case to show
+  const hasCase = Boolean(album.backCover)
 
   return (
     <aside className="wmp-list-pane flex w-[200px] shrink-0 flex-col">
       <div className="relative flex flex-col items-center px-3 pt-3 pb-2">
-        <button type="button" aria-label="Hide list" className="absolute top-2 right-2" onClick={onHide}>
+        <button type="button" aria-label="Ocultar lista" className="absolute top-2 right-2" onClick={onHide}>
           <img src={listPaneHideIcon} alt="" />
         </button>
-        <img
-          src={album.cover}
-          alt=""
-          className="wmp-list-pane-art size-[132px] object-cover"
-          // Shares its name with the library tile, so the cover glides here when an album starts
-          style={{ viewTransitionName: albumArtTransitionName(album) }}
-        />
+        <button
+          type="button"
+          className={`wmp-list-pane-art-button ${hasCase ? 'has-case' : ''}`}
+          disabled={!hasCase}
+          title={hasCase ? 'Abrir o estojo do CD' : undefined}
+          onClick={() => onOpenCase(album)}
+        >
+          <img
+            src={album.cover}
+            alt=""
+            className="wmp-list-pane-art size-[132px] object-cover"
+            // Shares its name with the library tile, so the cover glides here when an album starts
+            style={{ viewTransitionName: albumArtTransitionName(album) }}
+          />
+        </button>
         <RatingStars />
         <p className="wmp-list-pane-album text-center">{album.title}</p>
       </div>
 
       <div className="wmp-list-pane-header flex items-center gap-1 px-2">
-        Now Playing <span className="text-[8px]">▼</span>
+        Em execução <span className="text-[8px]">▼</span>
       </div>
 
       <ol className="min-h-0 flex-1 overflow-y-auto py-1">
@@ -74,7 +92,7 @@ function ListPane({ player, onHide }) {
                 index === player.currentIndex ? 'current' : ''
               }`}
               onDoubleClick={() => player.playQueueIndex(index)}
-              title="Double-click to play"
+              title="Clique duas vezes para reproduzir"
             >
               <span className="min-w-0 flex-1 truncate text-left">{track.title}</span>
               <span className="wmp-list-pane-duration">{formatTime(track.duration)}</span>
@@ -109,10 +127,10 @@ function EmptyNowPlaying({ onPlayAll, onGoToLibrary }) {
   return (
     <div className="wmp-now-playing-empty flex h-full flex-col items-center justify-center gap-2">
       <button type="button" className="wmp-empty-link" onClick={onPlayAll}>
-        <span className="text-[10px]">▶</span> Play all music
+        <span className="text-[10px]">▶</span> Reproduzir todas as músicas
       </button>
       <button type="button" className="wmp-empty-link" onClick={onGoToLibrary}>
-        <span className="text-[10px]">▤</span> Go to library
+        <span className="text-[10px]">▤</span> Ir para a biblioteca
       </button>
     </div>
   )

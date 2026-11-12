@@ -76,10 +76,10 @@ function Window({
           <span className="xp-title truncate">{title}</span>
         </div>
         <div className="flex shrink-0 gap-0.5">
-          <button type="button" aria-label="Minimize" className="xp-caption-button minimize" onClick={onMinimize} />
+          <button type="button" aria-label="Minimizar" className="xp-caption-button minimize" onClick={onMinimize} />
           {/* Resizing isn't supported, so maximize stays disabled */}
-          <button type="button" aria-label="Maximize" className="xp-caption-button maximize" disabled />
-          <button type="button" aria-label="Close" className="xp-caption-button close" onClick={onClose} />
+          <button type="button" aria-label="Maximizar" className="xp-caption-button maximize" disabled />
+          <button type="button" aria-label="Fechar" className="xp-caption-button close" onClick={onClose} />
         </div>
       </div>
       <div className="xp-frame">

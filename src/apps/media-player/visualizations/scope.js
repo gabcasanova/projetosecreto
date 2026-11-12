@@ -5,7 +5,7 @@ const POINTS = 256
 // Two glowing oscilloscope traces of the raw waveform, one mirrored, cycling through colors
 const scope = {
   id: 'scope',
-  name: 'Scope',
+  name: 'Osciloscópio',
 
   draw(context, frame) {
     const { width, height, time, levels, scale } = frame

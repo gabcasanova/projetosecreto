@@ -23,7 +23,7 @@ function LibraryView({ albums, singles, currentReleaseId, onPlayRelease }) {
 
       <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-6">
         <ReleaseSection
-          title="Albums"
+          title="Álbuns"
           releases={albums}
           coverSize={coverSize}
           firstTileIndex={0}
@@ -40,13 +40,13 @@ function LibraryView({ albums, singles, currentReleaseId, onPlayRelease }) {
           onPlayRelease={onPlayRelease}
         />
 
-        {isEmpty && <p className="mt-6 text-center text-[#6d6d6d]">No music found.</p>}
+        {isEmpty && <p className="mt-6 text-center text-[#6d6d6d]">Nenhuma música encontrada.</p>}
       </div>
     </div>
   )
 }
 
-// A heading ("Albums", "Singles") followed by its covers; hidden when there's nothing in it
+// A heading ("Álbuns", "Singles") followed by its covers; hidden when there's nothing in it
 function ReleaseSection({ title, releases, coverSize, firstTileIndex, currentReleaseId, onPlayRelease }) {
   if (releases.length === 0) return null
 
@@ -77,7 +77,7 @@ function ZoomSlider({ value, onChange }) {
       <span className="wmp-zoom-icon small" aria-hidden="true" />
       <input
         type="range"
-        aria-label="Cover art size"
+        aria-label="Tamanho das capas"
         className="wmp-zoom-slider"
         min={MIN_COVER_SIZE}
         max={MAX_COVER_SIZE}
@@ -91,7 +91,7 @@ function ZoomSlider({ value, onChange }) {
 
 function ReleaseTile({ release, coverSize, entranceDelay, isPlaying, onPlay }) {
   const totalDuration = release.tracks.reduce((total, track) => total + track.duration, 0)
-  const songCount = release.tracks.length === 1 ? '1 song' : `${release.tracks.length} songs`
+  const songCount = release.tracks.length === 1 ? '1 música' : `${release.tracks.length} músicas`
 
   return (
     <button

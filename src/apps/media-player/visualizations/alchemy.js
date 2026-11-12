@@ -6,7 +6,7 @@ const RIBBON_POINTS = 64
 // Spiralling, mirrored ribbons around a spectrum ring: a kaleidoscope that breathes with the bass
 const alchemy = {
   id: 'alchemy',
-  name: 'Alchemy',
+  name: 'Alquimia',
 
   draw(context, frame) {
     const { width, height } = frame

@@ -5,7 +5,7 @@ const MAX_BUBBLES = 40
 // Soft, glassy bubbles that drift upwards; louder music blows more and bigger ones
 const ambience = {
   id: 'ambience',
-  name: 'Ambience',
+  name: 'Ambiência',
 
   draw(context, frame, memory) {
     const { width, height, levels } = frame

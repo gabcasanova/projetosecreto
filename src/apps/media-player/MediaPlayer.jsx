@@ -9,11 +9,11 @@ import VISUALIZATIONS from './visualizations'
 import './media-player.css'
 
 const TABS = [
-  { id: 'library', label: 'Library' },
-  { id: 'nowPlaying', label: 'Now Playing' },
+  { id: 'library', label: 'Biblioteca' },
+  { id: 'nowPlaying', label: 'Em execução' },
 ]
 
-function MediaPlayer() {
+function MediaPlayer({ openWindow }) {
   const player = usePlayer()
   const navigation = useViewHistory('library')
   const [visualizationIndex, setVisualizationIndex] = useState(0)
@@ -38,6 +38,11 @@ function MediaPlayer() {
     })
   }
 
+  // Releases with a back cover can be looked at as a 3D CD case in their own window
+  function openCase(release) {
+    openWindow('jewelCase', { release })
+  }
+
   function toggleListPane() {
     withViewTransition(() => setListPaneOpen((open) => !open))
   }
@@ -49,14 +54,14 @@ function MediaPlayer() {
         <div className="flex">
           <button
             type="button"
-            aria-label="Back"
+            aria-label="Voltar"
             className="wmp-image-button wmp-history-button back"
             disabled={!navigation.canGoBack}
             onClick={() => withViewTransition(navigation.back)}
           />
           <button
             type="button"
-            aria-label="Forward"
+            aria-label="Avançar"
             className="wmp-image-button wmp-history-button forward"
             disabled={!navigation.canGoForward}
             onClick={() => withViewTransition(navigation.forward)}
@@ -93,6 +98,7 @@ function MediaPlayer() {
             visualization={VISUALIZATIONS[visualizationIndex]}
             listPaneOpen={listPaneOpen}
             onToggleListPane={toggleListPane}
+            onOpenCase={openCase}
             onPlayAll={() => player.playAll([...albums, ...singles])}
             onGoToLibrary={() => showView('library')}
           />

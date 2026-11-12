@@ -4,7 +4,7 @@ const PEAK_FALL_SPEED = 0.6 // device pixels per frame, before scaling
 // A classic spectrum analyzer: glassy bars on a reflective floor with slowly falling peak caps
 const bars = {
   id: 'bars',
-  name: 'Bars and Waves',
+  name: 'Barras e ondas',
 
   draw(context, frame, memory) {
     const { width, height, scale } = frame

@@ -9,7 +9,7 @@ function PlayerControls({ player, onNextVisualization }) {
     <footer>
       <Slider
         className="wmp-seek-bar"
-        label="Seek"
+        label="Posição"
         value={player.currentTime}
         max={player.duration || 1}
         disabled={!hasSong}
@@ -28,49 +28,49 @@ function PlayerControls({ player, onNextVisualization }) {
         <div className="wmp-capsule absolute left-1/2 -translate-x-1/2">
           <button
             type="button"
-            aria-label="Shuffle"
+            aria-label="Aleatório"
             aria-pressed={player.shuffle}
             className={`wmp-small-button shuffle ${player.shuffle ? 'on' : ''}`}
             onClick={player.toggleShuffle}
           />
           <button
             type="button"
-            aria-label="Repeat"
+            aria-label="Repetir"
             aria-pressed={player.repeat}
             className={`wmp-small-button repeat ${player.repeat ? 'on' : ''}`}
             onClick={player.toggleRepeat}
           />
           <button
             type="button"
-            aria-label="Stop"
+            aria-label="Parar"
             className="wmp-small-button stop"
             disabled={!hasSong}
             onClick={player.stop}
           />
           <button
             type="button"
-            aria-label="Previous"
+            aria-label="Anterior"
             className="wmp-image-button wmp-skip-button previous"
             disabled={!hasSong}
             onClick={player.previous}
           />
           <button
             type="button"
-            aria-label={player.isPlaying ? 'Pause' : 'Play'}
+            aria-label={player.isPlaying ? 'Pausar' : 'Reproduzir'}
             className={`wmp-image-button wmp-play-button ${player.isPlaying ? 'pause' : 'play'}`}
             disabled={!hasSong}
             onClick={player.togglePlay}
           />
           <button
             type="button"
-            aria-label="Next"
+            aria-label="Próximo"
             className="wmp-image-button wmp-skip-button next"
             disabled={!hasSong}
             onClick={player.next}
           />
           <button
             type="button"
-            aria-label={player.muted ? 'Unmute' : 'Mute'}
+            aria-label={player.muted ? 'Ativar som' : 'Sem áudio'}
             className={`wmp-small-button mute ${player.muted ? 'on' : ''}`}
             onClick={player.toggleMute}
           />
@@ -85,8 +85,8 @@ function PlayerControls({ player, onNextVisualization }) {
 
         <button
           type="button"
-          aria-label="Next visualization"
-          title="Next visualization"
+          aria-label="Próxima visualização"
+          title="Próxima visualização"
           className="wmp-corner-button ml-auto mr-2"
           onClick={onNextVisualization}
         >

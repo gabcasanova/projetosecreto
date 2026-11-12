@@ -11,7 +11,7 @@ function Taskbar({ items, onItemClick, buttonRef }) {
       {/* No start menu yet, so the button only shows its hover/pressed states */}
       <button type="button" className="xp-start-button flex shrink-0 items-center gap-1.5 pl-2">
         <img src={windowsLogo} alt="" width={21} height={18} />
-        <span className="xp-start-label">start</span>
+        <span className="xp-start-label">iniciar</span>
       </button>
 
       <div className="flex min-w-0 flex-1 items-center gap-0.5 px-2">
@@ -44,8 +44,8 @@ function Clock() {
     return () => clearInterval(timer)
   }, [])
 
-  // XP shows the time as "3:07 PM"
-  return <span>{now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+  // Brazilian Portuguese XP shows a 24-hour clock: "15:07"
+  return <span>{now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
 }
 
 export default Taskbar
