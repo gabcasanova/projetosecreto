@@ -12,7 +12,6 @@ import HomePage from './pages/HomePage'
 import { CommunitiesPage, FansPage, FriendsPage, TestimonialsPage } from './pages/ListPages'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
-import ScrapbookPage from './pages/ScrapbookPage'
 import SearchPage from './pages/SearchPage'
 
 /*
@@ -38,11 +37,14 @@ function communityName(url) {
   return getCommunity(queryParam(url, 'cmm'))?.name ?? null
 }
 
-// Titles for pages about someone: "Página de recados de Marcio"
+// Titles for pages about someone: "Depoimentos de Marcio"
 const about = (label) => (url) => {
   const name = nameFromUid(url)
   return name ? `${label} de ${name}` : null
 }
+
+// Pages only the visitor has (their friends and communities lists); for anyone else they're the error page
+const aboutVisitor = (label) => (url) => (getAccount(queryParam(url, 'uid'))?.isVisitor ? about(label)(url) : null)
 
 function albumTitle(url) {
   const account = getAccount(queryParam(url, 'uid'))
@@ -63,9 +65,8 @@ const ROUTES = {
   '/': { Content: LoginPage, title: () => 'login' },
   '/home.aspx': { Content: HomePage, title: () => 'Página inicial' },
   '/profile.aspx': { Content: ProfilePage, title: about('Perfil') },
-  '/scrapbook.aspx': { Content: ScrapbookPage, title: about('Página de recados') },
-  '/friendslist.aspx': { Content: FriendsPage, title: about('Amigos') },
-  '/profilec.aspx': { Content: CommunitiesPage, title: about('Comunidades') },
+  '/friendslist.aspx': { Content: FriendsPage, title: aboutVisitor('Amigos') },
+  '/profilec.aspx': { Content: CommunitiesPage, title: aboutVisitor('Comunidades') },
   '/profilet.aspx': { Content: TestimonialsPage, title: about('Depoimentos') },
   '/profilef.aspx': { Content: FansPage, title: about('Fãs') },
   '/albumlist.aspx': { Content: AlbumListPage, title: about('Álbuns') },

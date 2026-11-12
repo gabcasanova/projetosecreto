@@ -4,22 +4,15 @@ import { PersonPhoto } from './Photos'
 import RichText from './RichText'
 
 /*
- * One row of a scrapbook, testimonials list or forum topic: the author's
- * framed photo, "Name: text", then the date and any actions underneath.
- * `index` alternates the row colours; `checkbox` is the bulk-delete box.
+ * One row of a testimonials list or forum topic: the author's framed photo,
+ * "Name: text", then the date underneath. `index` alternates the row colours.
  */
-function MessageItem({ message, index, date, actions, checkbox, small = false }) {
+function MessageItem({ message, index, date, small = false }) {
   const { from } = message
-  const className = [
-    'listitem',
-    index % 2 === 0 ? 'listlight' : 'listdark',
-    checkbox ? 'with-check' : '',
-    small ? 'small' : '',
-  ].join(' ')
+  const className = ['listitem', index % 2 === 0 ? 'listlight' : 'listdark', small ? 'small' : ''].join(' ')
 
   return (
     <div className={className}>
-      {checkbox && <div className="listitemchk">{checkbox}</div>}
       <div className={small ? 'listimg small' : 'listimg'}>
         <Link href={links.profile(from.uid)}>
           <PersonPhoto person={from} />
@@ -34,7 +27,6 @@ function MessageItem({ message, index, date, actions, checkbox, small = false })
         </div>
         <div className="itemactions">
           <span className="dte">{date}</span>
-          {actions}
         </div>
       </div>
     </div>

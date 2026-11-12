@@ -7,7 +7,7 @@ import smile from './assets/smiley-smile.svg'
 import surprise from './assets/smiley-surprise.svg'
 import wink from './assets/smiley-wink.svg'
 
-// The scrap form's smileys, in orkut's order, with the codes they type and turn back into
+// orkut's smileys, in its order: the text code that turns into each, and its name for the tooltip
 export const SMILEYS = [
   { code: ':)', image: smile, label: 'sorriso' },
   { code: ';)', image: wink, label: 'piscadinha' },

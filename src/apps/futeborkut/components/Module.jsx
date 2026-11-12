@@ -6,9 +6,9 @@ import Link from './Link'
  * breadcrumb instead (see TitleModule). `footer` is the row of links under
  * the divider at the bottom ("ver todos").
  */
-function Module({ title, count, countHref, large = false, footer, className = '', children }) {
+function Module({ title, count, countHref, footer, children }) {
   return (
-    <div className={`module ${className}`}>
+    <div className="module">
       {title && (
         <h2>
           {title}
@@ -20,7 +20,7 @@ function Module({ title, count, countHref, large = false, footer, className = ''
           )}
         </h2>
       )}
-      <div className={large ? 'boxmidlrg' : 'boxmid'}>
+      <div className="boxmid">
         {children}
         {footer && (
           <>
@@ -47,7 +47,7 @@ export function TitleModule({ title, aside, breadcrumb, children }) {
   )
 }
 
-/** "Marcio > página de recados": each step but the last is a link. */
+/** "Marcio > depoimentos": each step but the last is a link. */
 export function Breadcrumb({ steps }) {
   return steps.map((step, index) => (
     <span key={index}>

@@ -10,10 +10,13 @@ import ErrorPage from './ErrorPage'
  * Every page about someone ("Profile.aspx?uid=...") starts here: a real
  * profile (or the visitor) gets the page, someone mentioned on the site
  * without a profile gets "Este perfil é privado", anyone else the error page.
+ * `ownOnly` pages (the friends and communities lists) only exist for the
+ * visitor: other people's friends and communities aren't shown.
  */
-function AccountGate({ url, navigate, children }) {
+function AccountGate({ url, navigate, ownOnly = false, children }) {
   const uid = queryParam(url, 'uid')
   const account = getAccount(uid)
+  if (account && ownOnly && !account.isVisitor) return <ErrorPage navigate={navigate} />
   if (account) return children(account)
 
   const person = getPersonWithoutProfile(uid)
@@ -30,7 +33,7 @@ function PrivateProfile({ person, navigate }) {
           <div className="newsitem privatebox">
             <b>Este perfil é privado.</b>
             <br />
-            Só os amigos de {person.name} podem ver o perfil, os recados, as fotos e os depoimentos.
+            Só os amigos de {person.name} podem ver o perfil, as fotos e os depoimentos.
           </div>
           <div className="parabtns">
             <Link href={links.addFriend(person.uid)} className="grabtn">

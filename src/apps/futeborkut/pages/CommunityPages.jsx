@@ -3,10 +3,10 @@ import Layout from '../components/Layout'
 import MessageItem from '../components/MessageItem'
 import Module, { Breadcrumb, TitleModule } from '../components/Module'
 import RichText from '../components/RichText'
-import { CommunityGrid, Nothing, PeopleGrid } from '../components/ThumbGrid'
+import { Nothing, PeopleGrid } from '../components/ThumbGrid'
 import { CommunityCard } from '../components/UserCard'
 import { getCommunity, membersOf, VISITOR } from '../data/database'
-import { formatForumDate, formatLongDate, formatNumber, formatScrapDate } from '../format'
+import { formatForumDate, formatLongDate, formatNumber, formatMessageDate } from '../format'
 import { links, queryParam } from '../links'
 import { useNow } from '../useNow'
 import ErrorPage from './ErrorPage'
@@ -65,7 +65,7 @@ function infoRows(community) {
     { label: 'privacidade do conteúdo:', value: community.contentPrivacy ?? 'aberto para não-membros' },
     { label: 'fórum:', value: community.forumType ?? 'não-anônimo' },
     { label: 'local:', value: community.location ?? 'Brasil' },
-    { label: 'criado em:', value: community.created && formatLongDate(new Date(community.created)) },
+    { label: 'criado em:', value: community.created && formatLongDate(community.created) },
     { label: 'membros:', value: formatNumber(community.members) },
   ]
   return rows.filter((row) => row.value)
@@ -81,21 +81,14 @@ export function CommunityPage({ url, navigate }) {
       community={community}
       navigate={navigate}
       right={
-        <>
-          <Module
-            title="membros"
-            count={formatNumber(community.members)}
-            countHref={links.communityMembers(community.cmm)}
-            footer={<Link href={links.communityMembers(community.cmm)}>ver todos</Link>}
-          >
-            <PeopleGrid people={members.slice(0, 9)} />
-          </Module>
-          {community.related.length > 0 && (
-            <Module title="comunidades relacionadas">
-              <CommunityGrid communities={community.related} />
-            </Module>
-          )}
-        </>
+        <Module
+          title="membros"
+          count={formatNumber(community.members)}
+          countHref={links.communityMembers(community.cmm)}
+          footer={<Link href={links.communityMembers(community.cmm)}>ver todos</Link>}
+        >
+          {members.length ? <PeopleGrid people={members.slice(0, 9)} /> : <Nothing>nenhum membro ainda</Nothing>}
+        </Module>
       }
       after={
         <>
@@ -254,7 +247,7 @@ export function CommunityTopicPage({ url, navigate }) {
           mostrando 1-{topic.messages.length} de {topic.messages.length}
         </div>
         {topic.messages.map((message, index) => (
-          <MessageItem key={message.id} message={message} index={index} date={formatScrapDate(message.date, now)} />
+          <MessageItem key={message.id} message={message} index={index} date={formatMessageDate(message.date, now)} />
         ))}
         <div className="listfooter">
           <Link href={links.newTopic(community.cmm)} className="grabtn">

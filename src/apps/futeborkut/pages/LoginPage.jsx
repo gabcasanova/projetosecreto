@@ -31,7 +31,7 @@ function LoginPage({ navigate }) {
               <div className="newText">
                 <span className="magenta">Conheça</span> os integrantes do Futebol de Bairro
                 <br />
-                <span className="magenta">Deixe</span> recados e depoimentos para a banda
+                <span className="magenta">Veja</span> as fotos e os depoimentos da banda
                 <br />
                 <span className="magenta">Participe</span> da comunidade oficial e encontre outros fãs
               </div>
@@ -43,7 +43,7 @@ function LoginPage({ navigate }) {
                   Bem-vindo(a) ao <span className="brand">futeborkut</span>
                 </div>
                 <div className="tagline">
-                  A rede social dos fãs do Futebol de Bairro. Veja os perfis da banda, as fotos e os recados da
+                  A rede social dos fãs do Futebol de Bairro. Veja os perfis da banda, as fotos e os depoimentos da
                   galera.
                 </div>
                 <button type="button" className="enter" onClick={() => navigate(links.home)}>

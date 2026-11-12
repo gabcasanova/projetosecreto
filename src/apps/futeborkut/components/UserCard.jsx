@@ -13,6 +13,7 @@ import iconVideos from '../assets/icon-videos.svg'
 import { VISITOR } from '../data/database'
 import { formatNumber } from '../format'
 import { links } from '../links'
+import InstagramButton from './InstagramButton'
 import { CommunityImage, PersonPhoto } from './Photos'
 
 /*
@@ -61,7 +62,6 @@ function detailLines(account) {
 function sectionLinks(uid) {
   return [
     { label: 'perfil', icon: iconProfile, href: links.profile(uid) },
-    { label: 'recados', icon: iconScraps, href: links.scrapbook(uid) },
     { label: 'fotos', icon: iconPhotos, href: links.albums(uid) },
     { label: 'vídeos', icon: iconVideos, href: links.videos(uid) },
     { label: 'depoimentos', icon: iconTestimonials, href: links.testimonials(uid) },
@@ -131,6 +131,7 @@ function UserCard({ person, home = false }) {
           </div>
         )}
       </div>
+      {account?.instagram && <InstagramButton instagram={account.instagram} />}
       {!home && (
         <>
           <Divider />

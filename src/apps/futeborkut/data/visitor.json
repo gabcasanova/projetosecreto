@@ -1,7 +1,7 @@
 {
   "uid": "5739104482217760311",
-  "name": "Visitante",
-  "email": "visitante@futeborkut.com",
+  "name": "FÃ_DO_FUTEBAS_67",
+  "email": "fadofutebas67@futeborkut.com",
   "sex": "",
   "city": "",
   "country": "Brasil",
@@ -14,11 +14,9 @@
 
   "ratings": { "trust": 0, "cool": 0, "sexy": 0 },
 
-  "communities": ["Futebol de Bairro"],
-
-  "scraps": [
+  "testimonials": [
     {
-      "from": { "uid": "14829355629547836598", "name": "Marcio" },
+      "from": "marcio",
       "date": "2026-11-10T21:04",
       "text": "e aí, valeu por me add!!! entra na comunidade da banda lá :D\nabraço!"
     }

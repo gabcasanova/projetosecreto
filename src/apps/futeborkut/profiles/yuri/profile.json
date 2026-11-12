@@ -1,0 +1,53 @@
+{
+  "uid": "13829355629547836599",
+  "name": "Yuri",
+  "sex": "masculino",
+  "city": "Itaguaí",
+  "country": "Brasil",
+  "status": "Tentando fazer contato com a Nave Mãe, mas tudo sem sucesso!",
+  "instagram": "callmejebedhaia",
+
+  "social": {
+    "languages": "português, Inglês",
+    "interestedIn": "amigos, companheiros para atividades, contatos profissionais",
+    "aboutMe": "Baixista e voz adicional na [b]Futebol de Bairro[/b]",
+    "children": "não",
+    "politicalView": "esquerda",
+    "style": "alternativo",
+    "drinking": "socialmente",
+    "hometown": "Itaguaí",
+    "sports": "futebol"
+  },
+
+  "professional": {  },
+  "personal": { "eyeColor": "castanho escuro", "hairColor": "preto" },
+  "ratings": { "trust": 3, "cool": 3, "sexy": 2 },
+  "videoCount": 0,
+  "friends": 25,
+  "fans": [],
+  "albums": [],
+
+  "testimonials": [
+    {
+      "from": "fabiana",
+      "date": "2026-09-12T21:10",
+      "text": "Lindooooo!!!!"
+    },
+    {
+      "from": "marcio",
+      "date": "2026-09-14T21:10",
+      "text": "♫ Já que me ensinou a beber... ♪"
+    }
+  ],
+
+  "updates": [
+    {
+      "date": "2026-11-03T20:15",
+      "text": "mudou sua mensagem de status para \"Tentando fazer contato com a Nave Mãe, mas tudo sem sucesso!\""
+    },
+    {
+      "date": "2026-11-02T18:02",
+      "text": "entrou na comunidade MULTI-INSTRUMENTISTAS"
+    }
+  ]
+}

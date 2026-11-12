@@ -24,8 +24,6 @@
 }
 
 .futeborkut input,
-.futeborkut select,
-.futeborkut textarea,
 .futeborkut button {
   font: 12px Verdana, Arial, sans-serif;
   color: #000;
@@ -102,19 +100,11 @@
   line-height: 14px;
   color: #7b7b7b;
 }
-.futeborkut .alttxt {
-  color: #c61e99;
-  font-weight: bold;
-}
 .futeborkut .newsitem {
   margin: 0 0 6px;
   padding: 3px;
   border: 1px solid #d3be96;
   background: #fcf0d8;
-}
-.futeborkut .success {
-  color: #360;
-  font-weight: bold;
 }
 .futeborkut .smiley {
   width: 15px;
@@ -256,8 +246,8 @@
   margin: 0 auto;
   text-align: left;
 }
-.futeborkut .container::after,
-.futeborkut .clearfix::after {
+
+.futeborkut .container::after {
   content: '';
   display: block;
   clear: both;
@@ -348,7 +338,7 @@
   overflow-wrap: anywhere;
 }
 
-/* A row with a framed photo on the left (scraps, testimonials, updates...) */
+/* A row with a framed photo on the left (testimonials, forum posts, updates...) */
 .futeborkut .listitem {
   padding: 5px 5px 1px;
 }
@@ -356,11 +346,6 @@
   content: '';
   display: block;
   clear: both;
-}
-.futeborkut .listitemchk {
-  float: left;
-  width: 21px;
-  padding-top: 2px;
 }
 .futeborkut .listimg {
   float: left;
@@ -385,9 +370,6 @@
 }
 .futeborkut .listitem.small .listtext {
   margin-left: 66px;
-}
-.futeborkut .listitem.with-check .listtext {
-  margin-left: 105px;
 }
 .futeborkut .listitem .itemactions {
   font-size: 10px;
@@ -424,11 +406,6 @@
 .futeborkut .grabtn:hover {
   color: #00344f;
   text-decoration: underline;
-}
-.futeborkut .grabtn:disabled {
-  color: #999;
-  text-decoration: none;
-  cursor: default;
 }
 
 /* ---------- Thumbnail grids (friends, communities, members) ---------- */
@@ -511,6 +488,55 @@
   line-height: 14px;
   font-weight: bold;
 }
+/* A band member's Instagram: a glossy web 2.0 button that stands out in the pale card */
+.futeborkut .instabtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 5px 2px;
+  padding: 4px 6px;
+  border: 1px solid #8d2a6b;
+  border-radius: 5px;
+  /* Shine on the top half, then Instagram's sunset colours */
+  background:
+    linear-gradient(rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.12) 50%, transparent 50%),
+    linear-gradient(100deg, #f77737, #e1306c 45%, #a2338f);
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 0.5),
+    1px 1px 2px rgb(85 96 115 / 0.45);
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 1px rgb(80 0 50 / 0.6);
+}
+.futeborkut .instabtn:hover {
+  color: #fff;
+  text-decoration: none;
+  filter: brightness(1.1) saturate(1.1);
+}
+.futeborkut .instabtn:active {
+  filter: brightness(0.95);
+  box-shadow: inset 1px 1px 3px rgb(0 0 0 / 0.35);
+}
+.futeborkut .instabtn-icon {
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3));
+}
+.futeborkut .instabtn-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 13px;
+}
+.futeborkut .instabtn-label {
+  font: bold 12px Verdana, Arial, sans-serif;
+}
+.futeborkut .instabtn-handle {
+  overflow: hidden;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .futeborkut .userinfodivi {
   height: 1px;
   margin: 6px;
@@ -629,48 +655,11 @@
   overflow: hidden;
 }
 
-/* ---------- Scrapbook ---------- */
+/* ---------- List headers and pagers ---------- */
 
-.futeborkut .scrapform {
-  padding: 2px 4px 6px;
-}
-.futeborkut .scrapform textarea {
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  padding: 2px;
-  border: 1px solid #a1bbe4;
-  background: #fff;
-  resize: vertical;
-}
-.futeborkut .smileybar {
-  margin: 4px 0 6px;
-}
-.futeborkut .smileybar button {
-  padding: 1px 2px;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-.futeborkut .smileybar img {
-  width: 15px;
-  height: 15px;
-}
-.futeborkut .scrapform .hint {
-  margin-left: 8px;
-}
-.futeborkut .preview {
-  margin-top: 6px;
-  padding: 5px;
-  border: 1px dashed #c0c1c1;
-}
 .futeborkut .listheader {
   overflow: hidden;
   padding: 4px 5px;
-}
-.futeborkut .listheader .title {
-  float: left;
-  font-weight: bold;
 }
 .futeborkut .pager {
   float: right;
@@ -979,9 +968,6 @@
 }
 .futeborkut .errorback {
   margin-top: 14px;
-}
-.futeborkut .itemactions .action {
-  margin-left: 10px;
 }
 .futeborkut .pager .showing {
   margin-right: 10px;

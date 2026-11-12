@@ -6,7 +6,7 @@ import Pager from '../components/Pager'
 import { CommunityImage, PersonPhoto } from '../components/Photos'
 import { Nothing, PeopleGrid } from '../components/ThumbGrid'
 import UserCard from '../components/UserCard'
-import { friendsOf, personOfAccount } from '../data/database'
+import { personOfAccount } from '../data/database'
 import { formatNumber, formatShortDate } from '../format'
 import { links, queryParam } from '../links'
 import { paginate } from '../pagination'
@@ -44,9 +44,9 @@ const FRIENDS_PER_PAGE = 20
 /** FriendsList.aspx?uid=... */
 export function FriendsPage({ url, navigate }) {
   return (
-    <AccountGate url={url} navigate={navigate}>
+    <AccountGate url={url} navigate={navigate} ownOnly>
       {(account) => {
-        const pages = paginate(friendsOf(account), queryParam(url, 'pg'), FRIENDS_PER_PAGE)
+        const pages = paginate(account.friends, queryParam(url, 'pg'), FRIENDS_PER_PAGE)
         const hrefFor = (page) => `${links.friends(account.uid)}&pg=${page}`
         return (
           <ListFrame account={account} navigate={navigate} title="amigos" count={pages.total}>
@@ -66,7 +66,6 @@ export function FriendsPage({ url, navigate }) {
                   <span className="sml">({formatNumber(person.friendCount)})</span>
                   <div className="sml">{placeOf(person)}</div>
                   <div className="sml">
-                    <Link href={links.scrapbook(person.uid)}>recados</Link> |{' '}
                     <Link href={links.albums(person.uid)}>fotos</Link> |{' '}
                     <Link href={links.videos(person.uid)}>vídeos</Link>
                   </div>
@@ -90,7 +89,7 @@ function placeOf(person) {
 /** ProfileC.aspx?uid=...: the communities someone joined. */
 export function CommunitiesPage({ url, navigate }) {
   return (
-    <AccountGate url={url} navigate={navigate}>
+    <AccountGate url={url} navigate={navigate} ownOnly>
       {(account) => (
         <ListFrame account={account} navigate={navigate} title="comunidades" count={account.communities.length}>
           <div className="sml listheader">categoria: todas</div>

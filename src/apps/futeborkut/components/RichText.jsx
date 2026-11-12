@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { SMILEYS } from '../smileys'
 
 /*
- * Text the way orkut showed scraps: line breaks kept, BBCode-ish tags
+ * Text the way orkut showed testimonials and forum posts: line breaks kept, BBCode-ish tags
  * ([b], [i], [u] and colours like [red]...[/red]) and smiley codes as images.
  * It builds React elements, never HTML, so nothing typed can inject markup.
  */
@@ -57,7 +57,7 @@ function renderText(text, key) {
       {line.split(SMILEY_PATTERN).map((part, partIndex) => {
         const smiley = partIndex % 2 === 1 && smileyFor(part)
         return smiley ? (
-          <img key={partIndex} src={smiley.image} alt={smiley.code} title={smiley.code} className="smiley" />
+          <img key={partIndex} src={smiley.image} alt={smiley.code} title={smiley.label} className="smiley" />
         ) : (
           part
         )

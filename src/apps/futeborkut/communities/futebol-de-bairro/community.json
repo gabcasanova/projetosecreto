@@ -1,0 +1,155 @@
+{
+  "cmm": "28417039",
+  "name": "Futebol de Bairro",
+  "imageFromRelease": "Futebol de Bairro Vol. 1",
+  "category": "Música",
+  "description": "Comunidade [b]OFICIAL[/b] da banda Futebol de Bairro!!!\n\nAqui você fica sabendo dos shows, ensaios abertos, lançamentos e tudo mais.\nRock triste do Rio de Janeiro.\n\n[red]REGRAS:[/red]\n- respeite todo mundo\n- nada de propaganda de outras comunidades\n- tópicos repetidos serão apagados\n\nEntre, participe e chame os amigos!! :D",
+  "language": "Português",
+  "owner": "marcio",
+
+  "moderators": [
+    "asafe", "yuri", "ana-clara"
+  ],
+
+  "type": "pública",
+  "contentPrivacy": "aberto para não-membros",
+  "forumType": "não-anônimo",
+  "location": "Rio de Janeiro, Brasil",
+  "created": "2025-11-13",
+
+  "members": [
+    "marcio", "asafe", "yuri", "visitante", "casanova", "ana-clara", "vn", "ale"
+  ],
+
+  "topics": [
+    {
+      "title": "SHOW SEXTA NO ESCRITÓRIO!!!",
+      "messages": [
+        {
+          "from": "marcio",
+          "date": "2026-11-06T19:40",
+          "text": "Galera, sábado agora tem show no Escritório, a partir das 20h!!\nEntrada R$ 25 com nome na lista. Bandas: Mais um Dia, Pavão e Futebol de Bairro, Posta aqui que eu coloco vc!"
+        },
+        {
+          "from": "camila",
+          "date": "2026-11-09T20:12",
+          "text": "eu vou!!! coloca eu e mais 3 amigas pfvr :D"
+        },
+        {
+          "from": "thiago",
+          "date": "2026-11-10T09:03",
+          "text": "tô dentro, vai ter Cicatrizar né??"
+        },
+        {
+          "from": "juliana",
+          "date": "2026-11-11T14:55",
+          "text": "me coloca na lista!!! bjo"
+        }
+      ]
+    },
+    {
+      "title": "Qual a melhor música da banda?",
+      "messages": [
+        {
+          "from": "leandro",
+          "date": "2026-10-02T22:10",
+          "text": "pra mim é Scott Pilgrim vs. Meu CR, sem dúvida kkkk"
+        },
+        {
+          "from": "bia",
+          "date": "2026-10-03T11:42",
+          "text": "Cicatrizar!!! chorei na primeira vez q ouvi :("
+        },
+        {
+          "from": "ze",
+          "date": "2026-10-05T18:20",
+          "text": "todas!!! mas o Vol. 1 inteiro é sensacional"
+        }
+      ]
+    },
+    {
+      "title": "Apresente-se aqui",
+      "messages": [
+        {
+          "from": "paulinha",
+          "date": "2026-04-18T16:00",
+          "text": "oii!! sou a Paulinha, 19 anos, de Osasco. conheci a banda num show no colégio. adoro!!"
+        },
+        {
+          "from": "aline",
+          "date": "2026-04-20T21:31",
+          "text": "Aline, 22, Santo André. fã desde o primeiro ensaio aberto ;)"
+        },
+        {
+          "from": "priscila",
+          "date": "2026-05-02T10:14",
+          "text": "Priscila, 17, SP capital. me add!! só add com scrap"
+        }
+      ]
+    },
+    {
+      "title": "Letras das músicas",
+      "messages": [
+        {
+          "from": "fernanda",
+          "date": "2026-03-11T20:45",
+          "text": "alguém tem a letra de Cicatrizar? to tentando tirar no violão"
+        },
+        {
+          "from": "marcio",
+          "date": "2026-03-12T00:17",
+          "text": "tá tudo no encarte do Vol. 1! tem as fotos no meu álbum ;)"
+        }
+      ]
+    },
+    {
+      "title": "[OFF] jogo do add",
+      "messages": [
+        {
+          "from": "natalia",
+          "date": "2026-02-08T15:22",
+          "text": "quem postar aqui eu adiciono!!! deixa scrap avisando"
+        },
+        {
+          "from": "tati",
+          "date": "2026-02-08T15:40",
+          "text": "eu!!! me add"
+        },
+        {
+          "from": "luana",
+          "date": "2026-02-09T09:12",
+          "text": "eu tbm!! :P"
+        },
+        {
+          "from": "carol",
+          "date": "2026-02-11T13:03",
+          "text": "add eu!!!"
+        }
+      ]
+    }
+  ],
+
+  "polls": [
+    {
+      "question": "Qual música vocês querem no próximo show?",
+      "options": [
+        {
+          "text": "Cicatrizar",
+          "votes": 214
+        },
+        {
+          "text": "Scott Pilgrim vs. Meu CR",
+          "votes": 187
+        },
+        {
+          "text": "1997 (cover do hateen)",
+          "votes": 132
+        },
+        {
+          "text": "Um cover de Twenty One Pilots.",
+          "votes": 41
+        }
+      ]
+    }
+  ]
+}

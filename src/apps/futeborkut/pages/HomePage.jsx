@@ -7,12 +7,11 @@ import { PersonPhoto } from '../components/Photos'
 import { CommunitiesBox, FriendsBox, Nothing } from '../components/ThumbGrid'
 import UserCard from '../components/UserCard'
 import UserRatings from '../components/UserRatings'
-import { BAND_MEMBERS, friendsOf, personOfAccount, VISITOR } from '../data/database'
+import { BAND_MEMBERS, personOfAccount, VISITOR } from '../data/database'
 import { FORTUNES } from '../data/fortunes'
 import { daysUntilBirthday, formatBirthdayShort, formatShortDate } from '../format'
 import { links } from '../links'
 import { useNow } from '../useNow'
-import { useScrapCount } from '../useScrapbook'
 
 /** Home.aspx: the visitor's "Página inicial". */
 function HomePage({ navigate }) {
@@ -26,7 +25,7 @@ function HomePage({ navigate }) {
       left={<UserCard person={visitor} home />}
       right={
         <>
-          <FriendsBox account={VISITOR} friends={friendsOf(VISITOR)} />
+          <FriendsBox account={VISITOR} />
           <CommunitiesBox account={VISITOR} />
         </>
       }
@@ -36,7 +35,7 @@ function HomePage({ navigate }) {
           <b>Sorte de hoje:</b> {fortune}
         </div>
         <div className="boxmidlrg">
-          <UserRatings account={VISITOR} scrapCount={useScrapCount(VISITOR)} />
+          <UserRatings account={VISITOR} />
         </div>
       </TitleModule>
       <FriendUpdates />
@@ -123,7 +122,7 @@ function Birthdays() {
             <b>
               <Link href={links.profile(account.uid)}>{account.name}</Link>
             </b>
-            ! <Link href={links.scrapbook(account.uid)}>enviar recado</Link>
+            !
           </div>
         ))}
         {next.length > 0 && (

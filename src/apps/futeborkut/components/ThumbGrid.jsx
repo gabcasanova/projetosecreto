@@ -62,7 +62,8 @@ export function CommunityGrid({ communities, perRow = 3, className = 'boxgrid' }
 const MAX_IN_BOX = 9
 
 /** The right column's "amigos (N)" box. */
-export function FriendsBox({ account, friends }) {
+export function FriendsBox({ account }) {
+  const { friends } = account
   return (
     <Module
       title="amigos"

@@ -1,0 +1,61 @@
+{
+  "uid": "14829355629547836599",
+  "name": "Asafe",
+  "sex": "masculino",
+  "city": "Rio de Janeiro",
+  "country": "Brasil",
+  "status": "tankando o IFRJ",
+  "instagram": "asafegregorio",
+
+  "social": {
+    "languages": "português, Inglês",
+    "interestedIn": "amigos, companheiros para atividades, contatos profissionais",
+    "aboutMe": "cantor, compositor, multi-instrumentista, produtor musical\n\nBaterista e voz adicional na [b]Futebol de Bairro[/b]",
+    "children": "não",
+    "politicalView": "esquerda",
+    "style": "alternativo",
+    "drinking": "socialmente",
+    "hometown": "Rio de Janeiro",
+    "passions": "tocar violão, tocar bateria, cantar",
+    "sports": "futebol"
+  },
+
+  "professional": {
+    "education": "faculdade em progresso",
+    "college": "Bacharelado em Produção Cultural - IFRJ Nilópolis",
+    "occupation": "Produtor Cultural, Produtor Musical, Guitarrista",
+    "industry": "Artes e entretenimento"
+  },
+
+  "personal": {
+    "appearance": "gatão",
+    "eyeColor": "castanho escuro",
+    "hairColor": "nenhum",
+    "bodyType": "magro"
+  },
+
+  "ratings": { "trust": 1, "cool": 3, "sexy": 3 },
+  "videoCount": 3,
+  "friends": 50,
+  "fans": [],
+  "albums": [],
+
+  "testimonials": [
+    {
+      "from": "marcio",
+      "date": "2026-09-14T21:10",
+      "text": "Eu não tenho cigarro, Asafe."
+    }
+  ],
+
+  "updates": [
+    {
+      "date": "2026-11-11T20:15",
+      "text": "mudou sua mensagem de status para \"tankando o IFRJ\""
+    },
+    {
+      "date": "2026-11-02T18:02",
+      "text": "entrou na comunidade MULTI-INSTRUMENTISTAS"
+    }
+  ]
+}

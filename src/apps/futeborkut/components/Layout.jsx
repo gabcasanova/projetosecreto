@@ -35,7 +35,6 @@ function centreClass(left, right) {
 const MENU = [
   { label: 'Início', href: links.home },
   { label: 'Perfil', href: links.profile(VISITOR.uid) },
-  { label: 'Página de recados', href: links.scrapbook(VISITOR.uid) },
   { label: 'Amigos', href: links.friends(VISITOR.uid) },
   { label: 'Comunidades', href: links.communities(VISITOR.uid) },
 ]

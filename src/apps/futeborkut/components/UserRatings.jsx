@@ -3,7 +3,6 @@ import coolEmpty from '../assets/cool-empty.svg'
 import coolFull from '../assets/cool-full.svg'
 import coolHalf from '../assets/cool-half.svg'
 import iconPhotos from '../assets/icon-photos.svg'
-import iconScraps from '../assets/icon-scraps.svg'
 import iconVideos from '../assets/icon-videos.svg'
 import sexyEmpty from '../assets/sexy-empty.svg'
 import sexyFull from '../assets/sexy-full.svg'
@@ -18,7 +17,7 @@ import { links } from '../links'
 
 /*
  * The row of counters and ratings under a profile's name:
- * recados, fotos, vídeos, fãs, then confiável / legal / sexy as three icons each.
+ * fotos, vídeos, fãs, then confiável / legal / sexy as three icons each.
  */
 
 const RATINGS = [
@@ -48,11 +47,10 @@ function Counter({ label, icon, value, href }) {
   )
 }
 
-function UserRatings({ account, scrapCount }) {
+function UserRatings({ account }) {
   const { uid } = account
   return (
     <div className="userratings">
-      <Counter label="recados" icon={iconScraps} value={scrapCount} href={links.scrapbook(uid)} />
       <Counter label="fotos" icon={iconPhotos} value={photoCount(account)} href={links.albums(uid)} />
       <Counter label="vídeos" icon={iconVideos} value={account.videoCount} href={links.videos(uid)} />
       <Counter label="fãs" icon={star} value={account.fans.length} href={links.fans(uid)} />

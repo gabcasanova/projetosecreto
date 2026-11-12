@@ -39,10 +39,10 @@ function timeAgo(date, now) {
 }
 
 /**
- * A scrap's date: "19:06 (2½ horas atrás)" today, "8 jul (20 horas atrás)" in the
+ * A message's date (forum posts): "19:06 (2½ horas atrás)" today, "8 jul (20 horas atrás)" in the
  * last day, "8 jul" earlier this year and "8/7/2007" before that.
  */
-export function formatScrapDate(date, now = new Date()) {
+export function formatMessageDate(date, now = new Date()) {
   if (isSameDay(date, now)) return `${pad(date.getHours())}:${pad(date.getMinutes())} (${timeAgo(date, now)})`
   const dayAndMonth = `${date.getDate()} ${SHORT_MONTHS[date.getMonth()]}`
   if (now - date < DAY) return `${dayAndMonth} (${timeAgo(date, now)})`

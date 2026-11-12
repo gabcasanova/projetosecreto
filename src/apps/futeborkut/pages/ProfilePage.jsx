@@ -7,11 +7,10 @@ import RichText from '../components/RichText'
 import { CommunitiesBox, FriendsBox } from '../components/ThumbGrid'
 import UserCard from '../components/UserCard'
 import UserRatings from '../components/UserRatings'
-import { friendsOf, personOfAccount, VISITOR } from '../data/database'
+import { personOfAccount, VISITOR } from '../data/database'
 import { PROFILE_TABS, SUMMARY_FIELD_COUNT } from '../data/fields'
 import { ageFrom, formatBirthday, formatShortDate } from '../format'
 import { links } from '../links'
-import { useScrapCount } from '../useScrapbook'
 import AccountGate from './AccountGate'
 
 /** Profile.aspx?uid=...: the profile of a band member or the visitor. */
@@ -24,7 +23,6 @@ function ProfilePage({ url, navigate }) {
 }
 
 function Profile({ account, navigate }) {
-  const friends = friendsOf(account)
   const isOwn = account.isVisitor
   // On someone else's profile, the path shows how the visitor knows them
   const steps = isOwn ? [{ label: account.name }] : [{ label: VISITOR.name, href: links.profile(VISITOR.uid) }, { label: account.name }]
@@ -33,11 +31,14 @@ function Profile({ account, navigate }) {
     <Layout
       navigate={navigate}
       left={<UserCard person={personOfAccount(account)} />}
+      // Only your own profile lists friends and communities; band members' profiles don't
       right={
-        <>
-          <FriendsBox account={account} friends={friends} />
-          <CommunitiesBox account={account} />
-        </>
+        isOwn && (
+          <>
+            <FriendsBox account={account} />
+            <CommunitiesBox account={account} />
+          </>
+        )
       }
     >
       <TitleModule
@@ -46,18 +47,13 @@ function Profile({ account, navigate }) {
         breadcrumb={<Breadcrumb steps={steps} />}
       >
         <div className="boxmidlrg">
-          <ProfileRatings account={account} />
+          <UserRatings account={account} />
           <ProfileTabs account={account} />
         </div>
       </TitleModule>
       <TestimonialsBox account={account} />
     </Layout>
   )
-}
-
-// Its own component so the scrap counter can read the visitor's saved scraps
-function ProfileRatings({ account }) {
-  return <UserRatings account={account} scrapCount={useScrapCount(account)} />
 }
 
 // The value shown for a field, or null when the profile leaves it empty

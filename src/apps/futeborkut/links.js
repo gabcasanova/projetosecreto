@@ -3,14 +3,13 @@
  * Links are written from the site root, so BrowserLink keeps them on futeborkut.com.
  */
 
-export const FUTEBORKUT_HOST = 'www.futeborkut.com'
+const FUTEBORKUT_HOST = 'www.futeborkut.com'
 export const FUTEBORKUT_URL = `http://${FUTEBORKUT_HOST}/`
 
 export const links = {
   login: '/',
   home: '/Home.aspx',
   profile: (uid) => `/Profile.aspx?uid=${uid}`,
-  scrapbook: (uid, page = 1) => `/Scrapbook.aspx?uid=${uid}${page > 1 ? `&pg=${page}` : ''}`,
   friends: (uid) => `/FriendsList.aspx?uid=${uid}`,
   communities: (uid) => `/ProfileC.aspx?uid=${uid}`,
   testimonials: (uid) => `/ProfileT.aspx?uid=${uid}`,
@@ -31,7 +30,6 @@ export const links = {
   editProfile: null,
   messages: null,
   settings: null,
-  help: null,
   addFriend: notBuilt,
   profileAction: notBuilt,
   writeTestimonial: notBuilt,
