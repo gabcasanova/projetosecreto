@@ -5,6 +5,10 @@ import internetExplorerSmallIcon from '../assets/ie/ie-32.png'
 // The XP version of the icon (internet-explorer.png is the older 256-colour one)
 import internetExplorerIcon from '../assets/xp/icons/internet-explorer-2.png'
 import jewelCaseIcon from '../assets/xp/icons/cd-audio.png'
+// XP's lined-page icon, used both for Notepad and for .txt files
+import notepadIcon from '../assets/xp/icons/notepad-2.png'
+import aboutTheBand from '../assets/desktop/Sobre a Banda.txt?raw'
+import Notepad from '../apps/notepad/Notepad'
 import futeborkutIcon from '../apps/futeborkut/assets/desktop-icon.svg'
 import { FUTEBORKUT_URL } from '../apps/futeborkut/site'
 import internet from '../internet'
@@ -45,7 +49,7 @@ const APPS = {
     Content: WelcomeMessage,
   },
   mediaPlayer: {
-    title: 'DISCOGRAFIA',
+    title: 'Discografia',
     icon: mediaPlayerIcon,
     // Title bar and taskbar use the hand-tuned 16px version instead of a scaled-down 48px one
     smallIcon: mediaPlayerSmallIcon,
@@ -80,6 +84,18 @@ const APPS = {
     // `url` in the window's props opens it on that page instead of the home page
     Content: (props) => <InternetExplorer site={internet} {...props} />,
   },
+  notepad: {
+    // Opened on a file: `fileName` and `text` come in the window's props
+    title: ({ fileName = 'Sem título' }) => `${fileName} - Bloco de notas`,
+    icon: notepadIcon,
+    bodyClassName: '',
+    maximizable: true,
+    // Each file opens in its own window, as in XP
+    multipleWindows: true,
+    initialPosition: { x: 140, y: 60 },
+    width: 560,
+    Content: Notepad,
+  },
 }
 
 function staticTitleOf(appId, props) {
@@ -89,17 +105,23 @@ function staticTitleOf(appId, props) {
 
 /*
  * The icons on the desktop. A shortcut opens an app, optionally with props for its window.
- * Web shortcuts open Internet Explorer on a site, and carry IE's icon in the corner.
- * Label and icon default to the app's own.
+ * Web shortcuts open Internet Explorer on a site, and carry IE's icon in the corner;
+ * text files open in Notepad. Label and icon default to the app's own.
  */
 const DESKTOP_SHORTCUTS = [
   { id: 'mediaPlayer', appId: 'mediaPlayer' },
   { id: 'internetExplorer', appId: 'internetExplorer' },
   webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
+  textFile({ id: 'aboutTheBand', fileName: 'Sobre a Banda', text: aboutTheBand }),
 ]
 
 function webShortcut({ id, label, icon, url }) {
   return { id, appId: 'internetExplorer', props: { url }, label, icon, badge: internetExplorerIcon }
+}
+
+// A .txt file on the desktop; like XP's default, the name is shown without the extension
+function textFile({ id, fileName, text }) {
+  return { id, appId: 'notepad', props: { fileName, text }, label: fileName, icon: notepadIcon }
 }
 // How far each extra window of the same app is moved down and right
 const CASCADE_STEP = 24

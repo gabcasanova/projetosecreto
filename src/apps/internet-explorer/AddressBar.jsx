@@ -2,7 +2,7 @@ import addressDropdownIcon from '../../assets/ie/address-dropdown.png'
 import chevronIcon from '../../assets/ie/chevron.png'
 import goIcon from '../../assets/ie/go.png'
 import pageIcon from '../../assets/ie/page.png'
-import { DropdownButton } from './Menu'
+import { DropdownButton } from '../../components/menu/Menu'
 
 /*
  * "Endereço" bar: type an address and press Enter (or Ir) to go there.

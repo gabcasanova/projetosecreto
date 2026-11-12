@@ -10,8 +10,8 @@ import printIcon from '../../assets/ie/print.png'
 import refreshIcon from '../../assets/ie/refresh.png'
 import searchIcon from '../../assets/ie/search.png'
 import stopIcon from '../../assets/ie/stop.png'
-import { DropdownButton } from './Menu'
-import { isInert } from './menuItems'
+import { DropdownButton } from '../../components/menu/Menu'
+import { isInert } from '../../components/menu/menuItems'
 
 /*
  * IE6's "Botões padrão" toolbar. Some icons fill their whole 32px image and

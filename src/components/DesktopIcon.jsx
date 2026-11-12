@@ -4,7 +4,7 @@ function DesktopIcon({ icon, badge, label, selected, onSelect, onOpen }) {
   return (
     <button
       type="button"
-      className="flex w-[76px] flex-col items-center gap-1 p-1 outline-none"
+      className="flex w-[84px] flex-col items-center gap-1 p-1 outline-none"
       onPointerDown={(event) => {
         // Keep the desktop's own click handler from clearing the selection we're about to make
         event.stopPropagation()

@@ -3,7 +3,7 @@ import { useId } from 'react'
 /*
  * A big glossy "web 2.0" button under a band member's name that opens their
  * real Instagram in a new browser tab (outside the simulation, like the
- * streaming links in DISCOGRAFIA). `instagram` is the handle ("itsmarcxii"
+ * streaming links in Discografia). `instagram` is the handle ("itsmarcxii"
  * or "@itsmarcxii") or a full profile URL.
  */
 function InstagramButton({ instagram }) {

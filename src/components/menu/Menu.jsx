@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { isInert } from './menuItems'
 import useDismiss from './useDismiss'
+import './menu.css'
 
 /*
  * XP-style menus. A menu is a list of items:
@@ -17,13 +18,13 @@ export function MenuBar({ menus }) {
   useDismiss(barRef, openIndex !== null, close)
 
   return (
-    <div ref={barRef} className="ie-menubar" role="menubar">
+    <div ref={barRef} className="xp-menubar" role="menubar">
       {menus.map((menu, index) => (
         <div key={menu.label} className="relative">
           <button
             type="button"
             role="menuitem"
-            className={`ie-menubar-item ${openIndex === index ? 'open' : ''}`}
+            className={`xp-menubar-item ${openIndex === index ? 'open' : ''}`}
             // A menu where nothing works is greyed out as a whole
             disabled={menu.items.every(isInert)}
             onPointerDown={() => setOpenIndex((current) => (current === index ? null : index))}
@@ -78,10 +79,10 @@ function MenuList({ items, onDone, className = '', submenu = false }) {
   }
 
   return (
-    <ul className={`ie-menu ${submenu ? 'ie-submenu' : ''} ${className}`} role="menu">
+    <ul className={`xp-menu ${submenu ? 'xp-submenu' : ''} ${className}`} role="menu">
       {items.map((item, index) =>
         item.separator ? (
-          <li key={`separator-${index}`} className="ie-menu-separator" role="separator" />
+          <li key={`separator-${index}`} className="xp-menu-separator" role="separator" />
         ) : (
           <li
             key={item.label}
@@ -92,16 +93,16 @@ function MenuList({ items, onDone, className = '', submenu = false }) {
             <button
               type="button"
               role="menuitem"
-              className={`ie-menu-item ${openSubmenu === index ? 'open' : ''}`}
+              className={`xp-menu-item ${openSubmenu === index ? 'open' : ''}`}
               disabled={isInert(item)}
               onClick={() => choose(item)}
             >
-              <span className="ie-menu-check">
+              <span className="xp-menu-check">
                 {item.icon ? <img src={item.icon} alt="" className="size-4" /> : item.checked && <CheckMark />}
               </span>
               <span className="flex-1 truncate text-left">{item.label}</span>
-              {item.shortcut && <span className="ie-menu-shortcut">{item.shortcut}</span>}
-              {item.items && <span className="ie-menu-arrow" />}
+              {item.shortcut && <span className="xp-menu-shortcut">{item.shortcut}</span>}
+              {item.items && <span className="xp-menu-arrow" />}
             </button>
             {openSubmenu === index && item.items && <MenuList items={item.items} onDone={onDone} submenu />}
           </li>

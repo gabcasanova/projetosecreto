@@ -31,28 +31,11 @@
   border-bottom: 1px solid #d1cdba;
 }
 
-.ie-menubar {
-  display: flex;
+/* The shared menu bar (components/menu) fills the row, up to the throbber */
+.ie-menubar-row .xp-menubar {
   flex: 1;
-  align-items: center;
-  padding-left: 2px;
   border-right: 1px solid #d1cdba;
   box-shadow: inset 0 -1px #fff;
-}
-
-.ie-menubar-item {
-  height: 19px;
-  padding: 0 6px;
-  border-radius: 0;
-}
-/* XP's flat menus light up in the selection blue, both on hover and while open */
-.ie-menubar-item:enabled:hover,
-.ie-menubar-item.open {
-  background: #316ac5;
-  color: #fff;
-}
-.ie-menubar-item:disabled {
-  color: #aca899;
 }
 
 .ie-throbber {
@@ -60,66 +43,6 @@
   width: 39px;
   height: 22px;
   border-left: 1px solid #fff;
-}
-
-/* ---------- Drop-down menus ---------- */
-
-.ie-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 50;
-  min-width: 150px;
-  padding: 2px;
-  border: 1px solid #aca899;
-  background: #fff;
-  box-shadow: 2px 2px 2px rgb(0 0 0 / 0.3);
-}
-.ie-submenu {
-  top: -3px;
-  left: 100%;
-}
-
-.ie-menu-item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 20px;
-  padding-right: 6px;
-  white-space: nowrap;
-}
-.ie-menu-item:not(:disabled):hover,
-.ie-menu-item.open {
-  background: #316ac5;
-  color: #fff;
-}
-.ie-menu-item:disabled {
-  color: #aca899;
-}
-
-.ie-menu-check {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 22px;
-}
-
-.ie-menu-shortcut {
-  margin-left: 24px;
-}
-
-/* The small black triangle that marks a submenu */
-.ie-menu-arrow {
-  margin-left: 12px;
-  border-width: 4px 0 4px 4px;
-  border-style: solid;
-  border-color: transparent currentColor;
-}
-
-.ie-menu-separator {
-  height: 1px;
-  margin: 3px 1px;
-  background: #aca899;
 }
 
 /* ---------- Standard buttons ---------- */

@@ -1,0 +1,82 @@
+/* XP's menu bar and drop-down menus (Menu.jsx), shared by the apps */
+
+.xp-menubar {
+  display: flex;
+  align-items: center;
+  padding-left: 2px;
+}
+
+.xp-menubar-item {
+  height: 19px;
+  padding: 0 6px;
+  border-radius: 0;
+}
+/* XP's flat menus light up in the selection blue, both on hover and while open */
+.xp-menubar-item:enabled:hover,
+.xp-menubar-item.open {
+  background: #316ac5;
+  color: #fff;
+}
+.xp-menubar-item:disabled {
+  color: #aca899;
+}
+
+/* Drop-down menus */
+
+.xp-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 150px;
+  padding: 2px;
+  border: 1px solid #aca899;
+  background: #fff;
+  box-shadow: 2px 2px 2px rgb(0 0 0 / 0.3);
+}
+.xp-submenu {
+  top: -3px;
+  left: 100%;
+}
+
+.xp-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  padding-right: 6px;
+  white-space: nowrap;
+}
+.xp-menu-item:not(:disabled):hover,
+.xp-menu-item.open {
+  background: #316ac5;
+  color: #fff;
+}
+.xp-menu-item:disabled {
+  color: #aca899;
+}
+
+.xp-menu-check {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 22px;
+}
+
+.xp-menu-shortcut {
+  margin-left: 24px;
+}
+
+/* The small black triangle that marks a submenu */
+.xp-menu-arrow {
+  margin-left: 12px;
+  border-width: 4px 0 4px 4px;
+  border-style: solid;
+  border-color: transparent currentColor;
+}
+
+.xp-menu-separator {
+  height: 1px;
+  margin: 3px 1px;
+  background: #aca899;
+}
