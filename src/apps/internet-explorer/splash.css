@@ -1,0 +1,23 @@
+/* IE's startup splash: a plain white square, centred on the screen */
+.ie-splash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 340px;
+  height: 340px;
+  background: #fff;
+  border: 1px solid #a0a0a0;
+  box-shadow: 3px 3px 10px rgb(0 0 0 / 0.35);
+}
+
+.ie-splash-copyright {
+  position: absolute;
+  bottom: 14px;
+  color: #7a7a7a;
+}

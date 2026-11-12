@@ -1,0 +1,575 @@
+/*
+ * Internet Explorer 6 on Windows XP (Luna). The bars above the page share one
+ * beige "rebar" background, split into bands by etched lines (a dark line
+ * with a white one under it).
+ */
+
+.ie-window {
+  /* The About dialog sits over it */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 560px;
+  background: #ece9d8;
+  color: #000;
+  outline: none;
+}
+.window-maximized .ie-window {
+  height: 100%;
+}
+
+.ie-rebar {
+  flex-shrink: 0;
+  background: linear-gradient(to right, #f0efe7, #ece9d8 60%, #e6e2c9);
+}
+
+/* ---------- Menu bar ---------- */
+
+.ie-menubar-row {
+  display: flex;
+  height: 23px;
+  border-bottom: 1px solid #d1cdba;
+}
+
+.ie-menubar {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding-left: 2px;
+  border-right: 1px solid #d1cdba;
+  box-shadow: inset 0 -1px #fff;
+}
+
+.ie-menubar-item {
+  height: 19px;
+  padding: 0 6px;
+  border-radius: 0;
+}
+/* XP's flat menus light up in the selection blue, both on hover and while open */
+.ie-menubar-item:enabled:hover,
+.ie-menubar-item.open {
+  background: #316ac5;
+  color: #fff;
+}
+.ie-menubar-item:disabled {
+  color: #aca899;
+}
+
+.ie-throbber {
+  flex-shrink: 0;
+  width: 39px;
+  height: 22px;
+  border-left: 1px solid #fff;
+}
+
+/* ---------- Drop-down menus ---------- */
+
+.ie-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 150px;
+  padding: 2px;
+  border: 1px solid #aca899;
+  background: #fff;
+  box-shadow: 2px 2px 2px rgb(0 0 0 / 0.3);
+}
+.ie-submenu {
+  top: -3px;
+  left: 100%;
+}
+
+.ie-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  padding-right: 6px;
+  white-space: nowrap;
+}
+.ie-menu-item:not(:disabled):hover,
+.ie-menu-item.open {
+  background: #316ac5;
+  color: #fff;
+}
+.ie-menu-item:disabled {
+  color: #aca899;
+}
+
+.ie-menu-check {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 22px;
+}
+
+.ie-menu-shortcut {
+  margin-left: 24px;
+}
+
+/* The small black triangle that marks a submenu */
+.ie-menu-arrow {
+  margin-left: 12px;
+  border-width: 4px 0 4px 4px;
+  border-style: solid;
+  border-color: transparent currentColor;
+}
+
+.ie-menu-separator {
+  height: 1px;
+  margin: 3px 1px;
+  background: #aca899;
+}
+
+/* ---------- Standard buttons ---------- */
+
+.ie-toolbar {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 2px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #d1cdba;
+}
+
+/* XP toolbar buttons are flat until hovered, then get a soft raised border */
+.ie-tool {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 2px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.ie-tool:not(:disabled):hover,
+.ie-tool.open {
+  border-color: rgb(0 0 0 / 0.14);
+  background: linear-gradient(to bottom, #fff, #f3f2ec 60%, #e5e2d4);
+  box-shadow: inset 0 -1px 1px rgb(0 0 0 / 0.08);
+}
+.ie-tool:not(:disabled):active,
+.ie-tool.pressed,
+.ie-tool.open {
+  border-color: rgb(0 0 0 / 0.2);
+  background: #e3e1d5;
+  box-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.15);
+}
+.ie-tool:not(:disabled):active > * {
+  transform: translate(1px, 1px);
+}
+.ie-tool:disabled .ie-tool-icon {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+.ie-tool:disabled {
+  color: #aca899;
+}
+
+.ie-tool-icon {
+  width: 32px;
+  height: 32px;
+  margin: 0 -2px;
+}
+/* These images fill the whole 32px, so they're drawn at the others' visible size */
+.ie-tool-icon.small {
+  width: 24px;
+  height: 24px;
+  margin: 0 2px;
+}
+
+.ie-tool-label {
+  margin: 0 4px 0 2px;
+}
+
+/* A button and its drop-down arrow hover together, with a line between them */
+.ie-tool-split {
+  display: flex;
+}
+.ie-tool-split > .ie-tool {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.ie-tool-split .ie-tool-arrow {
+  padding: 0 3px;
+  border-radius: 0 3px 3px 0;
+}
+.ie-tool-split:not(.disabled):hover > .ie-tool,
+.ie-tool-split:not(.disabled):hover .ie-tool-arrow {
+  border-color: rgb(0 0 0 / 0.14);
+  background: linear-gradient(to bottom, #fff, #f3f2ec 60%, #e5e2d4);
+}
+
+.ie-tool-arrow-glyph {
+  border-width: 3px 3px 0;
+  border-style: solid;
+  border-color: currentColor transparent;
+}
+
+.ie-toolbar-separator {
+  width: 2px;
+  height: 30px;
+  margin: 0 3px;
+  border-left: 1px solid #c5c2b2;
+  border-right: 1px solid #fff;
+}
+
+/* ---------- Address bar ---------- */
+
+.ie-addressbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 25px;
+  padding: 0 2px 1px;
+  border-top: 1px solid #fff;
+}
+
+.ie-addressbar-label {
+  padding: 0 4px 0 6px;
+  color: #7a7766;
+}
+
+/* XP combo box: blue border, white field */
+.ie-address-box {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  height: 21px;
+  border: 1px solid #7f9db9;
+  background: #fff;
+}
+
+.ie-address-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 3px;
+  outline: none;
+  font: inherit;
+  user-select: text;
+}
+
+.ie-address-dropdown {
+  display: flex;
+  margin-right: 1px;
+}
+.ie-address-dropdown:hover,
+.ie-address-dropdown.open {
+  filter: brightness(1.08);
+}
+
+.ie-go {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 21px;
+  padding: 0 6px 0 2px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.ie-go:hover {
+  border-color: rgb(0 0 0 / 0.14);
+  background: linear-gradient(to bottom, #fff, #e5e2d4);
+}
+
+.ie-addressbar-separator {
+  width: 2px;
+  height: 19px;
+  margin: 0 2px;
+  border-left: 1px solid #c5c2b2;
+  border-right: 1px solid #fff;
+}
+
+.ie-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 21px;
+  padding: 0 4px;
+  color: #7a7766;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.ie-links:hover,
+.ie-links.open {
+  border-color: rgb(0 0 0 / 0.14);
+  background: linear-gradient(to bottom, #fff, #e5e2d4);
+}
+
+/* ---------- Page area ---------- */
+
+.ie-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  /* The sunken edge around the page */
+  border-top: 1px solid #a0a0a0;
+  box-shadow: inset 0 1px #6f6f6f;
+}
+
+.ie-content {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  background: #fff;
+  border-left: 1px solid #a0a0a0;
+  /* Pages are documents: readable and selectable, unlike the desktop around them */
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+  user-select: text;
+}
+
+/* XP's blue Luna scroll bars */
+.ie-content::-webkit-scrollbar,
+.ie-explorer-bar-list::-webkit-scrollbar {
+  width: 17px;
+  height: 17px;
+  background: #fbfbf8;
+}
+.ie-content::-webkit-scrollbar-thumb,
+.ie-explorer-bar-list::-webkit-scrollbar-thumb {
+  border: 1px solid #fff;
+  border-radius: 3px;
+  background: linear-gradient(to right, #c8d6fb, #b8cbf9 50%, #a9bef5);
+  box-shadow: inset 0 0 0 1px #9eb6ef;
+}
+.ie-content::-webkit-scrollbar-track,
+.ie-explorer-bar-list::-webkit-scrollbar-track {
+  background: linear-gradient(to right, #f3f1ec, #fefefb);
+}
+
+/* ---------- Explorer bar (Favoritos / Histórico) ---------- */
+
+.ie-explorer-bar {
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 4px solid #ece9d8;
+}
+
+.ie-explorer-bar-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 2px 0 4px;
+  background: #ece9d8;
+  border-bottom: 1px solid #d1cdba;
+}
+
+.ie-explorer-bar-close {
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  line-height: 14px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.ie-explorer-bar-close:hover {
+  border-color: rgb(0 0 0 / 0.2);
+  background: #fff;
+}
+
+.ie-explorer-bar-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 0;
+}
+
+.ie-explorer-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 20px;
+  padding: 0 6px;
+  text-align: left;
+}
+.ie-explorer-bar-item:hover {
+  color: #316ac5;
+  text-decoration: underline;
+}
+.ie-explorer-bar-item.current {
+  font-weight: bold;
+}
+
+/* ---------- Status bar ---------- */
+
+.ie-statusbar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: 22px;
+  padding: 2px 0 0 2px;
+  border-top: 1px solid #fff;
+}
+
+.ie-status-main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+/* Each pane is etched off from the one before it */
+.ie-status-pane {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  border-left: 1px solid #c5c2b2;
+  box-shadow: inset 1px 0 #fff;
+}
+
+.ie-status-progress-pane {
+  width: 110px;
+  padding: 0 4px;
+}
+
+/* XP progress bar: green blocks filling a sunken box */
+.ie-status-progress {
+  width: 100%;
+  height: 12px;
+  border: 1px solid #a5a5a5;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(to right, transparent 0 8px, #fff 8px 10px) 0 0 / 0% 100% no-repeat,
+    linear-gradient(to bottom, #b1f4a6, #3dc12c 45%, #2ba61b) 0 0 / 0% 100% no-repeat,
+    #fff;
+  /* The duration is set per load, from the page's random load time */
+  animation: ie-progress-fill 600ms steps(10) forwards;
+}
+
+@keyframes ie-progress-fill {
+  to {
+    background-size:
+      100% 100%,
+      100% 100%,
+      auto;
+  }
+}
+
+.ie-status-zone {
+  gap: 4px;
+  width: 150px;
+  padding-left: 5px;
+}
+
+/* ---------- Error page ---------- */
+
+.ie-error-page {
+  max-width: 560px;
+  padding: 16px 20px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 11px;
+}
+.ie-error-page h1 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4e4e4e;
+}
+.ie-error-page p {
+  margin-bottom: 6px;
+}
+.ie-error-page hr {
+  margin: 12px 0;
+  border-color: #c0c0c0;
+}
+.ie-error-page ul {
+  margin-left: 24px;
+  list-style: disc;
+}
+.ie-error-page li {
+  margin-bottom: 6px;
+}
+.ie-error-page button {
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---------- About dialog ---------- */
+
+/* Covers the browser so nothing behind the dialog can be clicked while it's open */
+.ie-modal-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+}
+
+.ie-dialog {
+  width: 460px;
+  box-shadow: 2px 3px 10px rgb(0 0 0 / 0.35);
+}
+
+.ie-about {
+  padding: 16px 16px 14px;
+  background: #fff;
+}
+
+.ie-about-logo {
+  margin: 0 0 14px 76px;
+}
+
+.ie-about-details {
+  margin-left: 76px;
+  line-height: 13px;
+}
+
+.ie-about-credits {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin-top: 6px;
+  padding: 2px 4px;
+  resize: none;
+  border: 1px solid #7f9db9;
+  font: inherit;
+  line-height: 13px;
+  outline: none;
+}
+
+.ie-about-footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 14px;
+}
+/* The flag plus this margin line the links up with the text above (76px in) */
+.ie-about-footer > img {
+  margin-right: 30px;
+}
+
+/* XP Luna push button; the blue inner ring marks the default (focused) one */
+.ie-dialog-button {
+  min-width: 75px;
+  height: 23px;
+  margin-top: 2px;
+  border: 1px solid #003c74;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #fff, #ecebe6 86%, #d6d0c5);
+}
+.ie-dialog-button:hover {
+  box-shadow:
+    inset 0 -2px #f8b33f,
+    inset 0 2px #fde3ac;
+}
+.ie-dialog-button:focus-visible,
+.ie-dialog-button:focus {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+  box-shadow:
+    inset 0 0 0 1px #98b8ea,
+    inset 0 -1px 0 2px #b9d1f5;
+}
+.ie-dialog-button:active {
+  background: linear-gradient(to bottom, #e6e5df, #f3f2ee);
+}

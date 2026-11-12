@@ -17,7 +17,8 @@ function DesktopIcon({ icon, label, selected, onSelect, onOpen }) {
         className={`size-12 ${selected ? 'opacity-70 [filter:sepia(1)_hue-rotate(180deg)_saturate(4)]' : ''}`}
       />
       <span
-        className={`px-0.5 text-center leading-tight text-white ${
+        // XP breaks a name that is one long word, rather than letting it spill out
+        className={`px-0.5 text-center leading-tight text-white [overflow-wrap:anywhere] ${
           selected ? 'bg-[#316ac5]' : '[text-shadow:1px_1px_1px_black]'
         }`}
       >
