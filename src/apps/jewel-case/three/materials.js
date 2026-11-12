@@ -31,9 +31,10 @@ export const clearPlastic = new THREE.MeshPhysicalMaterial({
 export const clearPlate = new THREE.MeshPhysicalMaterial({
   color: '#000000',
   roughness: 0.03,
-  clearcoat: 1,
-  clearcoatRoughness: 0.02,
-  envMapIntensity: 1.2,
+  // No clearcoat and a softened reflection: seen edge-on, a plate reflects almost everything
+  // (Fresnel), and at full strength it turned into a solid white sheet
+  specularIntensity: 0.5,
+  envMapIntensity: 0.6,
   transparent: true,
   blending: THREE.AdditiveBlending,
   depthWrite: false,

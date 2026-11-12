@@ -11,6 +11,7 @@ import { parseFile } from 'music-metadata'
  *   songs/*.mp3          tagged songs; the tags give order, title and duration
  *   art/frontcover.jpg   cover art
  *   art/backcover.jpg    (optional) back of the CD case
+ *   art/cdlabel.jpg      (optional) the print on the disc itself
  *   art/booklet1.jpg...  (optional) booklet pages, in order; the front cover is the booklet's first page
  *
  * Tags are read here, at build time, so the browser never has to download
@@ -94,6 +95,7 @@ async function readRelease(albumDir, category, folder) {
     type: info.type ?? 'album',
     coverPath: path.join(albumDir, 'art', 'frontcover.jpg'),
     backCoverPath: path.join(albumDir, 'art', 'backcover.jpg'),
+    cdLabelPath: path.join(albumDir, 'art', 'cdlabel.jpg'),
     bookletPaths: findBookletPages(path.join(albumDir, 'art')),
     tracks,
   }
@@ -152,6 +154,7 @@ function generateModule(releasesByCategory) {
   function releaseSource(release) {
     const cover = existsSync(release.coverPath) ? importAsset(release.coverPath) : 'null'
     const backCover = existsSync(release.backCoverPath) ? importAsset(release.backCoverPath) : 'null'
+    const cdLabel = existsSync(release.cdLabelPath) ? importAsset(release.cdLabelPath) : 'null'
     const booklet = release.bookletPaths.map(importAsset)
     const tracks = release.tracks.map((track) => {
       const { filePath, ...data } = track
@@ -165,7 +168,7 @@ function generateModule(releasesByCategory) {
       year: release.year,
       type: release.type,
     }
-    return `{ ...${JSON.stringify(data)}, cover: ${cover}, backCover: ${backCover}, booklet: [${booklet.join(', ')}], tracks: [${tracks.join(', ')}] }`
+    return `{ ...${JSON.stringify(data)}, cover: ${cover}, backCover: ${backCover}, cdLabel: ${cdLabel}, booklet: [${booklet.join(', ')}], tracks: [${tracks.join(', ')}] }`
   }
 
   // One named export per category: `export const albums = [...]`, `export const singles = [...]`

@@ -14,6 +14,8 @@ function Window({
   bodyClassName = DEFAULT_BODY_CLASS,
   initialPosition,
   width,
+  // Only windows whose content can stretch to any size offer maximize
+  maximizable = false,
   active,
   minimized,
   zIndex,
@@ -24,15 +26,20 @@ function Window({
   children,
 }) {
   const [position, setPosition] = useState(initialPosition)
+  const [maximized, setMaximized] = useState(false)
   // Offset between the pointer and the window's top-left corner while dragging
   const dragOffset = useRef(null)
   const windowRef = useRef(null)
 
   useMinimizeAnimation(windowRef, minimized, getTaskbarButton)
 
+  function toggleMaximized() {
+    if (maximizable) setMaximized((current) => !current)
+  }
+
   function handlePointerDown(event) {
-    // Let the caption buttons receive their own clicks
-    if (event.target.closest('button')) return
+    // Let the caption buttons receive their own clicks; a maximized window can't be dragged
+    if (event.target.closest('button') || maximized) return
 
     dragOffset.current = {
       x: event.clientX - position.x,
@@ -60,8 +67,13 @@ function Window({
     <div
       ref={windowRef}
       // A minimized window is invisible (see useMinimizeAnimation) but still in the page, so make it unclickable
-      className={`absolute flex flex-col ${active ? '' : 'inactive-window'}`}
-      style={{ left: position.x, top: position.y, width, zIndex }}
+      className={`absolute flex flex-col ${active ? '' : 'inactive-window'} ${maximized ? 'window-maximized' : ''}`}
+      // Maximized, it fills the desktop above the taskbar; it remembers where it was for when it's restored
+      style={
+        maximized
+          ? { left: 0, top: 0, width: '100%', height: `calc(100% - ${TASKBAR_HEIGHT}px)`, zIndex }
+          : { left: position.x, top: position.y, width, zIndex }
+      }
       inert={minimized}
       onPointerDownCapture={onFocus}
     >
@@ -70,6 +82,7 @@ function Window({
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        onDoubleClick={(event) => !event.target.closest('button') && toggleMaximized()}
       >
         <div className="flex min-w-0 items-center gap-1.5">
           {icon && <img src={icon} alt="" className="size-4 shrink-0" />}
@@ -77,8 +90,13 @@ function Window({
         </div>
         <div className="flex shrink-0 gap-0.5">
           <button type="button" aria-label="Minimizar" className="xp-caption-button minimize" onClick={onMinimize} />
-          {/* Resizing isn't supported, so maximize stays disabled */}
-          <button type="button" aria-label="Maximizar" className="xp-caption-button maximize" disabled />
+          <button
+            type="button"
+            aria-label={maximized ? 'Restaurar' : 'Maximizar'}
+            className={`xp-caption-button ${maximized ? 'restore' : 'maximize'}`}
+            disabled={!maximizable}
+            onClick={toggleMaximized}
+          />
           <button type="button" aria-label="Fechar" className="xp-caption-button close" onClick={onClose} />
         </div>
       </div>

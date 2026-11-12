@@ -45,19 +45,22 @@ export const TRAY_CARD = {
   // The part of the back inlay you see through the bottom of the case
   visibleWidth: 138,
   visibleHeight: 118,
-  spineWidth: 6.5,
 }
 
-// Radii of the zones on a CD, from the center out (Wikipedia, ECMA-130, disc printing templates)
+/*
+ * Radii of the zones on a CD, from the center out. The size and hole follow
+ * the standard (Wikipedia, ECMA-130); the inner rings are kept slimmer than a
+ * typical pressed disc so more of the label print shows.
+ */
 export const DISC = {
   radius: 60,
   thickness: 1.2,
   holeRadius: 7.5,
-  // Clear polycarbonate clamping area, ending in the raised stacking ring
-  clearHubRadius: 16.5,
-  stackingRingRadius: 17.5,
-  // Bare mirror between the stacking ring and the printed label
-  mirrorBandRadius: 23,
+  // A thin clear ring around the hole, ending in the raised stacking ring
+  clearHubRadius: 9.5,
+  stackingRingRadius: 10,
+  // A narrow bare mirror between the stacking ring and the printed label
+  mirrorBandRadius: 11.5,
   labelOuterRadius: 58,
 }
 

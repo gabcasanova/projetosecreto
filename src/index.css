@@ -48,6 +48,18 @@ body {
   text-shadow: 1px 1px #0f1089;
 }
 
+/* A maximized window's frame and content stretch to fill it */
+.window-maximized > .xp-frame {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.window-maximized > .xp-frame > * {
+  flex: 1;
+  min-height: 0;
+}
+
 /* No inactive sprites, so wash out the active title bar like XP's paler inactive one */
 .inactive-window .xp-titlebar {
   filter: saturate(0.55) brightness(1.15);
@@ -82,6 +94,10 @@ body {
 }
 .xp-caption-button.maximize {
   background-image: url('./assets/xp/btn-maximize.png');
+}
+/* Not cut from the sprite sheet: made from the maximize sprite with XP's two-window glyph */
+.xp-caption-button.restore {
+  background-image: url('./assets/xp/btn-restore.png');
 }
 .xp-caption-button.close {
   background-image: url('./assets/xp/btn-close.png');

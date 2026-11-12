@@ -4,7 +4,7 @@ import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { DISC } from './dimensions'
 import { discClearHub, discMirror } from './materials'
-import { MAX_ANISOTROPY } from './textures'
+import { createDiscRainbowTexture, MAX_ANISOTROPY } from './textures'
 
 const RADIAL_SEGMENTS = 128
 // How quickly the disc eases between the tray and the viewer (higher is snappier).
@@ -20,10 +20,28 @@ const SLIDE_SPEED = 3
  * It rests at `restPosition` in the tray; with `out` it floats over to
  * `outPosition` so it can be looked at from every side.
  */
-function CompactDisc({ coverImage, restPosition, outPosition, out, onClick }) {
+function CompactDisc({ labelImage, restPosition, outPosition, out, onClick, ...pointerHandlers }) {
   const disc = useRef(null)
+  const dataSide = useRef(null)
+  const dataSideMaterial = useMemo(() => {
+    const rainbow = createDiscRainbowTexture()
+    return new THREE.MeshPhysicalMaterial({
+      map: rainbow,
+      metalness: 0.9,
+      roughness: 0.15,
+      iridescence: 1,
+      iridescenceIOR: 1.5,
+      iridescenceThicknessRange: [250, 650],
+      envMapIntensity: 1.6,
+      // A pure mirror goes black wherever it reflects darkness; a faint glow of the rainbow
+      // keeps the colours visible from any angle, the way room light does on a real disc
+      emissive: '#ffffff',
+      emissiveMap: rainbow,
+      emissiveIntensity: 0.35,
+    })
+  }, [])
 
-  useFrame((_, delta) => {
+  useFrame(({ camera }, delta) => {
     const [targetX, targetY, targetZ] = out ? outPosition : restPosition
     const { position } = disc.current
     // Frame-rate independent easing towards the target
@@ -32,9 +50,13 @@ function CompactDisc({ coverImage, restPosition, outPosition, out, onClick }) {
     position.x += (targetX - position.x) * slide
     position.y += (targetY - position.y) * slide
     position.z += (targetZ - position.z) * lift
+
+    // On a real CD the rainbow swings round as you move around it; turn it with the viewing angle
+    const viewAngle = Math.atan2(camera.position.x - position.x, camera.position.z - position.z)
+    dataSide.current.material.map.rotation = viewAngle * 2
   })
 
-  const labelTexture = useTexture(coverImage)
+  const labelTexture = useTexture(labelImage)
   const labelMaterial = useMemo(() => {
     const texture = labelTexture.clone()
     texture.colorSpace = THREE.SRGBColorSpace
@@ -46,13 +68,18 @@ function CompactDisc({ coverImage, restPosition, outPosition, out, onClick }) {
   const halfThickness = DISC.thickness / 2
 
   return (
-    <group ref={disc} position={restPosition} onClick={onClick}>
+    <group ref={disc} position={restPosition} onClick={onClick} {...pointerHandlers}>
       <RingBody inner={DISC.holeRadius} outer={DISC.clearHubRadius} material={discClearHub} />
       <RingBody inner={DISC.clearHubRadius} outer={DISC.radius} material={discMirror} />
 
       {/* The stacking ring: a slightly raised lip at the edge of the clear hub */}
       <mesh position-z={halfThickness} material={discClearHub}>
         <torusGeometry args={[DISC.stackingRingRadius, 0.35, 8, RADIAL_SEGMENTS]} />
+      </mesh>
+
+      {/* The data side underneath: a rainbow mirror from the clear hub out to the edge */}
+      <mesh ref={dataSide} position-z={-halfThickness - 0.02} rotation-y={Math.PI} material={dataSideMaterial}>
+        <ringGeometry args={[DISC.clearHubRadius, DISC.radius - 0.4, RADIAL_SEGMENTS]} />
       </mesh>
 
       {/* The label's printed ink, just above the plastic */}

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Booklet from './Booklet'
+import CaseLoading from './CaseLoading'
 import JewelCaseScene from './three/JewelCaseScene'
 import './jewel-case.css'
 
@@ -17,6 +18,10 @@ function JewelCaseViewer({ release }) {
 }
 
 function CaseStage({ release }) {
+  // The 3D scene mounts a moment after the window appears, so the loading screen gets painted first
+  const [sceneStarted, setSceneStarted] = useState(false)
+  const [sceneReady, setSceneReady] = useState(false)
+  const markSceneReady = useCallback(() => setSceneReady(true), [])
   const [lidOpen, setLidOpen] = useState(false)
   const [bookletOut, setBookletOut] = useState(false)
   const [discOut, setDiscOut] = useState(false)
@@ -24,6 +29,11 @@ function CaseStage({ release }) {
   const [timesBookletTakenOut, setTimesBookletTakenOut] = useState(0)
   // The booklet's first page is always the front cover, like a real CD booklet
   const bookletPages = release.booklet.length > 0 ? [release.cover, ...release.booklet] : []
+
+  useEffect(() => {
+    const timer = setTimeout(() => setSceneStarted(true), 50)
+    return () => clearTimeout(timer)
+  }, [])
 
   function takeOutBooklet() {
     if (bookletPages.length === 0 || discOut) return
@@ -41,17 +51,23 @@ function CaseStage({ release }) {
   return (
     <div className={`jc-stage relative h-[600px] ${bookletOut ? 'booklet-out' : ''}`}>
       <div className="jc-canvas absolute inset-0">
-        <JewelCaseScene
-          release={release}
-          open={lidOpen}
-          // While the booklet is out of the case, the lid shows empty
-          bookletInside={!bookletOut}
-          discOut={discOut}
-          onCoverClick={() => setLidOpen(true)}
-          onBookletClick={takeOutBooklet}
-          onDiscClick={() => setDiscOut(true)}
-        />
+        {sceneStarted && (
+          <JewelCaseScene
+            release={release}
+            open={lidOpen}
+            // While the booklet is out of the case, the lid shows empty
+            bookletInside={!bookletOut}
+            discOut={discOut}
+            onCoverClick={() => setLidOpen(true)}
+            onBookletClick={takeOutBooklet}
+            onDiscClick={() => setDiscOut(true)}
+            onReady={markSceneReady}
+          />
+        )}
       </div>
+
+      {/* Covers the scene until its pictures are loaded and its shaders compiled */}
+      {!sceneReady && <CaseLoading className="absolute inset-0 z-10" />}
 
       {bookletPages.length > 0 && (
         <Booklet key={timesBookletTakenOut} pages={bookletPages} visible={bookletOut} />

@@ -120,7 +120,8 @@ function Booklet({ release }) {
       texture.colorSpace = THREE.SRGBColorSpace
       texture.anisotropy = MAX_ANISOTROPY
     }
-    const printed = (map) => new THREE.MeshPhysicalMaterial({ map, roughness: 0.45, clearcoat: 0.3 })
+    // Plain matte print: a varnish layer mirrored the studio lights into a white sheet at low angles
+    const printed = (map) => new THREE.MeshPhysicalMaterial({ map, roughness: 0.55 })
     // Box faces in three.js order: +x, -x, +y, -y, +z (front), -z (back)
     return [paperEdge, paperEdge, paperEdge, paperEdge, printed(coverTexture), printed(lastPageTexture)]
   }, [coverTexture, lastPageTexture])

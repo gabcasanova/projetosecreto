@@ -2,6 +2,7 @@ import { lazy, Suspense, useRef, useState } from 'react'
 import mediaPlayerIcon from '../assets/wmp/wmp-icon-48.png'
 import mediaPlayerSmallIcon from '../assets/wmp/wmp-icon-16.png'
 import jewelCaseIcon from '../assets/xp/icons/cd-audio.png'
+import CaseLoading from '../apps/jewel-case/CaseLoading'
 import MediaPlayer from '../apps/media-player/MediaPlayer'
 import useWindowManager from '../hooks/useWindowManager'
 import DesktopIcon from './DesktopIcon'
@@ -42,9 +43,12 @@ const APPS = {
     Content: MediaPlayer,
   },
   jewelCase: {
-    title: ({ release }) => release.title,
+    title: 'Visualizador de CD',
     icon: jewelCaseIcon,
     bodyClassName: '',
+    maximizable: true,
+    // Shown while the viewer's code downloads; the viewer then keeps it up until its 3D scene is ready
+    Loading: CaseLoading,
     initialPosition: { x: 80, y: 30 },
     width: 860,
     Content: JewelCaseViewer,
@@ -112,6 +116,7 @@ function Desktop() {
             bodyClassName={app.bodyClassName}
             initialPosition={app.initialPosition}
             width={app.width}
+            maximizable={app.maximizable}
             active={id === windowManager.activeId}
             minimized={minimized}
             zIndex={windowManager.zIndexOf(id)}
@@ -121,7 +126,7 @@ function Desktop() {
             getTaskbarButton={() => taskbarButtons.current.get(id)}
           >
             {/* Apps get their window's props, plus a way to open other windows */}
-            <Suspense fallback={null}>
+            <Suspense fallback={app.Loading ? <app.Loading /> : null}>
               <app.Content {...props} openWindow={windowManager.openWindow} />
             </Suspense>
           </Window>

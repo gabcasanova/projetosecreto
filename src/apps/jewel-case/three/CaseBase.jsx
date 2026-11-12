@@ -10,6 +10,9 @@ const { wall } = CASE
 const { left, right, top, bottom, front, back, lidLeft } = LAYOUT
 // The underside of the closed lid: the base's walls stop here, except at the spine
 const lidUnderside = front - LID.depth
+// Gap between the spine wall and the tray, where the back card's folded spine sits.
+// Without it the tray's side covered half the printed spine and cut the lettering in half.
+const SPINE_CARD_GAP = 0.4
 // The tray's surface sits low enough for the hub and disc to fit under the lid
 export const TRAY_SURFACE = lidUnderside - 2.6
 
@@ -74,19 +77,19 @@ function BackCard({ image }) {
   )
 }
 
-// The back inlay's fold along the spine, with the album title, seen through the spine wall
+// The back inlay's fold along the spine, with the album title, seen through the spine wall.
+// It fills the base's whole edge, from the bottom plate up to the lid, so nothing inside shows past it.
+const SPINE_CARD_WIDTH = lidUnderside - (back + wall)
+
 function SpineCard({ title }) {
-  const texture = useMemo(
-    () => createSpineTexture(title, TRAY_CARD.visibleHeight, TRAY_CARD.spineWidth),
-    [title],
-  )
-  const centerZ = back + wall + TRAY_CARD.spineWidth / 2
+  const texture = useMemo(() => createSpineTexture(title, TRAY_CARD.visibleHeight, SPINE_CARD_WIDTH), [title])
+  const centerZ = back + wall + SPINE_CARD_WIDTH / 2
 
   return (
     // Face out of the spine, with the text running from top to bottom
-    <group position={[left + wall + 0.05, 0, centerZ]} rotation-y={-Math.PI / 2}>
+    <group position={[left + wall + SPINE_CARD_GAP / 2, 0, centerZ]} rotation-y={-Math.PI / 2}>
       <mesh rotation-z={-Math.PI / 2}>
-        <planeGeometry args={[TRAY_CARD.visibleHeight, TRAY_CARD.spineWidth]} />
+        <planeGeometry args={[TRAY_CARD.visibleHeight, SPINE_CARD_WIDTH]} />
         <meshStandardMaterial map={texture} roughness={0.6} />
       </mesh>
     </group>
@@ -97,7 +100,7 @@ function Tray({ discCenterX }) {
   return (
     <group>
       <Slab
-        from={[left + wall, bottom + wall, back + wall + 0.3]}
+        from={[left + wall + SPINE_CARD_GAP, bottom + wall, back + wall + 0.3]}
         to={[right - wall, top - wall, TRAY_SURFACE]}
         material={blackTray}
       />
@@ -117,7 +120,7 @@ function TrayRibs() {
       {Array.from({ length: ribCount }, (_, index) => (
         <Slab
           key={index}
-          from={[left + wall, firstRibY + index * TRAY.ribSpacing - 0.3, TRAY_SURFACE]}
+          from={[left + wall + SPINE_CARD_GAP, firstRibY + index * TRAY.ribSpacing - 0.3, TRAY_SURFACE]}
           to={[left + TRAY.ribbedWidth, firstRibY + index * TRAY.ribSpacing + 0.3, TRAY_SURFACE + 0.5]}
           material={blackTray}
         />

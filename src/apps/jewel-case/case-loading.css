@@ -1,0 +1,58 @@
+/* The CD viewer's loading screen (see CaseLoading.jsx) */
+
+.case-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 600px;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #d6e4f5;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 45%, rgb(60 130 220 / 0.35), transparent),
+    linear-gradient(to bottom, #04102a, #0b2a5c 55%, #030918);
+}
+
+/* Fill the window when it's maximized */
+.window-maximized .case-loading {
+  height: 100%;
+}
+
+/* XP's sunken progress bar with green blocks sliding through it */
+.case-loading-bar {
+  position: relative;
+  width: 180px;
+  height: 14px;
+  overflow: hidden;
+  border: 1px solid #686868;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.25);
+}
+
+.case-loading-blocks {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 40px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0 1px,
+    #b6f5a6 1px 2px,
+    #37c51f 2px 6px,
+    #22a40d 6px 8px,
+    transparent 8px 10px
+  );
+  animation: case-loading-slide 1.6s linear infinite;
+}
+
+@keyframes case-loading-slide {
+  from {
+    left: -40px;
+  }
+  to {
+    left: 180px;
+  }
+}
