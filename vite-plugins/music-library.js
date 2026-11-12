@@ -7,7 +7,8 @@ import { parseFile } from 'music-metadata'
  * exports: `albums` and `singles`.
  *
  * Every release is a folder in src/assets/music/albums or .../singles containing:
- *   info.json            title, release date ("dd/mm/yyyy" or just "yyyy") and type
+ *   info.json            title, release date ("dd/mm/yyyy" or just "yyyy"), type and,
+ *                        optionally, streaming links: { "spotify": url, "deezer": url, ... }
  *   songs/*.mp3          tagged songs; the tags give order, title and duration
  *   art/frontcover.jpg   cover art
  *   art/backcover.jpg    (optional) back of the CD case
@@ -93,6 +94,7 @@ async function readRelease(albumDir, category, folder) {
     releaseDate: info.release ?? null,
     year: parseYear(info.release),
     type: info.type ?? 'album',
+    links: info.links ?? {},
     coverPath: path.join(albumDir, 'art', 'frontcover.jpg'),
     backCoverPath: path.join(albumDir, 'art', 'backcover.jpg'),
     cdLabelPath: path.join(albumDir, 'art', 'cdlabel.jpg'),
@@ -167,6 +169,7 @@ function generateModule(releasesByCategory) {
       releaseDate: release.releaseDate,
       year: release.year,
       type: release.type,
+      links: release.links,
     }
     return `{ ...${JSON.stringify(data)}, cover: ${cover}, backCover: ${backCover}, cdLabel: ${cdLabel}, booklet: [${booklet.join(', ')}], tracks: [${tracks.join(', ')}] }`
   }

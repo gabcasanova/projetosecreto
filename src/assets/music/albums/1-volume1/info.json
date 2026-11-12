@@ -1,5 +1,11 @@
 {
   "title":"Futebol de Bairro Vol. 1",
   "release":"2026",
-  "type":"album"
+  "type":"album",
+  "links": {
+    "spotify":"https://open.spotify.com/intl-pt/album/6lj2FUZBBWJHyUQ7kAa2Kf",
+    "deezer":"https://www.deezer.com/br/album/901592902",
+    "youtubemusic":"https://music.youtube.com/playlist?list=OLAK5uy_mAu7EntsxXml-_RWgw2ZXiIU5xjI3KYuI",
+    "applemusic":"https://music.apple.com/br/album/futebol-de-bairro-vol-1/1870882285"
+  }
 }

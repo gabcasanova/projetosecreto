@@ -1,5 +1,11 @@
 {
   "title":"Scott Pilgrim vs. Meu CR",
   "release":"2025",
-  "type":"single"
+  "type":"single",
+  "links": {
+    "spotify":"https://open.spotify.com/intl-pt/album/6vdFgRT0xTcu8ahwVGHd9v",
+    "deezer":"https://www.deezer.com/br/album/865818592",
+    "youtubemusic":"https://music.youtube.com/playlist?list=OLAK5uy_nsayh2-SlxnaGTrpXp88cTD5WC9EiHfA4",
+    "applemusic":"https://music.apple.com/br/album/scott-pilgrim-vs-meu-cr-single/1857160238"
+  }
 }

@@ -420,6 +420,39 @@
   color: #7b8597;
 }
 
+/* Streaming service links under the song list */
+.wmp-streaming-links {
+  padding: 4px 4px 6px;
+  border-top: 1px solid #c6cedb;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0.55), transparent);
+}
+.wmp-streaming-links-title {
+  margin: 0 4px 3px;
+  color: #4d5b72;
+}
+/* Rows highlight like the songs above them */
+.wmp-streaming-link {
+  height: 26px;
+  border-radius: 2px;
+  color: #1e1e1e;
+  transition: background-color 200ms;
+}
+.wmp-streaming-link:hover {
+  background: rgb(150 185 230 / 0.35);
+}
+.wmp-streaming-link-icon {
+  display: block;
+  border-radius: 50%;
+  filter: drop-shadow(0 1px 1px rgb(0 30 80 / 0.35));
+  transition: filter 150ms;
+}
+.wmp-streaming-link:hover .wmp-streaming-link-icon {
+  filter: brightness(1.12) drop-shadow(0 0 3px rgb(90 170 255 / 0.9));
+}
+.wmp-streaming-link:active .wmp-streaming-link-icon {
+  filter: brightness(0.95) drop-shadow(0 1px 1px rgb(0 30 80 / 0.35));
+}
+
 /* ---------- Extra controls ---------- */
 
 .wmp-corner-button {

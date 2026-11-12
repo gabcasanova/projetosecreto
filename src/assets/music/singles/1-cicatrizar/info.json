@@ -1,5 +1,11 @@
 {
   "title":"Cicatrizar",
   "release":"2025",
-  "type":"single"
+  "type":"single",
+  "links": {
+    "spotify":"https://open.spotify.com/intl-pt/album/1T55ZGMqJ8Ov6ups6zr8Kj",
+    "deezer":"https://www.deezer.com/br/album/843417152",
+    "youtubemusic":"https://music.youtube.com/playlist?list=OLAK5uy_mruLu0UvcGQt69e1GJoAFr_4dVYg9DZVQ",
+    "applemusic":"https://music.apple.com/br/album/cicatrizar-single/1848274855"
+  }
 }

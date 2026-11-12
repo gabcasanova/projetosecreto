@@ -1,6 +1,7 @@
 import listPaneHideIcon from '../../assets/wmp/list-pane-hide.png'
 import listPaneShowIcon from '../../assets/wmp/list-pane-show.png'
 import { formatTime } from './formatTime'
+import StreamingLinks from './StreamingLinks'
 import { albumArtTransitionName } from './viewTransition'
 import Visualizer from './Visualizer'
 
@@ -100,6 +101,8 @@ function ListPane({ player, onHide, onOpenCase }) {
           </li>
         ))}
       </ol>
+
+      <StreamingLinks links={album.links} />
     </aside>
   )
 }
