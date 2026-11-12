@@ -1,0 +1,542 @@
+/*
+ * Windows Media Player 11 look inside a regular XP window.
+ *
+ * The navigation bar and the controls are built from WMP 11's own bitmaps
+ * (src/assets/wmp). Buttons with several looks set their images through
+ * custom properties (--normal, --hover, --pressed, --disabled) and share
+ * one set of state rules.
+ */
+
+.wmp {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-size: 11px;
+  color: #1e1e1e;
+}
+
+/* ---------- Image buttons (shared state rules) ---------- */
+
+.wmp-image-button {
+  background: var(--normal) center / 100% 100% no-repeat;
+}
+.wmp-image-button:enabled:hover {
+  background-image: var(--hover, var(--normal));
+}
+.wmp-image-button:enabled:active {
+  background-image: var(--pressed, var(--normal));
+}
+.wmp-image-button:disabled {
+  background-image: var(--disabled, var(--normal));
+}
+
+/* ---------- Navigation bar with tabs ---------- */
+
+.wmp-navbar {
+  height: 36px;
+  background: url('../../assets/wmp/navbar.png') repeat-x;
+}
+
+/* Back and forward are the two halves of one bitmap */
+.wmp-history-button {
+  width: 29px;
+  height: 35px;
+  --normal: url('../../assets/wmp/history.png');
+  --hover: url('../../assets/wmp/history-hover.png');
+  --pressed: url('../../assets/wmp/history-pressed.png');
+  --disabled: url('../../assets/wmp/history-disabled.png');
+  background-size: 59px 35px;
+}
+.wmp-history-button.back {
+  background-position: 0 0;
+}
+.wmp-history-button.forward {
+  width: 30px;
+  background-position: -29px 0;
+}
+
+.wmp-tab {
+  position: relative;
+  height: 36px;
+  min-width: 120px;
+  padding: 0 20px;
+  font-size: 12px;
+  color: #fff;
+  /* 9-slice: the tab bitmaps have 6px rounded ends and a stretchable middle */
+  border-style: solid;
+  border-width: 0 6px;
+  border-color: transparent;
+}
+.wmp-tab:hover {
+  border-image: url('../../assets/wmp/tab-hover.png') 0 6 fill / 0 6px stretch;
+}
+.wmp-tab:active {
+  border-image: url('../../assets/wmp/tab-pressed.png') 0 6 fill / 0 6px stretch;
+}
+.wmp-tab.active {
+  border-image: url('../../assets/wmp/tab-active.png') 0 6 fill / 0 6px stretch;
+  text-shadow: 0 1px 1px rgb(0 0 0 / 0.5);
+}
+.wmp-tab.active:hover {
+  border-image: url('../../assets/wmp/tab-active-hover.png') 0 6 fill / 0 6px stretch;
+}
+.wmp-tab.active:active {
+  border-image: url('../../assets/wmp/tab-active-pressed.png') 0 6 fill / 0 6px stretch;
+}
+/* The small arrow under the active tab */
+.wmp-tab.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  margin-left: -3px;
+  border: 3px solid transparent;
+  border-top-color: #fff;
+}
+
+.wmp-navbar-separator {
+  width: 2px;
+  height: 36px;
+  background: url('../../assets/wmp/navbar-separator.png');
+}
+
+.wmp-content {
+  border-bottom: 1px solid #000;
+  background: #020516;
+  overflow: hidden;
+}
+
+/* ---------- Library ---------- */
+
+.wmp-library-toolbar {
+  height: 26px;
+  border-bottom: 1px solid #d5dde8;
+  background: linear-gradient(to bottom, #fbfcfd, #e9eef5);
+}
+
+.wmp-zoom-slider {
+  appearance: none;
+  width: 110px;
+  height: 3px;
+  border-radius: 2px;
+  background: #a7b6ca;
+  cursor: pointer;
+}
+.wmp-zoom-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 8px;
+  height: 15px;
+  border: 1px solid #5a7aa6;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #fff, #d4e1f2);
+}
+.wmp-zoom-slider::-moz-range-thumb {
+  width: 8px;
+  height: 15px;
+  border: 1px solid #5a7aa6;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #fff, #d4e1f2);
+}
+
+/* Outline squares hinting at small and large album art */
+.wmp-zoom-icon {
+  border: 1px solid #6d82a0;
+  border-radius: 1px;
+}
+.wmp-zoom-icon.small {
+  width: 7px;
+  height: 7px;
+}
+.wmp-zoom-icon.large {
+  width: 12px;
+  height: 12px;
+}
+
+.wmp-album-tile {
+  padding: 4px 2px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.wmp-album-tile:hover {
+  border-color: #b8d6fb;
+  background: linear-gradient(to bottom, #f5f9fe, #e4effc);
+}
+.wmp-album-tile.playing {
+  border-color: #84acdd;
+  background: linear-gradient(to bottom, #eaf3fd, #c9e0fb);
+}
+
+.wmp-album-cover {
+  border: 1px solid #b7b7b7;
+  box-shadow: 2px 2px 4px rgb(0 0 0 / 0.25);
+}
+
+/* ---------- Now Playing ---------- */
+
+.wmp-now-playing-empty {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 55%, rgb(64 120 190 / 0.45), transparent),
+    linear-gradient(to bottom, #0a1426, #10284a 60%, #07101f);
+}
+
+.wmp-empty-link {
+  font-size: 12px;
+  color: #d6e4f5;
+}
+.wmp-empty-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Song details show up when a track starts, then fade away */
+.wmp-track-info {
+  animation: wmp-track-info-fade 7s ease-in forwards;
+  pointer-events: none;
+}
+@keyframes wmp-track-info-fade {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Controls bar ---------- */
+
+.wmp-controls-bar {
+  height: 59px;
+  background: url('../../assets/wmp/controls-bar.png') repeat-x;
+}
+
+/*
+ * The capsule bitmap already contains the pill, the play button's socket and
+ * the volume track; the buttons are placed over it at fixed spots.
+ */
+.wmp-capsule {
+  width: 558px;
+  height: 59px;
+  background: url('../../assets/wmp/controls-capsule.png') no-repeat;
+}
+.wmp-capsule > * {
+  position: absolute;
+}
+
+/* The 25×25 glyph buttons get WMP's glossy square behind them on hover */
+.wmp-small-button {
+  width: 25px;
+  height: 25px;
+  top: 14px;
+  background: var(--icon) no-repeat;
+}
+.wmp-small-button:enabled:hover {
+  background: var(--icon) no-repeat, url('../../assets/wmp/button-hover.png') no-repeat;
+}
+.wmp-small-button:enabled:active {
+  background: var(--icon) no-repeat, url('../../assets/wmp/button-pressed.png') no-repeat;
+}
+
+.wmp-small-button.shuffle {
+  left: 106px;
+  --icon: url('../../assets/wmp/shuffle.png');
+}
+.wmp-small-button.shuffle.on {
+  --icon: url('../../assets/wmp/shuffle-active.png');
+}
+.wmp-small-button.repeat {
+  left: 132px;
+  --icon: url('../../assets/wmp/repeat.png');
+}
+.wmp-small-button.repeat.on {
+  --icon: url('../../assets/wmp/repeat-active.png');
+}
+.wmp-small-button.stop {
+  left: 176px;
+  --icon: url('../../assets/wmp/stop.png');
+}
+.wmp-small-button.stop:disabled {
+  --icon: url('../../assets/wmp/stop-disabled.png');
+}
+.wmp-small-button.mute {
+  left: 350px;
+  --icon: url('../../assets/wmp/volume-high.png');
+}
+.wmp-small-button.mute.on {
+  --icon: url('../../assets/wmp/volume-muted.png');
+}
+
+/* Previous and next are half-pills tucked under the round play button */
+.wmp-skip-button {
+  top: 15px;
+  width: 52px;
+  height: 25px;
+}
+.wmp-skip-button.previous {
+  left: 216px;
+  --normal: url('../../assets/wmp/previous.png');
+  --hover: url('../../assets/wmp/previous-hover.png');
+  --pressed: url('../../assets/wmp/previous-pressed.png');
+  --disabled: url('../../assets/wmp/previous-disabled.png');
+}
+.wmp-skip-button.next {
+  left: 290px;
+  --normal: url('../../assets/wmp/next.png');
+  --hover: url('../../assets/wmp/next-hover.png');
+  --pressed: url('../../assets/wmp/next-pressed.png');
+  --disabled: url('../../assets/wmp/next-disabled.png');
+}
+
+.wmp-play-button {
+  z-index: 1;
+  left: 258px;
+  top: 7px;
+  width: 42px;
+  height: 43px;
+}
+.wmp-play-button.play {
+  --normal: url('../../assets/wmp/play.png');
+  --hover: url('../../assets/wmp/play-hover.png');
+  --pressed: url('../../assets/wmp/play-pressed.png');
+  --disabled: url('../../assets/wmp/play-disabled.png');
+}
+.wmp-play-button.pause {
+  --normal: url('../../assets/wmp/pause.png');
+  --hover: url('../../assets/wmp/pause-hover.png');
+  --pressed: url('../../assets/wmp/pause-pressed.png');
+  --disabled: url('../../assets/wmp/pause-disabled.png');
+}
+
+/* ---------- Sliders (seek and volume) ---------- */
+
+.wmp-slider {
+  appearance: none;
+  display: block;
+  cursor: pointer;
+}
+.wmp-slider:disabled {
+  cursor: default;
+}
+
+/* A thin groove right above the controls, filled blue up to the playhead */
+.wmp-seek-bar {
+  width: 100%;
+  height: 6px;
+  background:
+    linear-gradient(to bottom, #6fb0ff, #2c6ad6) 0 1px / var(--fill) 3px no-repeat,
+    linear-gradient(to bottom, #000 0 1px, #1b1d22 1px 5px, #2e3138 5px);
+}
+
+/* Sits on the volume groove that's painted into the capsule bitmap */
+.wmp-volume-slider {
+  left: 398px;
+  top: 19px;
+  width: 70px;
+  height: 13px;
+  background: linear-gradient(to bottom, #6fb0ff, #2c6ad6) 0 50% / var(--fill) 2px no-repeat;
+}
+
+.wmp-seek-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 9px;
+  border: 0;
+  background: url('../../assets/wmp/seek-handle.png');
+  opacity: 0;
+}
+.wmp-seek-bar::-moz-range-thumb {
+  width: 16px;
+  height: 9px;
+  border: 0;
+  background: url('../../assets/wmp/seek-handle.png');
+  opacity: 0;
+}
+/* Like WMP, the seek handle only shows up while you hover the bar */
+.wmp-seek-bar:enabled:hover::-webkit-slider-thumb {
+  opacity: 1;
+}
+.wmp-seek-bar:enabled:hover::-moz-range-thumb {
+  opacity: 1;
+}
+
+.wmp-volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 13px;
+  border: 0;
+  background: url('../../assets/wmp/volume-handle.png');
+}
+.wmp-volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 13px;
+  border: 0;
+  background: url('../../assets/wmp/volume-handle.png');
+}
+.wmp-volume-slider:hover::-webkit-slider-thumb {
+  background-image: url('../../assets/wmp/volume-handle-hover.png');
+}
+.wmp-volume-slider:hover::-moz-range-thumb {
+  background-image: url('../../assets/wmp/volume-handle-hover.png');
+}
+
+/* ---------- Now Playing list pane ---------- */
+
+.wmp-list-pane {
+  border-left: 1px solid #8e9bb0;
+  background: linear-gradient(to bottom, #f4f6fa, #e3e8f0 220px, #e8ecf3);
+  color: #1e1e1e;
+}
+
+.wmp-list-pane-art {
+  border: 1px solid #b4bccb;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+}
+
+.wmp-list-pane-album {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #4a9a2f;
+}
+
+.wmp-list-pane-header {
+  height: 24px;
+  border-top: 1px solid #c6cedb;
+  color: #1e1e1e;
+}
+
+.wmp-list-pane-song {
+  height: 18px;
+  border-radius: 2px;
+  transition:
+    background-color 200ms,
+    color 200ms;
+}
+.wmp-list-pane-song:hover {
+  background: rgb(150 185 230 / 0.35);
+}
+.wmp-list-pane-song.current {
+  color: #3c9a1e;
+}
+
+.wmp-list-pane-duration {
+  color: #7b8597;
+}
+
+/* ---------- Extra controls ---------- */
+
+.wmp-corner-button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+}
+.wmp-corner-button:hover {
+  background: url('../../assets/wmp/button-hover.png') no-repeat;
+}
+.wmp-corner-button:active {
+  background: url('../../assets/wmp/button-pressed.png') no-repeat;
+}
+
+/* The visualization's name glows in briefly when it changes */
+.wmp-visualization-name {
+  font-size: 13px;
+  color: #cfe3ff;
+  text-shadow: 0 0 8px rgb(90 160 255 / 0.9);
+  pointer-events: none;
+  animation: wmp-visualization-name 3.5s ease-out forwards;
+}
+@keyframes wmp-visualization-name {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  12%,
+  70% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- "Longhorn" motion ----------
+ * Smooth, glowing, slightly dreamy: the XP of the adverts rather than the real thing.
+ */
+
+/* Album tiles float up one after another when the library appears */
+.wmp-album-tile {
+  animation: wmp-tile-in 500ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  transition:
+    transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 250ms;
+}
+.wmp-album-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgb(60 120 210 / 0.25);
+}
+@keyframes wmp-tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+
+/* A glassy reflection under each cover (Chromium/WebKit only; elsewhere it's just absent) */
+.wmp-album-cover {
+  -webkit-box-reflect: below 3px linear-gradient(transparent 78%, rgb(255 255 255 / 0.22));
+}
+
+/* Switching screens: the old one sinks back and blurs away while the new one comes into focus */
+.wmp-content {
+  view-transition-name: wmp-content;
+}
+::view-transition-old(wmp-content) {
+  animation: wmp-view-out 280ms ease-in both;
+}
+::view-transition-new(wmp-content) {
+  animation: wmp-view-in 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes wmp-view-out {
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(6px);
+  }
+}
+@keyframes wmp-view-in {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+    filter: blur(10px);
+  }
+}
+
+/* The album cover glides from its library tile into the list pane */
+::view-transition-group(*) {
+  animation-duration: 550ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The rest of the desktop doesn't change during these transitions, so don't fade it */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* ---------- Library sections ---------- */
+
+/* "Albums" / "Singles" headings with WMP's fading rule after the text */
+.wmp-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 10px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #1e395b;
+}
+.wmp-section-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #9fb4cf, transparent);
+}

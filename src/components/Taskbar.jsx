@@ -1,26 +1,32 @@
 import { useEffect, useState } from 'react'
 import windowsLogo from '../assets/xp/windows-logo.png'
 
-function Taskbar({ openWindowTitle, windowMinimized, onWindowButtonClick, windowButtonRef }) {
+/**
+ * `items` is one entry per open window: { id, title, icon, active }.
+ * `buttonRef(id)` registers each button so windows can animate into it.
+ */
+function Taskbar({ items, onItemClick, buttonRef }) {
   return (
-    <div className="xp-taskbar absolute inset-x-0 bottom-0 z-20 flex items-center">
+    <div className="xp-taskbar absolute inset-x-0 bottom-0 z-[1000] flex items-center">
       {/* No start menu yet, so the button only shows its hover/pressed states */}
       <button type="button" className="xp-start-button flex shrink-0 items-center gap-1.5 pl-2">
         <img src={windowsLogo} alt="" width={21} height={18} />
         <span className="xp-start-label">start</span>
       </button>
 
-      <div className="flex flex-1 items-center px-2">
-        {openWindowTitle && (
+      <div className="flex min-w-0 flex-1 items-center gap-0.5 px-2">
+        {items.map((item) => (
           <button
-            ref={windowButtonRef}
+            key={item.id}
+            ref={buttonRef(item.id)}
             type="button"
-            className={`xp-taskbar-item flex w-40 items-center px-1 text-white ${windowMinimized ? 'inactive' : ''}`}
-            onClick={onWindowButtonClick}
+            className={`xp-taskbar-item flex w-40 min-w-0 items-center gap-1 px-1 text-white ${item.active ? '' : 'inactive'}`}
+            onClick={() => onItemClick(item.id)}
           >
-            <span className="truncate">{openWindowTitle}</span>
+            {item.icon && <img src={item.icon} alt="" className="size-4 shrink-0" />}
+            <span className="truncate">{item.title}</span>
           </button>
-        )}
+        ))}
       </div>
 
       <div className="xp-tray flex items-center px-3 text-white">

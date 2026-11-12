@@ -5,13 +5,30 @@ import useMinimizeAnimation from '../hooks/useMinimizeAnimation'
 const MIN_VISIBLE = 40
 const TASKBAR_HEIGHT = 30
 
-function Window({ title, initialPosition, width, minimized, onMinimize, onClose, taskbarButtonRef, children }) {
+// The classic beige dialog body; apps that draw their own content edge to edge pass '' instead
+const DEFAULT_BODY_CLASS = 'bg-[#ece9d8] p-3'
+
+function Window({
+  title,
+  icon,
+  bodyClassName = DEFAULT_BODY_CLASS,
+  initialPosition,
+  width,
+  active,
+  minimized,
+  zIndex,
+  onFocus,
+  onMinimize,
+  onClose,
+  getTaskbarButton,
+  children,
+}) {
   const [position, setPosition] = useState(initialPosition)
   // Offset between the pointer and the window's top-left corner while dragging
   const dragOffset = useRef(null)
   const windowRef = useRef(null)
 
-  useMinimizeAnimation(windowRef, minimized, taskbarButtonRef)
+  useMinimizeAnimation(windowRef, minimized, getTaskbarButton)
 
   function handlePointerDown(event) {
     // Let the caption buttons receive their own clicks
@@ -43,9 +60,10 @@ function Window({ title, initialPosition, width, minimized, onMinimize, onClose,
     <div
       ref={windowRef}
       // A minimized window is invisible (see useMinimizeAnimation) but still in the page, so make it unclickable
-      className="absolute flex flex-col"
-      style={{ left: position.x, top: position.y, width }}
+      className={`absolute flex flex-col ${active ? '' : 'inactive-window'}`}
+      style={{ left: position.x, top: position.y, width, zIndex }}
       inert={minimized}
+      onPointerDownCapture={onFocus}
     >
       <div
         className="xp-titlebar flex items-center justify-between"
@@ -53,8 +71,11 @@ function Window({ title, initialPosition, width, minimized, onMinimize, onClose,
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
-        <span className="xp-title truncate">{title}</span>
-        <div className="flex gap-0.5">
+        <div className="flex min-w-0 items-center gap-1.5">
+          {icon && <img src={icon} alt="" className="size-4 shrink-0" />}
+          <span className="xp-title truncate">{title}</span>
+        </div>
+        <div className="flex shrink-0 gap-0.5">
           <button type="button" aria-label="Minimize" className="xp-caption-button minimize" onClick={onMinimize} />
           {/* Resizing isn't supported, so maximize stays disabled */}
           <button type="button" aria-label="Maximize" className="xp-caption-button maximize" disabled />
@@ -62,7 +83,7 @@ function Window({ title, initialPosition, width, minimized, onMinimize, onClose,
         </div>
       </div>
       <div className="xp-frame">
-        <div className="bg-[#ece9d8] p-3">{children}</div>
+        <div className={bodyClassName}>{children}</div>
       </div>
     </div>
   )

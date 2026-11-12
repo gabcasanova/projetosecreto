@@ -8,20 +8,20 @@ const DURATION_MS = 250
  *
  * The window never leaves the DOM: the shrink animation keeps its last frame
  * (fully transparent) for as long as the window stays minimized.
+ *
+ * `getTarget` returns the taskbar button element to animate towards.
  */
-function useMinimizeAnimation(windowRef, minimized, targetRef) {
-  const isFirstRender = useRef(true)
+function useMinimizeAnimation(windowRef, minimized, getTarget) {
+  const previousMinimized = useRef(minimized)
   const minimizeAnimation = useRef(null)
 
   useLayoutEffect(() => {
-    // Nothing to animate when the window first appears
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
+    // Only animate real changes. (A "first render" flag isn't enough: StrictMode runs effects twice on mount.)
+    if (previousMinimized.current === minimized) return
+    previousMinimized.current = minimized
 
     const windowElement = windowRef.current
-    const target = targetRef.current
+    const target = getTarget()
     if (!windowElement || !target) return
 
     const { normal, shrunk, hidden } = buildFrames(windowElement, target)
@@ -41,7 +41,9 @@ function useMinimizeAnimation(windowRef, minimized, targetRef) {
         { duration: getDuration(), easing: 'ease-out' },
       )
     }
-  }, [minimized, windowRef, targetRef])
+    // getTarget is a fresh function every render; only a change in `minimized` should animate
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minimized, windowRef])
 }
 
 // The window in its normal place, squeezed over the taskbar button, and faded out there

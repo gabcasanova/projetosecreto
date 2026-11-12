@@ -48,6 +48,11 @@ body {
   text-shadow: 1px 1px #0f1089;
 }
 
+/* No inactive sprites, so wash out the active title bar like XP's paler inactive one */
+.inactive-window .xp-titlebar {
+  filter: saturate(0.55) brightness(1.15);
+}
+
 .xp-frame {
   padding: 0 5px 5px;
   background:
