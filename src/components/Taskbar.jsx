@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import windowsLogo from '../assets/xp/windows-logo.png'
 
-function Taskbar({ openWindowTitle }) {
+function Taskbar({ openWindowTitle, windowMinimized, onWindowButtonClick, windowButtonRef }) {
   return (
     <div className="xp-taskbar absolute inset-x-0 bottom-0 z-20 flex items-center">
       {/* No start menu yet, so the button only shows its hover/pressed states */}
@@ -12,9 +12,14 @@ function Taskbar({ openWindowTitle }) {
 
       <div className="flex flex-1 items-center px-2">
         {openWindowTitle && (
-          <div className="xp-taskbar-item flex w-40 items-center px-1 text-white">
+          <button
+            ref={windowButtonRef}
+            type="button"
+            className={`xp-taskbar-item flex w-40 items-center px-1 text-white ${windowMinimized ? 'inactive' : ''}`}
+            onClick={onWindowButtonClick}
+          >
             <span className="truncate">{openWindowTitle}</span>
-          </div>
+          </button>
         )}
       </div>
 

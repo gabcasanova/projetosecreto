@@ -1,13 +1,17 @@
 import { useRef, useState } from 'react'
+import useMinimizeAnimation from '../hooks/useMinimizeAnimation'
 
 // How much of the title bar must stay on screen so the window can always be grabbed again
 const MIN_VISIBLE = 40
 const TASKBAR_HEIGHT = 30
 
-function Window({ title, initialPosition, width, children }) {
+function Window({ title, initialPosition, width, minimized, onMinimize, onClose, taskbarButtonRef, children }) {
   const [position, setPosition] = useState(initialPosition)
   // Offset between the pointer and the window's top-left corner while dragging
   const dragOffset = useRef(null)
+  const windowRef = useRef(null)
+
+  useMinimizeAnimation(windowRef, minimized, taskbarButtonRef)
 
   function handlePointerDown(event) {
     // Let the caption buttons receive their own clicks
@@ -37,8 +41,11 @@ function Window({ title, initialPosition, width, children }) {
 
   return (
     <div
+      ref={windowRef}
+      // A minimized window is invisible (see useMinimizeAnimation) but still in the page, so make it unclickable
       className="absolute flex flex-col"
       style={{ left: position.x, top: position.y, width }}
+      inert={minimized}
     >
       <div
         className="xp-titlebar flex items-center justify-between"
@@ -47,11 +54,11 @@ function Window({ title, initialPosition, width, children }) {
         onPointerUp={handlePointerUp}
       >
         <span className="xp-title truncate">{title}</span>
-        {/* Decorative for now: closing and resizing aren't supported yet */}
         <div className="flex gap-0.5">
-          <button type="button" aria-label="Minimize" className="xp-caption-button minimize" />
-          <button type="button" aria-label="Maximize" className="xp-caption-button maximize" />
-          <button type="button" aria-label="Close" className="xp-caption-button close" />
+          <button type="button" aria-label="Minimize" className="xp-caption-button minimize" onClick={onMinimize} />
+          {/* Resizing isn't supported, so maximize stays disabled */}
+          <button type="button" aria-label="Maximize" className="xp-caption-button maximize" disabled />
+          <button type="button" aria-label="Close" className="xp-caption-button close" onClick={onClose} />
         </div>
       </div>
       <div className="xp-frame">

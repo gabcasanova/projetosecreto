@@ -62,11 +62,15 @@ body {
   height: 21px;
   background-position: 0 0;
 }
-.xp-caption-button:hover {
+.xp-caption-button:enabled:hover {
   background-position: 0 -21px;
 }
-.xp-caption-button:active {
+.xp-caption-button:enabled:active {
   background-position: 0 -42px;
+}
+/* The sprite strips have no disabled frame, so fade the normal one like Luna does */
+.xp-caption-button:disabled {
+  opacity: 0.5;
 }
 .xp-caption-button.minimize {
   background-image: url('./assets/xp/btn-minimize.png');
@@ -112,6 +116,13 @@ body {
   border-style: solid;
   border-width: 3px;
   border-image: url('./assets/xp/taskbar-button-active.png') 3 fill / 3px stretch;
+}
+/* Only the pressed (active) sprite exists, so the raised states are brightened copies of it */
+.xp-taskbar-item.inactive {
+  filter: brightness(1.3);
+}
+.xp-taskbar-item.inactive:hover {
+  filter: brightness(1.45);
 }
 
 .xp-tray {
