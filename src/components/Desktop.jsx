@@ -5,7 +5,9 @@ import internetExplorerSmallIcon from '../assets/ie/ie-32.png'
 // The XP version of the icon (internet-explorer.png is the older 256-colour one)
 import internetExplorerIcon from '../assets/xp/icons/internet-explorer-2.png'
 import jewelCaseIcon from '../assets/xp/icons/cd-audio.png'
-import demoSite from '../apps/internet-explorer/demo/demoSite'
+import futeborkutIcon from '../apps/futeborkut/assets/desktop-icon.svg'
+import { FUTEBORKUT_URL } from '../apps/futeborkut/site'
+import internet from '../internet'
 import InternetExplorer from '../apps/internet-explorer/InternetExplorer'
 import InternetExplorerSplash from '../apps/internet-explorer/Splash'
 import CaseLoading from '../apps/jewel-case/CaseLoading'
@@ -75,7 +77,8 @@ const APPS = {
     multipleWindows: true,
     initialPosition: { x: 60, y: 20 },
     width: 800,
-    Content: (props) => <InternetExplorer site={demoSite} {...props} />,
+    // `url` in the window's props opens it on that page instead of the home page
+    Content: (props) => <InternetExplorer site={internet} {...props} />,
   },
 }
 
@@ -84,7 +87,20 @@ function staticTitleOf(appId, props) {
   return typeof title === 'function' ? title(props) : title
 }
 
-const DESKTOP_SHORTCUTS = ['mediaPlayer', 'internetExplorer']
+/*
+ * The icons on the desktop. A shortcut opens an app, optionally with props for its window.
+ * Web shortcuts open Internet Explorer on a site, and carry IE's icon in the corner.
+ * Label and icon default to the app's own.
+ */
+const DESKTOP_SHORTCUTS = [
+  { id: 'mediaPlayer', appId: 'mediaPlayer' },
+  { id: 'internetExplorer', appId: 'internetExplorer' },
+  webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
+]
+
+function webShortcut({ id, label, icon, url }) {
+  return { id, appId: 'internetExplorer', props: { url }, label, icon, badge: internetExplorerIcon }
+}
 // How far each extra window of the same app is moved down and right
 const CASCADE_STEP = 24
 
@@ -112,12 +128,12 @@ function Desktop() {
     else windowManager.openWindow(appId, props)
   }
 
-  // Opens an app from its shortcut. Apps with a splash show it first, unless they're already running.
-  function launch(appId) {
+  // Opens an app from a shortcut. Apps with a splash show it first, unless they're already running.
+  function launch(appId, props) {
     const app = APPS[appId]
     const running = windowManager.windows.some((window) => window.appId === appId)
     if (!app.Splash || running) {
-      openApp(appId)
+      openApp(appId, props)
       return
     }
     // Double-clicking again while the splash is up doesn't start a second one
@@ -126,7 +142,7 @@ function Desktop() {
     setSplashAppId(appId)
     setTimeout(() => {
       setSplashAppId(null)
-      openApp(appId)
+      openApp(appId, props)
     }, app.splashDuration)
   }
 
@@ -176,14 +192,15 @@ function Desktop() {
       onPointerDown={() => setSelectedShortcut(null)}
     >
       <div className="absolute top-2 left-2 flex flex-col gap-2">
-        {DESKTOP_SHORTCUTS.map((id) => (
+        {DESKTOP_SHORTCUTS.map(({ id, appId, props, label, icon, badge }) => (
           <DesktopIcon
             key={id}
-            icon={APPS[id].icon}
-            label={APPS[id].shortcutLabel ?? APPS[id].title}
+            icon={icon ?? APPS[appId].icon}
+            badge={badge}
+            label={label ?? APPS[appId].shortcutLabel ?? APPS[appId].title}
             selected={selectedShortcut === id}
             onSelect={() => setSelectedShortcut(id)}
-            onOpen={() => launch(id)}
+            onOpen={() => launch(appId, props)}
           />
         ))}
       </div>

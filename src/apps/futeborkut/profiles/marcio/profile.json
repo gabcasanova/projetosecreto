@@ -1,0 +1,216 @@
+{
+  "uid": "14829355629547836598",
+  "name": "Marcio",
+  "sex": "masculino",
+  "city": "São Paulo",
+  "country": "Brasil",
+  "status": "ensaiando pro show de sábado!!",
+
+  "social": {
+    "relationship": "solteiro(a)",
+    "birthday": "1998-03-01",
+    "languages": "Português, Inglês (EUA), Espanhol",
+    "interestedIn": "amigos, companheiros para atividades, contatos profissionais",
+    "aboutMe": "(¯`·._.·[ Futebol de Bairro ]·._.·´¯)\n\nSou tranquilo, gosto de um churrasco, de um futebol na várzea e de tocar com os amigos.\nToco na [b]Futebol de Bairro[/b], entra na comunidade lá!!\n\nOdeio falsidade!! Quem é amigo de verdade sabe quem é.\nNão sou perfeito mas sou feliz =)\n\n[red]Só add com scrap!!![/red] =D\n\n\"A vida é a arte do encontro\" – Vinicius de Moraes",
+    "children": "não",
+    "ethnicity": "caucasiano (branco)",
+    "religion": "Cristão/católico",
+    "politicalView": "depende",
+    "humor": "extrovertido/extravagante, simpático, pateta/palhaço",
+    "sexualOrientation": "heterossexual",
+    "style": "alternativo, casual, urbano",
+    "smoking": "não",
+    "drinking": "socialmente",
+    "pets": "adoro meu(s) animal(is) de estimação",
+    "livingWith": "com meus pais",
+    "hometown": "São Paulo",
+    "webPage": "http://www.futeboldebairro.com.br/",
+    "passions": "música, minha família, meus amigos, meu violão e o Corinthians",
+    "sports": "futebol de várzea, futsal",
+    "activities": "ensaiar com a banda, churrasco no domingo, jogar Winning Eleven",
+    "books": "O Alquimista, Harry Potter, Capitães da Areia",
+    "music": "Los Hermanos, Charlie Brown Jr., Legião Urbana, Skank, O Rappa, CPM 22, Foo Fighters, Green Day, Strokes, Arctic Monkeys e claro Futebol de Bairro!!!",
+    "tvShows": "Pânico na TV, Os Simpsons, Lost, Friends, Malhação (às vezes rs)",
+    "movies": "Tropa de Elite, Cidade de Deus, Escola de Rock, Curtindo a Vida Adoidado, Matrix",
+    "cuisines": "feijoada, pizza, churrasco, pastel de feira"
+  },
+
+  "professional": {
+    "education": "faculdade incompleta",
+    "highSchool": "E.E. Prof. Antônio Alves Cruz",
+    "college": "Faculdade de Música (trancada rs)",
+    "occupation": "músico",
+    "company": "Futebol de Bairro",
+    "jobTitle": "guitarra e voz",
+    "industry": "Artes e entretenimento"
+  },
+
+  "personal": {
+    "appearance": "acima da média",
+    "height": "1,78 m",
+    "eyeColor": "castanhos",
+    "hairColor": "castanho escuro",
+    "bodyType": "magro",
+    "bestFeature": "sorriso",
+    "attractedTo": "sinceridade, bom humor, gente que curte um som",
+    "idealFirstDate": "show de rock e depois uma pizza"
+  },
+
+  "ratings": { "trust": 3, "cool": 3, "sexy": 2 },
+  "videoCount": 3,
+
+  "friends": [
+    { "name": "Ricardo", "friends": 324 },
+    { "name": "Juliana", "friends": 512 },
+    { "name": "Zé", "friends": 198 },
+    { "name": "Bruno", "friends": 276 },
+    { "name": "Camila", "friends": 731 },
+    { "name": "Thiago", "friends": 145 },
+    { "name": "Fernanda", "friends": 402 },
+    { "name": "Rafa", "friends": 88 },
+    { "name": "Dona Cida", "friends": 23 },
+    { "name": "Leandro", "friends": 267 },
+    { "name": "Paulinha", "friends": 958 },
+    { "name": "Gustavo", "friends": 133 },
+    { "name": "Bia", "friends": 619 },
+    { "name": "Pedro", "friends": 77 }
+  ],
+
+  "fans": [
+    "Juliana", "Camila", "Paulinha", "Bia", "Fernanda", "Dona Cida", "Ricardo", "Zé",
+    "Aline", "Priscila", "Jéssica", "Natália", "Mariana", "Tati", "Luana", "Carol"
+  ],
+
+  "communities": [
+    "Futebol de Bairro",
+    "Eu odeio acordar cedo",
+    "Eu abro a geladeira pra pensar",
+    "Eu sempre deixo tudo pra última hora",
+    "Futebol de várzea é paixão",
+    "Mamãe, eu quero ser roqueiro!",
+    "Eu sou do tempo da fita K7",
+    "Eu odeio segunda-feira",
+    "Eu nunca terminei um Toddynho",
+    "Eu ♥ churrasco de domingo",
+    "Eu assistia Castelo Rá-Tim-Bum",
+    "Eu já pisei no degrau que não existia",
+    "Eu tenho saudade do meu Tamagotchi",
+    "Mãe, eu sei que é você no meu futeborkut"
+  ],
+
+  "albums": [
+    {
+      "title": "Futebol de Bairro Vol. 1",
+      "description": "nosso primeiro disco!!! capa, encarte e tudo mais",
+      "fromReleases": ["Futebol de Bairro Vol. 1"]
+    },
+    {
+      "title": "Singles",
+      "description": "as capas dos singles",
+      "fromReleases": ["Cicatrizar", "Scott Pilgrim vs. Meu CR"]
+    }
+  ],
+
+  "scraps": [
+    {
+      "from": "Ricardo",
+      "date": "2026-11-11T22:47",
+      "text": "Fala Marcio!! blz? Sábado tem show né? Vou levar a galera toda! abraço"
+    },
+    {
+      "from": "Juliana",
+      "date": "2026-11-11T15:02",
+      "text": "passando pra deixar um bjo!! =*\nsaudade de vc!! aparece :)"
+    },
+    {
+      "from": "Zé",
+      "date": "2026-11-10T19:31",
+      "text": "Ô loco meu, o Vol. 1 tá muito bom!!! [b]Cicatrizar[/b] não sai da minha cabeça kkkkkk"
+    },
+    {
+      "from": "Camila",
+      "date": "2026-11-09T11:20",
+      "text": "[pink]oiii Marcio!![/pink]\nadorei o show de sexta, vcs arrasaram!!! quando vai ter outro?? ;)"
+    },
+    {
+      "from": "Dona Cida",
+      "date": "2026-11-08T08:05",
+      "text": "Marcio meu filho vê se aparece aqui em casa pra almoçar. Bjs da tia"
+    },
+    {
+      "from": "Thiago",
+      "date": "2026-11-06T23:58",
+      "text": "e ae mano, aquela pelada de domingo tá de pé? avisa os cara da banda tbm 8)"
+    },
+    {
+      "from": "Paulinha",
+      "date": "2026-11-05T14:40",
+      "text": "[b]Olá![/b] Clique aqui para abrir a mensagem\n\n[red]MANDE ESSE RECADO PRA 10 AMIGOS OU VC VAI TER 7 ANOS DE AZAR!!![/red]\nnão é brincadeira!!!"
+    },
+    {
+      "from": "Bruno",
+      "date": "2026-11-03T20:12",
+      "text": "cara, posta as fotos do ensaio aí! :P"
+    },
+    {
+      "from": "Fernanda",
+      "date": "2026-10-30T17:45",
+      "text": "Marcio, me add no msn!! te mandei convite ontem\nbjoss"
+    },
+    {
+      "from": "Leandro",
+      "date": "2026-10-27T21:33",
+      "text": "parabéns pelo single, [b]Scott Pilgrim vs. Meu CR[/b] é muito bom kkkkk minha história de vida :D"
+    },
+    {
+      "from": "Bia",
+      "date": "2026-10-21T13:09",
+      "text": "aiiii vc nem fala mais comigo né :(\nbjo mesmo assim rs"
+    },
+    {
+      "from": "Gustavo",
+      "date": "2026-10-14T10:58",
+      "text": "e aí, me empresta o pedal de distorção pro ensaio de quinta?"
+    },
+    {
+      "from": "Rafa",
+      "date": "2026-03-01T00:03",
+      "text": "[b]Parabéns!!![/b] Muitas felicidades, saúde e sucesso com a banda!!\nque Deus te abençoe sempre!! :D"
+    },
+    {
+      "from": "Pedro",
+      "date": "2025-12-24T18:30",
+      "text": "[green]Feliz Natal[/green] e um [red]próspero Ano Novo[/red] pra vc e toda sua família!!!"
+    }
+  ],
+
+  "testimonials": [
+    {
+      "from": "Ricardo",
+      "date": "2026-09-14T21:10",
+      "text": "O Marcio é aquele amigo que tá sempre lá... conheço ele desde a 5ª série, já passamos por muita coisa juntos. Lembro até hoje da primeira vez que ele pegou num violão e só sabia tocar Legião kkkk e olha ele agora!! Te adoro cara, sucesso com a banda!!"
+    },
+    {
+      "from": "Juliana",
+      "date": "2026-06-02T16:44",
+      "text": "Marcio...\nnem sei por onde começar! vc é uma pessoa super especial, sempre de bom humor, sempre fazendo todo mundo rir. Obrigada por todas as conversas, as caronas e os shows de graça rsrs\nnunca mude!!! te adoro muito!! bjo"
+    },
+    {
+      "from": "Zé",
+      "date": "2025-11-20T23:15",
+      "text": "esse aí é o cara!!! melhor guitarrista da várzea e pior goleiro tbm kkkkkk\nfalou irmão, tamo junto sempre!"
+    },
+    {
+      "from": "Dona Cida",
+      "date": "2025-08-03T10:00",
+      "text": "Meu sobrinho querido, desde pequeno batucando nas panelas da tia. Tenho muito orgulho de você. Que Deus abençoe você e a sua banda. Beijos da tia Cida"
+    }
+  ],
+
+  "updates": [
+    { "date": "2026-11-11T20:15", "text": "mudou sua mensagem de status para \"ensaiando pro show de sábado!!\"" },
+    { "date": "2026-11-08T14:30", "text": "adicionou novas fotos ao álbum Futebol de Bairro Vol. 1" },
+    { "date": "2026-11-02T18:02", "text": "entrou na comunidade Eu sou do tempo da fita K7" },
+    { "date": "2026-10-25T11:47", "text": "adicionou novas fotos ao álbum Singles" }
+  ]
+}

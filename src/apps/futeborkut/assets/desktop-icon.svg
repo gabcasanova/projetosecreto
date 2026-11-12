@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="desktop-icon-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E866C8"/>
+      <stop offset="0.5" stop-color="#C8139E"/>
+      <stop offset="1" stop-color="#94006F"/>
+    </linearGradient>
+    <linearGradient id="desktop-icon-gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="desktop-icon-letter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F6DDEF"/>
+    </linearGradient>
+    <filter id="desktop-icon-shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+    <clipPath id="desktop-icon-clip">
+      <rect x="4" y="3" width="38" height="38" rx="10"/>
+    </clipPath>
+  </defs>
+  <!-- soft XP-style drop shadow -->
+  <rect x="5.5" y="5.5" width="38" height="38" rx="10" fill="#000000" opacity="0.35" filter="url(#desktop-icon-shadow)"/>
+  <!-- glossy magenta badge -->
+  <rect x="4" y="3" width="38" height="38" rx="10" fill="url(#desktop-icon-fill)"/>
+  <g clip-path="url(#desktop-icon-clip)">
+    <!-- top gloss with a curved lower edge -->
+    <path d="M2 2H44V18C34 23 14 23 2 19Z" fill="url(#desktop-icon-gloss)"/>
+    <!-- faint light bounce along the bottom -->
+    <ellipse cx="23" cy="43" rx="16" ry="6" fill="#F070D0" opacity="0.45"/>
+  </g>
+  <rect x="4.5" y="3.5" width="37" height="37" rx="9.5" fill="none" stroke="#6E0052"/>
+  <rect x="5.5" y="4.5" width="35" height="35" rx="8.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.35"/>
+  <!-- lowercase "f" in the logo's monoline style; kept up and left, clear of the IE overlay corner -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.5 33V16.5A5.5 5.5 0 0 1 26 11H28M14.5 20.5H26.5" stroke="#5E0046" stroke-opacity="0.45" stroke-width="5.6" transform="translate(0.8 1.2)"/>
+    <path d="M20.5 33V16.5A5.5 5.5 0 0 1 26 11H28M14.5 20.5H26.5" stroke="url(#desktop-icon-letter)" stroke-width="5.6"/>
+  </g>
+</svg>

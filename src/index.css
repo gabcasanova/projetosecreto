@@ -48,14 +48,14 @@ body {
   text-shadow: 1px 1px #0f1089;
 }
 
-/* A maximized window's frame and content stretch to fill it */
-.window-maximized > .xp-frame {
+/* A window with a set height (maximized or resized) stretches its frame and content to fill it */
+.window-fill > .xp-frame {
   display: flex;
   flex: 1;
   flex-direction: column;
   min-height: 0;
 }
-.window-maximized > .xp-frame > * {
+.window-fill > .xp-frame > * {
   flex: 1;
   min-height: 0;
 }

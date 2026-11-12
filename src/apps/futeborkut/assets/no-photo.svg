@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- default "no photo" picture: flat blue-gray person silhouette on white -->
+  <rect width="64" height="64" fill="#FFFFFF"/>
+  <circle cx="32" cy="23" r="12" fill="#AEBAD1"/>
+  <path d="M9 64V58C9 46 18 39 32 39S55 46 55 58V64Z" fill="#AEBAD1"/>
+</svg>

@@ -1,0 +1,26 @@
+{
+  "uid": "5739104482217760311",
+  "name": "Visitante",
+  "email": "visitante@futeborkut.com",
+  "sex": "",
+  "city": "",
+  "country": "Brasil",
+
+  "social": {
+    "interestedIn": "amigos",
+    "aboutMe": "fã da Futebol de Bairro!!",
+    "music": "Futebol de Bairro"
+  },
+
+  "ratings": { "trust": 0, "cool": 0, "sexy": 0 },
+
+  "communities": ["Futebol de Bairro"],
+
+  "scraps": [
+    {
+      "from": { "uid": "14829355629547836598", "name": "Marcio" },
+      "date": "2026-11-10T21:04",
+      "text": "e aí, valeu por me add!!! entra na comunidade da banda lá :D\nabraço!"
+    }
+  ]
+}

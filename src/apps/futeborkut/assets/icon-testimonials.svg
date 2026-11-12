@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <!-- sheet of paper with a folded corner and a pencil writing on it -->
+  <path d="M1.5 1.5H8.5L10.5 3.5V12.5H1.5Z" fill="#FFFFFF" stroke="#7D8BA0" stroke-linejoin="round"/>
+  <path d="M8.5 1.5V3.5H10.5" fill="#E4E9F0" stroke="#7D8BA0" stroke-linejoin="round"/>
+  <path d="M3 5.5H8M3 7.5H8M3 9.5H5" stroke="#B9C4D4"/>
+  <g transform="rotate(-45 9 8)">
+    <rect x="6" y="6.6" width="8" height="2.8" fill="#F7C843" stroke="#A47A00" stroke-width="0.8"/>
+    <rect x="12.6" y="6.6" width="1.6" height="2.8" fill="#F28FB0" stroke="#B0506E" stroke-width="0.8"/>
+    <path d="M6 6.6L3.6 8L6 9.4Z" fill="#F3DDB4" stroke="#A47A00" stroke-width="0.8" stroke-linejoin="round"/>
+    <path d="M4.3 7.6L3.6 8L4.3 8.4Z" fill="#333333"/>
+  </g>
+</svg>

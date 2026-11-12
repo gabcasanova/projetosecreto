@@ -14,7 +14,7 @@
   color: #000;
   outline: none;
 }
-.window-maximized .ie-window {
+.window-fill .ie-window {
   height: 100%;
 }
 

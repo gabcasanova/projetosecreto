@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <!-- one link drawn as a dark outline with a pink core -->
+    <g id="icon-join-link">
+      <rect x="-4" y="-2" width="8" height="4" rx="2" stroke="#A3214F" stroke-width="2.6"/>
+      <rect x="-4" y="-2" width="8" height="4" rx="2" stroke="#F27BA5" stroke-width="1.2"/>
+    </g>
+    <!-- area where the lower link passes in front of the upper one -->
+    <clipPath id="icon-join-front"><rect x="7" y="7" width="7" height="7"/></clipPath>
+  </defs>
+  <!-- two interlocked pink chain links -->
+  <g fill="none">
+    <use href="#icon-join-link" transform="translate(5 9) rotate(-45)"/>
+    <use href="#icon-join-link" transform="translate(9 5) rotate(-45)"/>
+    <g clip-path="url(#icon-join-front)">
+      <use href="#icon-join-link" transform="translate(5 9) rotate(-45)"/>
+    </g>
+  </g>
+</svg>

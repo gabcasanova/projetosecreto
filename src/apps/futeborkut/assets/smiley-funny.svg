@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+  <!-- :P tongue out -->
+  <defs>
+    <radialGradient id="smiley-funny-face" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#FFF4B0"/>
+      <stop offset="0.45" stop-color="#FFD21F"/>
+      <stop offset="1" stop-color="#F2A900"/>
+    </radialGradient>
+  </defs>
+  <circle cx="7.5" cy="7.5" r="6.5" fill="url(#smiley-funny-face)" stroke="#B87D00"/>
+  <ellipse cx="5.4" cy="5.6" rx="0.9" ry="1.3" fill="#000"/>
+  <ellipse cx="9.6" cy="5.6" rx="0.9" ry="1.3" fill="#000"/>
+  <path d="M8 10.2V11.4Q8 13 9.4 13T10.8 11.4V9.8Z" fill="#F0606A" stroke="#9E1F2A" stroke-width="0.8" stroke-linejoin="round"/>
+  <path d="M9.4 10.4V11.8" stroke="#C83A47" stroke-width="0.6" stroke-linecap="round"/>
+  <path d="M4.4 9.4Q7.8 10.9 11.1 9.2" fill="none" stroke="#000" stroke-width="1.1" stroke-linecap="round"/>
+</svg>

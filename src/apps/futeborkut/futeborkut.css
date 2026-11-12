@@ -1,0 +1,988 @@
+/*
+ * futeborkut: orkut's late-2007/2008 "Castro" look.
+ * Colours, fonts and sizes come from the archived orkut stylesheets. Everything
+ * is scoped under .futeborkut, which also undoes the browser frame's Times 16px
+ * and Tailwind's resets (orkut was built on browser defaults, in content-box).
+ */
+
+.futeborkut,
+.futeborkut *,
+.futeborkut *::before,
+.futeborkut *::after {
+  box-sizing: content-box;
+}
+
+.futeborkut {
+  min-height: 100%;
+  /* The header bar spans the page even when the window is narrower than the layout */
+  min-width: 920px;
+  background: #d9e6f7;
+  color: #000;
+  font: 12px Verdana, Arial, sans-serif;
+  line-height: normal;
+  text-align: center;
+}
+
+.futeborkut input,
+.futeborkut select,
+.futeborkut textarea,
+.futeborkut button {
+  font: 12px Verdana, Arial, sans-serif;
+  color: #000;
+}
+
+.futeborkut img {
+  display: inline;
+  vertical-align: middle;
+  max-width: none;
+}
+
+.futeborkut a {
+  color: #02679c;
+  text-decoration: none;
+  cursor: pointer;
+}
+.futeborkut a:hover {
+  color: #00344f;
+  text-decoration: underline;
+}
+
+/* Links to pages the site doesn't have (components/Link.jsx) */
+.futeborkut .deadlink,
+.futeborkut .grabtn.deadlink {
+  color: #aaa;
+  text-decoration: none;
+  cursor: default;
+}
+.futeborkut .deadlink img,
+.futeborkut li.dead .icon img {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.futeborkut b,
+.futeborkut strong {
+  font-weight: bold;
+}
+.futeborkut i {
+  font-style: italic;
+}
+.futeborkut u {
+  text-decoration: underline;
+}
+
+.futeborkut h1 {
+  margin: 0;
+  padding: 7px 0 5px 12px;
+  font: normal 24px/28px Tahoma, Verdana, Arial, sans-serif;
+}
+.futeborkut h2 {
+  margin: 5px 0 6px 10px;
+  font: bold 15px/21px Tahoma, Verdana, Arial, sans-serif;
+}
+
+/* ---------- Small text styles ---------- */
+
+.futeborkut .dte {
+  font-size: 10px;
+  color: #979797;
+  text-transform: lowercase;
+}
+.futeborkut .sml {
+  font-size: 11px;
+  color: #8c8c8c;
+}
+.futeborkut .nor {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+.futeborkut .breadcrumb {
+  padding: 0 0 5px 12px;
+  font-size: 11px;
+  line-height: 14px;
+  color: #7b7b7b;
+}
+.futeborkut .alttxt {
+  color: #c61e99;
+  font-weight: bold;
+}
+.futeborkut .newsitem {
+  margin: 0 0 6px;
+  padding: 3px;
+  border: 1px solid #d3be96;
+  background: #fcf0d8;
+}
+.futeborkut .success {
+  color: #360;
+  font-weight: bold;
+}
+.futeborkut .smiley {
+  width: 15px;
+  height: 15px;
+  vertical-align: -3px;
+}
+.futeborkut .para {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Header ---------- */
+
+.futeborkut .header {
+  height: 32px;
+  /* header_bg.png wasn't archived: a soft gradient around the real #5888C6 */
+  background: linear-gradient(#6390cc, #5080bf);
+}
+.futeborkut .headerbot {
+  height: 2px;
+  margin-bottom: 10px;
+  background: #3f6ba8;
+}
+.futeborkut .headerin {
+  min-width: 920px;
+  max-width: 1003px;
+  height: 31px;
+  margin: 0 auto;
+  text-align: left;
+}
+.futeborkut .menu,
+.futeborkut .login {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.futeborkut .menu {
+  float: left;
+}
+.futeborkut .menu li,
+.futeborkut .login li {
+  float: left;
+  font-size: 11px;
+  line-height: 31px;
+  color: #fff;
+}
+.futeborkut .header a {
+  color: #fff;
+}
+.futeborkut .header a:hover {
+  color: #fff;
+}
+.futeborkut .header .sep {
+  color: #7091bd;
+}
+.futeborkut .menu li.logobg {
+  margin-right: 8px;
+  background: #5888c6;
+}
+.futeborkut .menu li.logobg a {
+  display: block;
+  height: 31px;
+  margin-left: 1px;
+  margin-right: 2px;
+}
+.futeborkut .header-logo {
+  display: block;
+  height: 31px;
+  width: auto;
+}
+.futeborkut .login {
+  float: right;
+}
+.futeborkut .useremail {
+  font-weight: bold;
+}
+
+/* The search field sits in a darker rounded well on the blue bar */
+.futeborkut .mainsearch {
+  float: right;
+  width: 165px;
+  height: 23px;
+  margin: 4px 0 0 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.futeborkut .mainsearch input {
+  float: left;
+  width: 124px;
+  height: 15px;
+  margin: 2px 0 2px 9px;
+  padding: 1px 2px;
+  border: 0;
+  background: #fff;
+  font-size: 11px;
+  color: #333;
+  outline: none;
+}
+.futeborkut .mainsearch input::placeholder {
+  color: #999;
+}
+.futeborkut .mainsearch button {
+  position: relative;
+  float: left;
+  width: 24px;
+  height: 23px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+/* A white magnifier drawn in CSS: a ring and a handle */
+.futeborkut .magnifier {
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  width: 7px;
+  height: 7px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+.futeborkut .magnifier::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 7px;
+  width: 2px;
+  height: 5px;
+  background: #fff;
+  transform: rotate(-45deg);
+}
+
+/* ---------- Columns ---------- */
+
+.futeborkut .container {
+  min-width: 920px;
+  max-width: 1003px;
+  margin: 0 auto;
+  text-align: left;
+}
+.futeborkut .container::after,
+.futeborkut .clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.futeborkut .lbox {
+  float: left;
+  width: 143px;
+}
+.futeborkut .rbox {
+  float: right;
+  width: 284px;
+}
+.futeborkut .mbox {
+  margin-left: 151px;
+  margin-right: 292px;
+}
+.futeborkut .mboxfull {
+  margin-left: 151px;
+}
+
+/* ---------- Boxes ---------- */
+
+.futeborkut .module {
+  /* Its own formatting context, so floats inside (photos in list rows) are cleared
+     without also clearing the side columns */
+  display: flow-root;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  background: #fff;
+  /* The soft 3px shadow of orkut's box_mid_rh.png / box_bot_lh.png slices */
+  box-shadow:
+    1px 1px 0 rgba(85, 96, 115, 0.33),
+    2px 2px 0 rgba(85, 96, 115, 0.17),
+    3px 3px 0 rgba(85, 96, 115, 0.06);
+}
+
+.futeborkut .boxmid {
+  padding: 5px 5px 5px 5px;
+}
+.futeborkut .boxmidlrg {
+  padding: 7px 7px 7px 7px;
+}
+.futeborkut .module h2 + .boxmid {
+  padding-top: 0;
+}
+.futeborkut .headernote {
+  font: normal 12px Verdana, Arial, sans-serif;
+}
+.futeborkut .listdivi {
+  height: 1px;
+  margin: 6px 0;
+  background: #d9e6f7;
+  overflow: hidden;
+}
+.futeborkut .parabtns {
+  padding: 0 0 2px 2px;
+  font-size: 12px;
+}
+.futeborkut .parabtns .sep {
+  color: #ccc;
+}
+
+/* ---------- List rows ---------- */
+
+.futeborkut .listdark {
+  background: #def;
+}
+.futeborkut .listlight {
+  background: #eff7ff;
+}
+.futeborkut .listrow {
+  display: flex;
+  padding: 2px;
+}
+.futeborkut .listfl {
+  flex: none;
+  width: 25%;
+  margin-right: 2%;
+  font-size: 12px;
+  line-height: 17px;
+  color: #676767;
+  text-align: right;
+}
+.futeborkut .listp {
+  width: 73%;
+  font-size: 12px;
+  line-height: 17px;
+  overflow-wrap: anywhere;
+}
+
+/* A row with a framed photo on the left (scraps, testimonials, updates...) */
+.futeborkut .listitem {
+  padding: 5px 5px 1px;
+}
+.futeborkut .listitem::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.futeborkut .listitemchk {
+  float: left;
+  width: 21px;
+  padding-top: 2px;
+}
+.futeborkut .listimg {
+  float: left;
+  margin-bottom: 4px;
+  padding: 2px;
+  border: 1px solid #c0c1c1;
+  background: #fff;
+  line-height: 0;
+}
+.futeborkut .listimg img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+.futeborkut .listimg.small img {
+  width: 45px;
+  height: 45px;
+}
+.futeborkut .listitem .listtext {
+  margin-left: 84px;
+  padding-bottom: 4px;
+}
+.futeborkut .listitem.small .listtext {
+  margin-left: 66px;
+}
+.futeborkut .listitem.with-check .listtext {
+  margin-left: 105px;
+}
+.futeborkut .listitem .itemactions {
+  font-size: 10px;
+  margin-top: 2px;
+}
+.futeborkut .itemactions img {
+  width: 14px;
+  height: 14px;
+  margin-right: 2px;
+}
+.futeborkut .itemactions .sep {
+  color: #ccc;
+}
+.futeborkut .nothing {
+  padding: 8px 10px 10px;
+  color: #8c8c8c;
+}
+
+/* ---------- Buttons ---------- */
+
+.futeborkut .grabtn {
+  display: inline-block;
+  height: 12px;
+  padding: 2px 10px 4px;
+  border: 1px solid #c4c6c9;
+  border-radius: 3px;
+  background: linear-gradient(#fff 50%, #f6f6f6 50%);
+  color: #02679c;
+  font: bold 10px/12px Verdana, Arial, sans-serif;
+  text-transform: lowercase;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.futeborkut .grabtn:hover {
+  color: #00344f;
+  text-decoration: underline;
+}
+.futeborkut .grabtn:disabled {
+  color: #999;
+  text-decoration: none;
+  cursor: default;
+}
+
+/* ---------- Thumbnail grids (friends, communities, members) ---------- */
+
+.futeborkut .boxgrid {
+  padding: 0 0 4px 1px;
+}
+/* Three 87px cells with 5px gaps fill the 284px column exactly */
+.futeborkut .boxgrid .thumbbox:last-child {
+  margin-right: 0;
+}
+.futeborkut .boxgrid::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.futeborkut .gridrow {
+  overflow: hidden;
+  /* thumb_grid.gif: a faint line between the rows */
+  border-bottom: 1px solid #eef3fa;
+  margin-bottom: 4px;
+}
+.futeborkut .gridrow:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.futeborkut .thumbbox {
+  float: left;
+  width: 87px;
+  margin-right: 5px;
+}
+.futeborkut .thumb {
+  height: 80px;
+  text-align: center;
+}
+.futeborkut .thumb img {
+  width: 75px;
+  height: 75px;
+  margin-top: 3px;
+  object-fit: contain;
+}
+.futeborkut .uname {
+  padding: 0 3px 3px;
+  font-size: 11px;
+  line-height: 12px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.futeborkut .uname .star {
+  width: 11px;
+  height: 11px;
+  margin-left: 2px;
+  vertical-align: -1px;
+}
+
+/* ---------- Left column card ---------- */
+
+.futeborkut .usercard {
+  padding: 5px 5px 6px 5px;
+}
+.futeborkut .userimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 122px;
+  height: 160px;
+  margin: 0 auto 6px;
+}
+.futeborkut .userimg img {
+  width: 120px;
+  height: 150px;
+  object-fit: contain;
+}
+.futeborkut .userinfo {
+  width: 118px;
+  padding: 0 5px;
+}
+.futeborkut .username {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: bold;
+}
+.futeborkut .userinfodivi {
+  height: 1px;
+  margin: 6px;
+  background: #d9e6f7;
+  overflow: hidden;
+}
+.futeborkut .userbuttons {
+  margin: 0;
+  padding: 0 0 0 5px;
+  list-style: none;
+}
+.futeborkut .userbuttons li {
+  font-size: 11px;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.futeborkut .userbuttons .icon {
+  display: inline-block;
+  width: 20px;
+}
+.futeborkut .userbuttons img {
+  width: 14px;
+  height: 14px;
+  vertical-align: -3px;
+}
+
+/* ---------- Profile ---------- */
+
+.futeborkut .statusmsg {
+  margin-left: 8px;
+  font: 12px Verdana, Arial, sans-serif;
+  color: #5a5a5a;
+}
+.futeborkut .userratings {
+  overflow: hidden;
+  margin-bottom: 8px;
+  padding-left: 5px;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+.futeborkut .userratings .rating {
+  float: left;
+  margin-right: 15px;
+  padding: 5px 0;
+}
+.futeborkut .userratings .label {
+  display: block;
+  font-size: 9px;
+  line-height: 11px;
+  color: #5a5a5a;
+  text-transform: lowercase;
+}
+.futeborkut .userratings .value {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5e5e5e;
+  vertical-align: middle;
+}
+.futeborkut .userratings .count-icon {
+  width: 14px;
+  height: 14px;
+}
+.futeborkut .userratings .rate-icon {
+  width: 15px;
+  height: 14px;
+  margin-right: 1px;
+}
+.futeborkut .userratings a:hover .value {
+  text-decoration: underline;
+}
+
+/* Profile tabs: social / profissional / pessoal */
+.futeborkut .tabs {
+  display: flex;
+  height: 23px;
+  margin: 0;
+  padding: 0 0 0 2px;
+  list-style: none;
+}
+.futeborkut .tabs li {
+  margin-right: 3px;
+}
+.futeborkut .tabs button {
+  display: block;
+  height: 22px;
+  padding: 0 12px;
+  border: 0;
+  border-top: 1px solid #b3c6e0;
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(#fff, #ededed);
+  color: #02679c;
+  font: 12px/22px Verdana, Arial, sans-serif;
+  cursor: pointer;
+}
+.futeborkut .tabs button:hover {
+  text-decoration: underline;
+}
+.futeborkut .tabs .selected button {
+  height: 23px;
+  border-top: 0;
+  border-left: 1px solid #7891b1;
+  background: linear-gradient(#738aa8, #86a1c5 8px);
+  color: #fff;
+  line-height: 23px;
+  cursor: default;
+}
+.futeborkut .tabs .selected button:hover {
+  text-decoration: none;
+}
+.futeborkut .tabdivi {
+  height: 4px;
+  margin: 0 -7px 4px;
+  background: #86a1c5;
+  overflow: hidden;
+}
+
+/* ---------- Scrapbook ---------- */
+
+.futeborkut .scrapform {
+  padding: 2px 4px 6px;
+}
+.futeborkut .scrapform textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 2px;
+  border: 1px solid #a1bbe4;
+  background: #fff;
+  resize: vertical;
+}
+.futeborkut .smileybar {
+  margin: 4px 0 6px;
+}
+.futeborkut .smileybar button {
+  padding: 1px 2px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.futeborkut .smileybar img {
+  width: 15px;
+  height: 15px;
+}
+.futeborkut .scrapform .hint {
+  margin-left: 8px;
+}
+.futeborkut .preview {
+  margin-top: 6px;
+  padding: 5px;
+  border: 1px dashed #c0c1c1;
+}
+.futeborkut .listheader {
+  overflow: hidden;
+  padding: 4px 5px;
+}
+.futeborkut .listheader .title {
+  float: left;
+  font-weight: bold;
+}
+.futeborkut .pager {
+  float: right;
+  font-size: 11px;
+  color: #8c8c8c;
+}
+.futeborkut .pager .disabled {
+  color: #b5b5b5;
+}
+.futeborkut .listfooter {
+  overflow: hidden;
+  padding: 6px 5px 2px;
+}
+
+/* ---------- Community ---------- */
+
+.futeborkut .forum {
+  width: 100%;
+  border-collapse: collapse;
+}
+.futeborkut .forum th {
+  padding: 3px 5px;
+  font-size: 11px;
+  font-weight: normal;
+  color: #676767;
+  text-align: left;
+}
+.futeborkut .forum td {
+  padding: 3px 5px;
+}
+.futeborkut .forum .num {
+  width: 70px;
+  text-align: center;
+}
+.futeborkut .forum .last {
+  width: 90px;
+}
+.futeborkut .poll {
+  padding: 4px 6px 8px;
+}
+.futeborkut .poll .question {
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+.futeborkut .poll td {
+  padding: 2px 4px;
+  font-size: 11px;
+}
+.futeborkut .percentbar {
+  width: 150px;
+  height: 9px;
+  border: 1px solid #0c3;
+  background: #fff;
+}
+.futeborkut .percentbar div {
+  height: 9px;
+  background: #9f3;
+}
+
+/* ---------- Friends / communities lists ---------- */
+
+.futeborkut .fulllist .listitem .listtext {
+  line-height: 17px;
+}
+.futeborkut .fullgrid {
+  padding: 4px 0 4px 8px;
+}
+.futeborkut .fullgrid .thumbbox {
+  margin-bottom: 6px;
+}
+
+/* ---------- Photos ---------- */
+
+.futeborkut .albumgrid {
+  overflow: hidden;
+  padding: 0 0 6px;
+}
+.futeborkut .albumbox {
+  float: left;
+  width: 120px;
+  margin: 5px 0 5px 10px;
+  text-align: center;
+  font-size: 11px;
+}
+.futeborkut .picthumb {
+  display: block;
+  width: 100px;
+  height: 75px;
+  margin: 0 auto 3px;
+  padding: 2px;
+  border: 1px solid #c0c1c1;
+  background: #fff;
+  object-fit: contain;
+}
+.futeborkut .photoview {
+  padding: 6px 10px 10px;
+  text-align: center;
+}
+.futeborkut .photoview .bigphoto {
+  max-width: 100%;
+  max-height: 480px;
+  margin: 8px 0;
+  border: 1px solid #c0c1c1;
+  padding: 3px;
+  background: #fff;
+}
+.futeborkut .photonav {
+  overflow: hidden;
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+/* ---------- Error page and private profiles ---------- */
+
+.futeborkut .errorbox {
+  padding: 30px 20px 36px;
+  text-align: center;
+}
+.futeborkut .errorbox .donut {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 14px;
+}
+.futeborkut .errorbox .errortitle {
+  margin-bottom: 8px;
+  font: bold 15px/21px Tahoma, Verdana, Arial, sans-serif;
+  color: #936;
+}
+.futeborkut .privatebox {
+  padding: 12px 12px 16px;
+}
+
+/* ---------- Home ---------- */
+
+.futeborkut .fortune {
+  padding: 0 0 8px 12px;
+}
+.futeborkut .visitors {
+  overflow: hidden;
+  padding: 0 0 4px 4px;
+}
+.futeborkut .visitors .visitor {
+  float: left;
+  width: 52px;
+  margin: 0 2px 4px 0;
+  font-size: 11px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.futeborkut .visitors img {
+  display: block;
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 2px;
+  padding: 1px;
+  border: 1px solid #c0c1c1;
+  object-fit: contain;
+}
+.futeborkut .birthday {
+  padding: 2px 6px 6px;
+  line-height: 18px;
+}
+.futeborkut .birthday img {
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  vertical-align: -2px;
+}
+
+/* ---------- Footer ---------- */
+
+.futeborkut .footer {
+  clear: both;
+  height: 36px;
+  margin: 2px 0 12px;
+  padding: 0 18px 0 15px;
+  border-radius: 4px;
+  background: linear-gradient(#fff, #f3f3f3);
+  box-shadow:
+    1px 1px 0 rgba(85, 96, 115, 0.33),
+    2px 2px 0 rgba(85, 96, 115, 0.17),
+    3px 3px 0 rgba(85, 96, 115, 0.06);
+  font-size: 10px;
+  line-height: 33px;
+  white-space: nowrap;
+}
+.futeborkut .footer .footer-logo {
+  height: 16px;
+  width: auto;
+  vertical-align: -3px;
+}
+.futeborkut .footer .sep {
+  color: #dadada;
+}
+.futeborkut .footer .txtfooter {
+  float: right;
+  color: #666;
+}
+
+/* ---------- Login page ---------- */
+
+.futeborkut.loginpage {
+  min-width: 0;
+  padding: 10px;
+  background: #d4dded;
+  box-sizing: border-box;
+}
+.futeborkut .logintable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.futeborkut .logintable td {
+  vertical-align: top;
+}
+.futeborkut .newMain {
+  padding: 15px;
+  background: #fff;
+  text-align: center;
+}
+.futeborkut .newMain .bigLogo {
+  height: 82px;
+  width: auto;
+  margin: 10px 0 4px;
+}
+.futeborkut .newText {
+  padding: 10px 20px;
+  font-size: 12px;
+  line-height: 1.5em;
+}
+.futeborkut .magenta {
+  color: #b11e89;
+  font-weight: bold;
+}
+.futeborkut .collage {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 6px 0 4px;
+}
+.futeborkut .collage img {
+  width: 96px;
+  height: 96px;
+  padding: 4px 4px 14px;
+  background: #fff;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35);
+  object-fit: cover;
+}
+.futeborkut .collage img:nth-child(1) {
+  transform: rotate(-6deg);
+}
+.futeborkut .collage img:nth-child(2) {
+  transform: rotate(3deg) translateY(4px);
+}
+.futeborkut .collage img:nth-child(3) {
+  transform: rotate(-2deg);
+}
+.futeborkut .newGaia {
+  width: 264px;
+  padding: 3px;
+  background: #fff;
+}
+.futeborkut .welcomebox {
+  padding: 14px 10px 16px;
+  background: #e8eefa;
+  text-align: center;
+}
+.futeborkut .welcomebox .intro {
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.futeborkut .welcomebox .brand {
+  color: #ae0a84;
+  font-weight: bold;
+}
+.futeborkut .welcomebox .tagline {
+  margin: 8px 0 14px;
+  font-size: 11px;
+  line-height: 1.5em;
+}
+/* The one way in: a big version of orkut's grey gradient button */
+.futeborkut .welcomebox .enter {
+  padding: 6px 16px;
+  border: 1px solid #7f9db9;
+  border-radius: 4px;
+  background: linear-gradient(#fff, #e3e9f4);
+  color: #02679c;
+  font: bold 13px Verdana, Arial, sans-serif;
+  cursor: pointer;
+}
+.futeborkut .welcomebox .enter:hover {
+  color: #00344f;
+  text-decoration: underline;
+}
+.futeborkut .loginfooter {
+  margin-top: 10px;
+  padding: 6px;
+  background: #bccde9;
+  font-size: 12px;
+  text-align: center;
+}
+
+.futeborkut .mboxalone {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.futeborkut .errorback {
+  margin-top: 14px;
+}
+.futeborkut .itemactions .action {
+  margin-left: 10px;
+}
+.futeborkut .pager .showing {
+  margin-right: 10px;
+}

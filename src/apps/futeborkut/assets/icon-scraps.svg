@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <!-- spiral notepad with a pencil across the bottom-right corner -->
+  <rect x="1.5" y="2.5" width="9" height="10" fill="#FFFFFF" stroke="#7D8BA0"/>
+  <path d="M3 6.5H9M3 8.5H9M3 10.5H7" stroke="#B9C4D4"/>
+  <!-- spiral rings -->
+  <path d="M3.5 1v3M5.5 1v3M7.5 1v3M9.5 1v3" stroke="#5A5A5A"/>
+  <!-- pencil: tip at lower left, pink eraser at upper right -->
+  <g transform="rotate(-45 10 10)">
+    <rect x="7" y="8.6" width="7.4" height="2.8" fill="#F7C843" stroke="#A47A00" stroke-width="0.8"/>
+    <rect x="12.4" y="8.6" width="2" height="2.8" fill="#F28FB0" stroke="#B0506E" stroke-width="0.8"/>
+    <path d="M7 8.6L4.6 10L7 11.4Z" fill="#F3DDB4" stroke="#A47A00" stroke-width="0.8" stroke-linejoin="round"/>
+    <path d="M5.3 9.6L4.6 10L5.3 10.4Z" fill="#333333"/>
+  </g>
+</svg>

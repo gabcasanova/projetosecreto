@@ -10,6 +10,7 @@ import { MenuBar } from './Menu'
 import { buildMenus } from './menus'
 import StatusBar from './StatusBar'
 import Toolbar from './Toolbar'
+import { findPage } from './sites'
 import { resolveUrl } from './urls'
 import useBrowserNavigation from './useBrowserNavigation'
 
@@ -31,15 +32,21 @@ const DEFAULT_BARS = { toolbar: true, addressBar: true, statusBar: true }
  *     favorites: [{ title: 'Fotos', url: 'http://www.exemplo.com.br/fotos' }],
  *   }
  *
+ * A site can also have `findPage(url)`, returning a page (or null) for
+ * addresses that aren't listed, like "Profile.aspx?uid=3". Several sites can
+ * be joined into one with `combineSites` (sites.js).
+ *
  * Inside a page, <BrowserLink href="/fotos"> moves between pages. Pages also
- * get `navigate` and `url` as props. Any address not in `pages` shows IE's
- * error page. `bars` can hide the toolbar, address bar or status bar.
+ * get `navigate` and `url` as props. Any address without a page shows IE's
+ * error page. `url` opens the browser somewhere other than the home page
+ * (like a desktop shortcut to a site does). `bars` can hide the toolbar,
+ * address bar or status bar.
  *
  * `setWindowTitle`, `closeWindow` and `openWindow` come from the desktop.
  */
-function InternetExplorer({ site, bars: initialBars = DEFAULT_BARS, setWindowTitle, closeWindow, openWindow }) {
+function InternetExplorer({ site, url: startUrl, bars: initialBars = DEFAULT_BARS, setWindowTitle, closeWindow, openWindow }) {
   const id = useId()
-  const navigation = useBrowserNavigation(site.homeUrl)
+  const navigation = useBrowserNavigation(startUrl ?? site.homeUrl)
   const [hoveredLink, setHoveredLink] = useState(null)
   const [explorerBar, setExplorerBar] = useState(null)
   const [aboutOpen, setAboutOpen] = useState(false)
@@ -47,7 +54,7 @@ function InternetExplorer({ site, bars: initialBars = DEFAULT_BARS, setWindowTit
 
   const { currentUrl, pending, finishLoading } = navigation
   // Nothing is shown until the first page has loaded
-  const page = currentUrl && (site.pages[currentUrl] ?? (currentUrl === 'about:blank' ? BLANK_PAGE : null))
+  const page = currentUrl && pageAt(currentUrl)
   const loading = Boolean(pending)
 
   // Each load completes on its own when its time is up, as the progress bar fills
@@ -69,6 +76,10 @@ function InternetExplorer({ site, bars: initialBars = DEFAULT_BARS, setWindowTit
 
   const resolve = (href) => resolveUrl(href, currentUrl)
 
+  function pageAt(url) {
+    return findPage(site, url) ?? (url === 'about:blank' ? BLANK_PAGE : null)
+  }
+
   const browser = {
     id,
     currentUrl,
@@ -86,7 +97,7 @@ function InternetExplorer({ site, bars: initialBars = DEFAULT_BARS, setWindowTit
     canGoBack: navigation.canGoBack,
     canGoForward: navigation.canGoForward,
     resolve,
-    titleOf: (url) => site.pages[url]?.title ?? url,
+    titleOf: (url) => pageAt(url)?.title ?? url,
     setHoveredLink,
     navigate(address) {
       const url = resolve(address)

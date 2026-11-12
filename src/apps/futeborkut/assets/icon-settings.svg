@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <radialGradient id="icon-settings-metal" cx="0.38" cy="0.32" r="0.8">
+      <stop offset="0" stop-color="#F6F0E0"/>
+      <stop offset="0.6" stop-color="#D8CCAE"/>
+      <stop offset="1" stop-color="#B1A27E"/>
+    </radialGradient>
+  </defs>
+  <!-- beige gear with eight teeth and a hole in the middle -->
+  <path d="M11.59 5.27L13.27 5.73L13.27 8.27L11.59 8.73L11.46 9.02L12.33 10.54L10.54 12.33L9.02 11.46L8.73 11.59L8.27 13.27L5.73 13.27L5.27 11.59L4.98 11.46L3.46 12.33L1.67 10.54L2.54 9.02L2.41 8.73L0.73 8.27L0.73 5.73L2.41 5.27L2.54 4.98L1.67 3.46L3.46 1.67L4.98 2.54L5.27 2.41L5.73 0.73L8.27 0.73L8.73 2.41L9.02 2.54L10.54 1.67L12.33 3.46L11.46 4.98Z" fill="url(#icon-settings-metal)" stroke="#776A4C" stroke-width="0.9" stroke-linejoin="round"/>
+  <circle cx="7" cy="7" r="2" fill="#FFFFFF" stroke="#776A4C" stroke-width="0.9"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14">
+  <defs><linearGradient id="cool-empty-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAFAFA"/><stop offset="1" stop-color="#F3F3F3"/></linearGradient></defs>
+  <!-- "legal" rating, empty: white-gray ice cube -->
+  <g stroke-linejoin="round">
+    <path d="M1.5 4.5L4.5 1.5H13.5V9.5L10.5 12.5H1.5Z" fill="url(#cool-empty-front)" stroke="#E2E2E2"/>
+    <path d="M1.5 4.5L4.5 1.5H13.5L10.5 4.5Z" fill="#FFFFFF"/>
+    <path d="M10.5 4.5L13.5 1.5V9.5L10.5 12.5Z" fill="#EEEEEE"/>
+    <path d="M1.5 4.5H10.5L13.5 1.5M10.5 4.5V12.5" fill="none" stroke="#EBEBEB"/>
+    <path d="M1.5 4.5L4.5 1.5H13.5V9.5L10.5 12.5H1.5Z" fill="none" stroke="#E2E2E2"/>
+  </g>
+  <rect x="3" y="6" width="2" height="2" fill="#FFFFFF" opacity="0"/>
+</svg>

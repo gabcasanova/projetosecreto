@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <!-- small white box with a three-bar chart -->
+  <rect x="0.5" y="0.5" width="13" height="13" fill="#FFFFFF" stroke="#7D8BA0"/>
+  <rect x="3" y="7" width="2" height="5" fill="#E2463A"/>
+  <rect x="6" y="3" width="2" height="9" fill="#3C78C8"/>
+  <rect x="9" y="5" width="2" height="7" fill="#5FAE2E"/>
+  <path d="M3 7.5H5M6 3.5H8M9 5.5H11" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <path d="M2 12.5H12" stroke="#7D8BA0"/>
+</svg>

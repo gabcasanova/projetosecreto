@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+  <defs>
+    <linearGradient id="star-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE873"/>
+      <stop offset="0.5" stop-color="#FFCC00"/>
+      <stop offset="1" stop-color="#F2C612"/>
+    </linearGradient>
+  </defs>
+  <!-- fan star: gold five-point star with a thin dark outline -->
+  <polygon points="7.5,1.2 9.18,5.79 14.06,5.97 10.21,8.98 11.56,13.68 7.5,10.95 3.44,13.68 4.79,8.98 0.94,5.97 5.82,5.79" fill="url(#star-fill)" stroke="#5E5E5E" stroke-width="0.9" stroke-linejoin="round"/>
+  <!-- small shine on the upper-left arm -->
+  <polygon points="7.5,3 8.3,5.9 6.6,6.6" fill="#FFF6C4" opacity="0.8"/>
+</svg>

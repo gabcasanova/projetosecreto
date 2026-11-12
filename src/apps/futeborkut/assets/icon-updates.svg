@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <!-- news document: orange picture block and blue text lines -->
+  <rect x="2.5" y="0.5" width="9" height="13" fill="#FFFFFF" stroke="#7D8BA0"/>
+  <rect x="4" y="2" width="3" height="3" fill="#F7941D"/>
+  <rect x="4" y="2" width="3" height="1" fill="#FBBF6E"/>
+  <path d="M8 2.5H10M8 4.5H10M4 7.5H10M4 9.5H10M4 11.5H8" stroke="#5E93D6"/>
+</svg>

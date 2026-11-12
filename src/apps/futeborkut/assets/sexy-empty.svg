@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14">
+  <defs><radialGradient id="sexy-empty-fill" cx="0.3" cy="0.25" r="0.85"><stop offset="0" stop-color="#FAFAFA"/><stop offset="1" stop-color="#EDEDED"/></radialGradient></defs>
+  <!-- "sexy" rating, empty: pale gray heart -->
+  <path d="M7.5 12.9C3.2 9.8 1 7.5 1 4.7C1 2.6 2.5 1.1 4.3 1.1C5.7 1.1 6.8 1.9 7.5 3.1C8.2 1.9 9.3 1.1 10.7 1.1C12.5 1.1 14 2.6 14 4.7C14 7.5 11.8 9.8 7.5 12.9Z" fill="url(#sexy-empty-fill)" stroke="#DDDDDD" stroke-width="0.9" stroke-linejoin="round"/>
+  <ellipse cx="4.4" cy="4" rx="1.6" ry="1.1" transform="rotate(-30 4.4 4)" fill="#FFFFFF" opacity="0.6"/>
+</svg>

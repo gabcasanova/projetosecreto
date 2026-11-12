@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <linearGradient id="icon-birthday-box" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBC3DA"/>
+      <stop offset="1" stop-color="#F08BB6"/>
+    </linearGradient>
+  </defs>
+  <!-- pink gift box with a red ribbon and bow -->
+  <path d="M7 4.2C5.6 1.4 2.6 1.6 3.4 3.4C3.8 4.2 5.4 4.4 7 4.2C8.6 4.4 10.2 4.2 10.6 3.4C11.4 1.6 8.4 1.4 7 4.2Z" fill="#F0434F" stroke="#A3121E" stroke-width="0.8" stroke-linejoin="round"/>
+  <rect x="1.5" y="7.5" width="11" height="6" fill="url(#icon-birthday-box)" stroke="#BC3F78"/>
+  <rect x="0.5" y="4.5" width="13" height="3" fill="#FBC3DA" stroke="#BC3F78"/>
+  <rect x="6" y="5" width="2" height="8" fill="#E8303D"/>
+  <path d="M6 7.5H8" stroke="#A3121E"/>
+</svg>

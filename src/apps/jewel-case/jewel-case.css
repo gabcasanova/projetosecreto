@@ -14,8 +14,8 @@
     radial-gradient(ellipse 80% 70% at 50% 35%, #1d3b66, #0a1428 70%, #050a14);
 }
 
-/* Fill the window when it's maximized */
-.window-maximized .jc-stage {
+/* Fill the window when it has a set size (maximized or resized) */
+.window-fill .jc-stage {
   height: 100%;
 }
 

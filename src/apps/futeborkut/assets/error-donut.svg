@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="error-donut-dough" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2BE78"/>
+      <stop offset="0.6" stop-color="#D98F42"/>
+      <stop offset="1" stop-color="#B46A26"/>
+    </linearGradient>
+    <linearGradient id="error-donut-icing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBB3D6"/>
+      <stop offset="1" stop-color="#EE6FAE"/>
+    </linearGradient>
+    <radialGradient id="error-donut-shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- a bite taken out of the upper right, and the hole in the middle -->
+    <mask id="error-donut-bite" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+      <rect width="120" height="120" fill="#FFFFFF"/>
+      <circle cx="104" cy="38" r="9" fill="#000000"/>
+      <circle cx="97" cy="31" r="7" fill="#000000"/>
+      <circle cx="108" cy="49" r="6" fill="#000000"/>
+      <ellipse cx="60" cy="54" rx="11" ry="6" fill="#000000"/>
+    </mask>
+    <clipPath id="error-donut-body">
+      <ellipse cx="60" cy="62" rx="49" ry="37"/>
+    </clipPath>
+    <g id="error-donut-bite-circles">
+      <circle cx="104" cy="38" r="9"/>
+      <circle cx="97" cy="31" r="7"/>
+      <circle cx="108" cy="49" r="6"/>
+    </g>
+  </defs>
+
+  <!-- shadow on the "table" -->
+  <ellipse cx="60" cy="104" rx="50" ry="8" fill="url(#error-donut-shadow)"/>
+
+  <g mask="url(#error-donut-bite)">
+    <!-- dough ring, seen from slightly above -->
+    <ellipse cx="60" cy="62" rx="48" ry="36" fill="url(#error-donut-dough)" stroke="#7A4515" stroke-width="2"/>
+    <!-- pink icing with a few drips over the front -->
+    <path d="M14 57C14 37 35 24 60 24S106 37 106 57C106 66 101 72 96 74C93 75 92 79 89 80C86 81 84 77 81 78C76 80 76 88 71 88C66 88 67 81 61 81C55 81 54 86 49 86C44 86 45 79 40 78C36 77 35 82 31 81C27 80 27 75 24 73C18 70 14 64 14 57Z" fill="url(#error-donut-icing)" stroke="#B83C7C" stroke-width="2" stroke-linejoin="round"/>
+    <!-- icing shine -->
+    <path d="M26 46C30 37 42 31 54 30" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    <!-- inner wall of the hole -->
+    <path d="M49 54A11 6 0 0 1 71 54A11 4 0 0 0 49 54Z" fill="#B46A26"/>
+    <!-- crumb showing where the bite was taken, with a brown edge -->
+    <g clip-path="url(#error-donut-body)" fill="none">
+      <use href="#error-donut-bite-circles" stroke="#F6D7A2" stroke-width="7"/>
+      <use href="#error-donut-bite-circles" stroke="#7A4515" stroke-width="3"/>
+    </g>
+    <!-- sprinkles -->
+    <g stroke-width="2.4" stroke-linecap="round">
+      <path d="M38 36l4 -2" stroke="#FFFFFF"/>
+      <path d="M50 30l3 3" stroke="#FFE14D"/>
+      <path d="M69 31l4 -1" stroke="#7CC8F2"/>
+      <path d="M84 38l2 4" stroke="#FFFFFF"/>
+      <path d="M30 51l1 4" stroke="#7CC8F2"/>
+      <path d="M88 55l4 -1" stroke="#FFE14D"/>
+      <path d="M33 43l-3 2" stroke="#8FD16A"/>
+      <path d="M76 46l3 2" stroke="#8FD16A"/>
+      <path d="M62 40l-4 1" stroke="#FFE14D"/>
+      <path d="M22 62l3 2" stroke="#FFFFFF"/>
+    </g>
+  </g>
+  <!-- outline around the hole and the bite -->
+  <ellipse cx="60" cy="54" rx="11" ry="6" fill="none" stroke="#B83C7C" stroke-width="2"/>
+
+  <!-- sad face -->
+  <path d="M41 63.5L48 61M79 63.5L72 61" stroke="#4A2208" stroke-width="2.2" stroke-linecap="round"/>
+  <ellipse cx="46" cy="69" rx="3.4" ry="4.2" fill="#2B1405"/>
+  <ellipse cx="74" cy="69" rx="3.4" ry="4.2" fill="#2B1405"/>
+  <circle cx="44.9" cy="67.4" r="1.2" fill="#FFFFFF"/>
+  <circle cx="72.9" cy="67.4" r="1.2" fill="#FFFFFF"/>
+  <path d="M51 85Q60 78 69 85" fill="none" stroke="#4A2208" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- tear -->
+  <path d="M77.5 74.5C77.5 74.5 80.5 79 80.5 81A3 3 0 0 1 74.5 81C74.5 79 77.5 74.5 77.5 74.5Z" fill="#8FD0F7" stroke="#3E8FC6" stroke-width="1"/>
+  <ellipse cx="76.6" cy="80.6" rx="0.7" ry="1.1" fill="#FFFFFF"/>
+</svg>

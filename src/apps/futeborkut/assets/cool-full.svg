@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14">
+  <defs><linearGradient id="cool-full-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ADE2F8"/><stop offset="1" stop-color="#9ADAF5"/></linearGradient></defs>
+  <!-- "legal" rating, full: light blue ice cube in 3/4 view -->
+  <g stroke-linejoin="round">
+    <path d="M1.5 4.5L4.5 1.5H13.5V9.5L10.5 12.5H1.5Z" fill="url(#cool-full-front)" stroke="#4CB3E5"/>
+    <path d="M1.5 4.5L4.5 1.5H13.5L10.5 4.5Z" fill="#DBF2FC"/>
+    <path d="M10.5 4.5L13.5 1.5V9.5L10.5 12.5Z" fill="#88D1F2"/>
+    <path d="M1.5 4.5H10.5L13.5 1.5M10.5 4.5V12.5" fill="none" stroke="#7CCAEE"/>
+    <path d="M1.5 4.5L4.5 1.5H13.5V9.5L10.5 12.5H1.5Z" fill="none" stroke="#4CB3E5"/>
+  </g>
+  <rect x="3" y="6" width="2" height="2" fill="#FFFFFF" opacity="0.95"/>
+</svg>

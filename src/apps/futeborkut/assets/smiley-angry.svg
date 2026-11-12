@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+  <!-- :x angry, red-faced -->
+  <defs>
+    <radialGradient id="smiley-angry-face" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#FFC2A0"/>
+      <stop offset="0.45" stop-color="#FF7B4A"/>
+      <stop offset="1" stop-color="#D9301A"/>
+    </radialGradient>
+  </defs>
+  <circle cx="7.5" cy="7.5" r="6.5" fill="url(#smiley-angry-face)" stroke="#8F1A08"/>
+  <path d="M3.8 3.9L6.6 5.2M11.2 3.9L8.4 5.2" stroke="#000" stroke-width="1.1" stroke-linecap="round"/>
+  <ellipse cx="5.5" cy="6.6" rx="0.85" ry="1" fill="#000"/>
+  <ellipse cx="9.5" cy="6.6" rx="0.85" ry="1" fill="#000"/>
+  <path d="M4.8 11.3Q7.5 9 10.2 11.3" fill="none" stroke="#000" stroke-width="1.1" stroke-linecap="round"/>
+</svg>
