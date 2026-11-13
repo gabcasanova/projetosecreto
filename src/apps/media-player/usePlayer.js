@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 // Pressing "previous" this far into a song restarts it instead of going back
 const RESTART_THRESHOLD_SECONDS = 3
 
 /**
- * Owns the <audio> element and the play queue.
+ * Owns the <audio> element and the play queue. There's one for the whole
+ * desktop (see PlayerProvider), shared by the Discografia window and the
+ * media player widget.
  *
  * The queue is a list of { track, album } entries; `currentIndex` points at
  * the one that's loaded. An AnalyserNode is created on first play (browsers
@@ -19,6 +21,9 @@ function usePlayer() {
   const [duration, setDuration] = useState(0)
   const [volume, setVolumeState] = useState(0.8)
   const [muted, setMutedState] = useState(false)
+  // Windows' own volume, from the speaker in the taskbar: it scales the player's volume and mutes everything
+  const [masterVolume, setMasterVolume] = useState(1)
+  const [masterMuted, setMasterMuted] = useState(false)
   const [shuffle, setShuffle] = useState(false)
   const [repeat, setRepeat] = useState(false)
   const [analyser, setAnalyser] = useState(null)
@@ -40,9 +45,14 @@ function usePlayer() {
     }
   }, [audio])
 
-  // Stop the music when the player window closes
+  // What actually comes out of the speakers: the player's volume within Windows' volume
   useEffect(() => {
-    audio.volume = 0.8
+    audio.volume = volume * masterVolume
+    audio.muted = muted || masterMuted
+  }, [audio, volume, muted, masterVolume, masterMuted])
+
+  // Stop the music if the desktop itself goes away
+  useEffect(() => {
     return () => {
       audio.pause()
       audio.removeAttribute('src')
@@ -145,20 +155,26 @@ function usePlayer() {
     loadAndPlay(queue, currentIndex - 1)
   }
 
+  // Stops the music and empties the queue, as when the Discografia window is closed.
+  // Stable, so the desktop can hold on to it without re-rendering as the music plays.
+  const unload = useCallback(() => {
+    audio.pause()
+    audio.removeAttribute('src')
+    setQueue([])
+    setCurrentIndex(-1)
+    setCurrentTime(0)
+    setDuration(0)
+  }, [audio])
+
   function seek(time) {
     audio.currentTime = time
     setCurrentTime(time)
   }
 
+  // The audio element itself is updated by the effect above
   function setVolume(value) {
-    audio.volume = value
     setVolumeState(value)
-    if (value > 0 && muted) setMuted(false)
-  }
-
-  function setMuted(value) {
-    audio.muted = value
-    setMutedState(value)
+    if (value > 0 && muted) setMutedState(false)
   }
 
   return {
@@ -182,7 +198,12 @@ function usePlayer() {
     previous,
     seek,
     setVolume,
-    toggleMute: () => setMuted(!muted),
+    unload,
+    toggleMute: () => setMutedState(!muted),
+    masterVolume,
+    masterMuted,
+    setMasterVolume,
+    toggleMasterMute: () => setMasterMuted((value) => !value),
     toggleShuffle: () => setShuffle((value) => !value),
     toggleRepeat: () => setRepeat((value) => !value),
   }

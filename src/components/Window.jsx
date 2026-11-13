@@ -87,10 +87,10 @@ function Window({
       ref={windowRef}
       // A minimized window is invisible (see useMinimizeAnimation) but still in the page, so make it unclickable
       className={`absolute flex flex-col ${active ? '' : 'inactive-window'} ${fillsWindow ? 'window-fill' : ''}`}
-      // Maximized, it fills the desktop above the taskbar; it remembers where it was for when it's restored
+      // Maximized, it fills the desktop above the taskbar and left of the sidebar; it remembers where it was for when it's restored
       style={
         maximized
-          ? { left: 0, top: 0, width: '100%', height: `calc(100% - ${TASKBAR_HEIGHT}px)`, zIndex }
+          ? { left: 0, top: 0, width: 'calc(100% - var(--sidebar-width, 0px))', height: `calc(100% - ${TASKBAR_HEIGHT}px)`, zIndex }
           : { left: position.x, top: position.y, width: size.width, height: size.height ?? undefined, zIndex }
       }
       inert={minimized}

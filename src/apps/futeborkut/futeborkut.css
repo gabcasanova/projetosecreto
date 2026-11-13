@@ -488,36 +488,34 @@
   line-height: 14px;
   font-weight: bold;
 }
-/* A band member's Instagram: a glossy web 2.0 button that stands out in the pale card */
+/* A band member's Instagram, like a profile card from the old Instagram app: white card, link-blue handle, blue Seguir button */
 .futeborkut .instabtn {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  gap: 5px;
   margin: 8px 5px 2px;
-  padding: 4px 6px;
-  border: 1px solid #8d2a6b;
+  padding: 5px;
+  border: 1px solid #b9c2cc;
   border-radius: 5px;
-  /* Shine on the top half, then Instagram's sunset colours */
-  background:
-    linear-gradient(rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.12) 50%, transparent 50%),
-    linear-gradient(100deg, #f77737, #e1306c 45%, #a2338f);
+  background: linear-gradient(#ffffff, #f2f2f2 60%, #e4e6e9);
   box-shadow:
-    inset 0 1px rgb(255 255 255 / 0.5),
-    1px 1px 2px rgb(85 96 115 / 0.45);
-  color: #fff;
+    inset 0 1px #fff,
+    1px 1px 2px rgb(85 96 115 / 0.35);
+  color: #333;
   text-decoration: none;
-  text-shadow: 0 1px 1px rgb(80 0 50 / 0.6);
+  text-shadow: 0 1px 0 #fff;
 }
 .futeborkut .instabtn:hover {
-  color: #fff;
+  border-color: #8fa7c0;
   text-decoration: none;
-  filter: brightness(1.1) saturate(1.1);
 }
-.futeborkut .instabtn:active {
-  filter: brightness(0.95);
-  box-shadow: inset 1px 1px 3px rgb(0 0 0 / 0.35);
+.futeborkut .instabtn-profile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .futeborkut .instabtn-icon {
+  display: flex;
   flex-shrink: 0;
   filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3));
 }
@@ -528,13 +526,35 @@
   line-height: 13px;
 }
 .futeborkut .instabtn-label {
+  color: #2b2b2b;
   font: bold 12px Verdana, Arial, sans-serif;
 }
 .futeborkut .instabtn-handle {
   overflow: hidden;
+  color: #3a6c9b;
   font-size: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+/* The glossy blue Follow button */
+.futeborkut .instabtn-follow {
+  padding: 2px 0 3px;
+  border: 1px solid #24527f;
+  border-radius: 4px;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.08) 50%, transparent 51%),
+    linear-gradient(#6aa3d8, #3a77b5 55%, #2e66a1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4);
+  color: #fff;
+  font: bold 11px Verdana, Arial, sans-serif;
+  text-align: center;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 0.35);
+}
+.futeborkut .instabtn:hover .instabtn-follow {
+  filter: brightness(1.1);
+}
+.futeborkut .instabtn:active .instabtn-follow {
+  box-shadow: inset 1px 1px 3px rgb(0 0 0 / 0.4);
 }
 
 .futeborkut .userinfodivi {

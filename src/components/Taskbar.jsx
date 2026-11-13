@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import windowsLogo from '../assets/xp/windows-logo.png'
+import VolumeControl from './VolumeControl'
 
 /**
  * `items` is one entry per open window: { id, title, icon, active }.
@@ -29,7 +30,8 @@ function Taskbar({ items, onItemClick, buttonRef }) {
         ))}
       </div>
 
-      <div className="xp-tray flex items-center px-3 text-white">
+      <div className="xp-tray flex items-center gap-2 px-3 text-white">
+        <VolumeControl />
         <Clock />
       </div>
     </div>

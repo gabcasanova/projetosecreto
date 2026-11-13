@@ -3,7 +3,7 @@ import { albums, singles } from 'virtual:music-library'
 import LibraryView from './LibraryView'
 import NowPlayingView from './NowPlayingView'
 import PlayerControls from './PlayerControls'
-import usePlayer from './usePlayer'
+import { usePlayerContext } from './playerContext'
 import { withViewTransition } from './viewTransition'
 import VISUALIZATIONS from './visualizations'
 import './media-player.css'
@@ -14,7 +14,7 @@ const TABS = [
 ]
 
 function MediaPlayer({ openWindow }) {
-  const player = usePlayer()
+  const player = usePlayerContext()
   const navigation = useViewHistory('library')
   const [visualizationIndex, setVisualizationIndex] = useState(0)
   const [listPaneOpen, setListPaneOpen] = useState(true)

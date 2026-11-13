@@ -1,0 +1,643 @@
+/*
+ * The Longhorn (build 4015) Sidebar and its gadgets. Colours were measured
+ * from screenshots of Longhorn 4015, Vista's Sidebar gadgets and WMP11's
+ * mini player.
+ */
+
+/* ---------- The panel ---------- */
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-open-width);
+  /* Slides out to the right when folded; hidden once it's off screen */
+  transition:
+    translate 300ms ease-in-out,
+    visibility 0s;
+  /* Opaque Luna blue, lighter on the left, letting a little of Bliss through */
+  background: linear-gradient(to right, rgb(80 121 179 / 0.95), rgb(65 113 181 / 0.94) 15%, rgb(52 105 180 / 0.93) 35%, rgb(52 101 174 / 0.94) 70%, rgb(53 94 154 / 0.95));
+  /* A dark outer line, then the light inner edge */
+  box-shadow:
+    inset 1px 0 0 #2e459b,
+    inset 3px 0 0 #7a9fd2,
+    inset 8px 0 8px -4px rgb(255 255 255 / 0.12);
+  color: #fff;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  font-size: 11px;
+}
+.sidebar.folded {
+  translate: 100% 0;
+  visibility: hidden;
+  transition:
+    translate 300ms ease-in-out,
+    visibility 0s 300ms;
+}
+
+/* The strip over the tiles, with the fold-away button on the right */
+.sidebar-top {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  height: 18px;
+  padding: 2px 3px 0 6px;
+}
+.sidebar-top-button {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 14px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.sidebar-top-button:hover,
+.sidebar-top-button.open {
+  border-color: rgb(255 255 255 / 0.5);
+  background: rgb(255 255 255 / 0.15);
+}
+
+/* The tiles scroll when the screen is too short for them all */
+.sidebar-tiles {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* The scrollbar's room is kept even when it isn't needed, so the gadgets don't shift */
+  scrollbar-gutter: stable;
+}
+/* Firefox can only colour its scrollbar. (Chrome would ignore the custom one below if these were set.) */
+@supports not selector(::-webkit-scrollbar) {
+  .sidebar-tiles {
+    scrollbar-color: #8fb2e6 rgb(10 30 80 / 0.35);
+    scrollbar-width: thin;
+  }
+}
+
+/*
+ * A slim glass scrollbar to match the panel: a dark recessed groove with a
+ * glossy light-blue thumb, rounded like Longhorn's controls. No arrow buttons.
+ */
+.sidebar-tiles::-webkit-scrollbar {
+  width: 11px;
+}
+.sidebar-tiles::-webkit-scrollbar-track {
+  margin: 2px 0;
+  border-radius: 6px;
+  background: linear-gradient(to right, rgb(10 30 80 / 0.45), rgb(20 50 110 / 0.25));
+  box-shadow: inset 1px 1px 2px rgb(0 0 30 / 0.5);
+}
+.sidebar-tiles::-webkit-scrollbar-thumb {
+  border: 1px solid #23498a;
+  border-radius: 6px;
+  background:
+    linear-gradient(to right, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.15) 50%, transparent 51%),
+    linear-gradient(to right, #b9d1f5, #7ea4e0 55%, #5f8ad0);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+}
+.sidebar-tiles::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(to right, rgb(255 255 255 / 0.6), rgb(255 255 255 / 0.2) 50%, transparent 51%),
+    linear-gradient(to right, #cfe0fa, #93b5ea 55%, #6f99dc);
+}
+.sidebar-tiles::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(to right, #8fb0e4, #5f8ad0);
+}
+
+/* Folded away: a thin strip of the panel's blue on the right edge, slid in once the panel has gone */
+.sidebar-tab {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 30px;
+  display: grid;
+  place-items: center;
+  width: var(--sidebar-tab-width);
+  background: linear-gradient(to right, #5079b3, #3469b4 50%, #355e9a);
+  box-shadow:
+    inset 1px 0 0 #2e459b,
+    inset 2px 0 0 #7a9fd2;
+  translate: 100% 0;
+  transition: translate 150ms ease-out;
+}
+.sidebar-tab.shown {
+  translate: 0 0;
+  transition-delay: 250ms;
+}
+.sidebar-tab:hover {
+  background: linear-gradient(to right, #6189c2, #4579c2 50%, #4370ab);
+}
+
+/* Small light arrows: ► folds the sidebar away, ◄ brings it back */
+.sidebar-arrow {
+  width: 6px;
+  height: 9px;
+  background: #b0c6f0;
+}
+.sidebar-arrow.hide {
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.sidebar-arrow.show {
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+.sidebar-top-button:hover .sidebar-arrow,
+.sidebar-tab:hover .sidebar-arrow {
+  background: #fff;
+}
+
+.sidebar-tile {
+  display: flex;
+  flex-direction: column;
+  padding: 0 5px 0 7px;
+}
+/* The soft raised ridge between tiles, with its dark notch */
+.sidebar-tile + .sidebar-tile::before {
+  content: '';
+  height: 7px;
+  margin: 0 -5px 0 -4px;
+  background: linear-gradient(#3569b5, #4378c2 30%, #5188cf 55%, #4074bb 70%, #4d7fc4 85%, transparent);
+}
+
+/* The whole title bar folds and unfolds the gadget */
+.sidebar-tile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1px 0 2px;
+  padding: 0 3px 0 1px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: inherit;
+}
+.sidebar-tile-header:hover {
+  border-color: rgb(255 255 255 / 0.3);
+  background: rgb(255 255 255 / 0.1);
+}
+.sidebar-tile-title {
+  padding: 3px 0 4px;
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgb(0 0 30 / 0.35);
+}
+/* A small ▼ that turns to ► as the gadget folds */
+.sidebar-tile-toggle {
+  width: 8px;
+  height: 5px;
+  background: #b0c6f0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transition: rotate 250ms ease-in-out;
+}
+.sidebar-tile-header:hover .sidebar-tile-toggle {
+  background: #fff;
+}
+.sidebar-tile.collapsed .sidebar-tile-toggle {
+  rotate: -90deg;
+}
+
+/* The gadget's height slides between its own and nothing: a grid row from 1fr to 0fr animates smoothly */
+.sidebar-tile-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 300ms ease-in-out,
+    opacity 300ms ease-in-out;
+}
+.sidebar-tile.collapsed .sidebar-tile-body {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+.sidebar-tile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+/* Space under each gadget (a margin, not padding, so it folds away too), also leaving room for its drop shadow */
+.sidebar-tile-content > * {
+  margin-bottom: 10px;
+}
+/* LINKS EXTERNOS stands out: capitals spaced out, with a warm glow */
+.sidebar-tile.important .sidebar-tile-title {
+  letter-spacing: 0.6px;
+  color: #fff6d8;
+  text-shadow:
+    0 0 6px rgb(255 190 80 / 0.75),
+    0 1px 1px rgb(0 0 30 / 0.5);
+}
+
+/* ---------- Clock (Vista) ---------- */
+
+.clock-gadget svg {
+  display: block;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.55));
+}
+.clock-numeral {
+  fill: #2b2b2b;
+  font: 11px 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ---------- Calendar (Vista) ---------- */
+
+.calendar-gadget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 156px;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+.calendar-rings {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-bottom: -6px;
+}
+
+/* Day view: the orange tear-off page */
+.calendar-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 140px;
+  padding: 14px 4px 9px;
+  border: 1px solid #011c1d;
+  border-radius: 3px;
+  background: linear-gradient(160deg, #f65700 0%, #e55100 45%, #c84600 100%);
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 0.5),
+    inset 0 1px 0 rgb(255 255 255 / 0.25);
+  color: #fff;
+  cursor: pointer;
+}
+.calendar-page-month,
+.calendar-page-weekday {
+  font-size: 12px;
+  font-weight: bold;
+}
+.calendar-page-day {
+  font-size: 76px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* Month view: the white card */
+.calendar-month {
+  width: 100%;
+  padding: 3px 3px 4px;
+  border: 1px solid #1a1a1a;
+  border-radius: 3px;
+  background: linear-gradient(#fff, #f3f3f3 40%, #e6e6e6 75%, #dcdcdc);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.5);
+  color: #000;
+}
+.calendar-month-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 16px;
+}
+.calendar-month-title {
+  font-size: 11px;
+  cursor: pointer;
+}
+.calendar-month-title:hover {
+  text-decoration: underline;
+}
+/* Small grey triangles */
+.calendar-arrow {
+  width: 14px;
+  height: 14px;
+  background: #808080;
+}
+.calendar-arrow.previous {
+  clip-path: polygon(70% 22%, 30% 50%, 70% 78%);
+}
+.calendar-arrow.next {
+  clip-path: polygon(30% 22%, 70% 50%, 30% 78%);
+}
+.calendar-arrow:hover {
+  background: #ff6400;
+}
+
+.calendar-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  text-align: center;
+}
+.calendar-grid th {
+  color: #808080;
+  font-weight: bold;
+}
+.calendar-grid th.today {
+  color: #ff6400;
+}
+.calendar-grid td {
+  height: 16px;
+  padding: 0;
+  border-left: 1px solid #dedfde;
+}
+.calendar-grid td:first-child {
+  border-left: 0;
+}
+.calendar-grid td.other-month {
+  color: #bdbdbd;
+}
+.calendar-grid td.today {
+  background: #ff6400;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* ---------- LINKS EXTERNOS ---------- */
+
+.links-gadget {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 4px;
+  background: linear-gradient(#2a4f8f, #1d3a6e);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+/* Every button gets the same glossy top half */
+.links-instagram,
+.links-service {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(0 0 0 / 0.35);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
+}
+.links-instagram::after,
+.links-service::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.1) 50%, transparent 51%);
+  pointer-events: none;
+}
+.links-instagram:hover,
+.links-service:hover {
+  filter: brightness(1.12);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 0 0 1px rgb(255 255 255 / 0.7),
+    0 0 6px rgb(255 255 255 / 0.5);
+}
+.links-instagram:active,
+.links-service:active {
+  translate: 0 1px;
+}
+.links-instagram:active::after,
+.links-service:active::after {
+  opacity: 0;
+}
+.links-glyph {
+  position: relative;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.45));
+}
+
+/* The band's main link: big, in Instagram's sunset colours */
+/* The band's main link, styled like a profile card from the old Instagram app: white card, link-blue handle, blue Seguir button */
+.links-instagram {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 88px;
+  padding: 0 8px 0 5px;
+  border-color: #b9c2cc;
+  border-radius: 6px;
+  background: linear-gradient(#ffffff, #f2f2f2 60%, #e4e6e9);
+  color: #333;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+}
+.links-instagram-icon {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.35));
+}
+.links-instagram-text {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  line-height: 1.25;
+}
+.links-instagram-name {
+  color: #2b2b2b;
+  font-size: 18px;
+  font-weight: bold;
+}
+.links-instagram-handle {
+  overflow: hidden;
+  max-width: 100%;
+  color: #3a6c9b;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The glossy blue Follow button */
+.links-instagram-follow {
+  margin-top: 4px;
+  padding: 2px 12px 3px;
+  border: 1px solid #24527f;
+  border-radius: 4px;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.08) 50%, transparent 51%),
+    linear-gradient(#6aa3d8, #3a77b5 55%, #2e66a1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4);
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 0.35);
+}
+.links-instagram:hover .links-instagram-follow {
+  filter: brightness(1.1);
+}
+
+.links-caption {
+  margin: 9px 0 5px;
+  color: #c9d8f2;
+  font-size: 11px;
+  font-weight: bold;
+}
+/* Two by two, each with its glyph and name */
+.links-services {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.links-service {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  padding: 0 5px;
+  border-radius: 5px;
+  background: radial-gradient(circle at 30% 30%, var(--light), var(--dark) 90%);
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 1px rgb(0 0 0 / 0.55);
+}
+.links-service-name {
+  position: relative;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 12px;
+}
+
+/* ---------- Windows Media Player (WMP11 mini player) ---------- */
+
+.media-gadget {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #050505;
+  border-radius: 4px;
+  background: #121212;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.media-now-playing {
+  display: flex;
+  gap: 6px;
+  padding: 6px 6px 5px;
+}
+.media-art {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #8a8a8a;
+  object-fit: cover;
+}
+.media-art.empty {
+  background: radial-gradient(circle at 50% 40%, #2a3550, #000);
+}
+.media-info {
+  min-width: 0;
+  line-height: 13px;
+}
+.media-title {
+  overflow: hidden;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.media-artist,
+.media-time {
+  overflow: hidden;
+  color: #a9b4c8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A thin black track with WMP11's green progress */
+.media-seek {
+  height: 4px;
+  margin: 0 6px 5px;
+  border: 1px solid #2b2e35;
+  background: #000;
+  cursor: pointer;
+}
+.media-seek-progress {
+  height: 100%;
+  background: linear-gradient(#5fd31a, #35b100);
+}
+
+/* The hard-split glossy toolbar: grey-blue on top, black below */
+.media-toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  background: linear-gradient(#5f6984 0%, #525b71 48%, #121212 50%, #121212 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+}
+.media-open {
+  position: absolute;
+  left: 6px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+.media-open:hover {
+  background: rgb(255 255 255 / 0.15);
+}
+
+.media-capsule {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid #2b2e35;
+  border-radius: 10px;
+  background: linear-gradient(#48536b, #11131c 55%);
+  box-shadow: inset 0 1px 0 #47474e;
+}
+.media-button {
+  width: 18px;
+  height: 18px;
+  background: #c6c7ca;
+}
+.media-button:enabled:hover {
+  background: #fff;
+}
+.media-button:disabled {
+  opacity: 0.35;
+}
+.media-button.stop {
+  clip-path: inset(5px);
+}
+/* Prev/next: a bar and a triangle each */
+.media-button.previous {
+  clip-path: polygon(30% 28%, 38% 28%, 38% 46%, 70% 28%, 70% 72%, 38% 54%, 38% 72%, 30% 72%);
+}
+.media-button.next {
+  clip-path: polygon(70% 28%, 62% 28%, 62% 46%, 30% 28%, 30% 72%, 62% 54%, 62% 72%, 70% 72%);
+}
+
+/* The blue round play button, larger than the capsule it sits on */
+.media-play {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  margin: 0 3px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 22%, rgb(220 232 255 / 0.95), rgb(120 145 215 / 0.6) 60%, transparent 62%),
+    radial-gradient(circle at 50% 95%, #c4ffff 0%, #55dbfe 18%, #0d79d1 45%, #0044a5 65%, #002689 85%);
+  box-shadow:
+    0 0 0 1px #0c1a6e,
+    0 0 6px rgb(80 200 255 / 0.6);
+}
+.media-play:hover {
+  filter: brightness(1.15);
+}
+.media-play::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #e8eefc;
+}
+.media-play.play::after {
+  clip-path: polygon(40% 30%, 72% 50%, 40% 70%);
+}
+/* Two bars */
+.media-play.pause::after {
+  background: linear-gradient(to right, transparent 34%, #e8eefc 34% 45%, transparent 45% 55%, #e8eefc 55% 66%, transparent 66%);
+  clip-path: inset(30% 0);
+}

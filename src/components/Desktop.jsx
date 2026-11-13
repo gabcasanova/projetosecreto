@@ -16,8 +16,11 @@ import InternetExplorer from '../apps/internet-explorer/InternetExplorer'
 import InternetExplorerSplash from '../apps/internet-explorer/Splash'
 import CaseLoading from '../apps/jewel-case/CaseLoading'
 import MediaPlayer from '../apps/media-player/MediaPlayer'
+import { usePlayerUnload } from '../apps/media-player/playerContext'
+import useStoredState from '../hooks/useStoredState'
 import useWindowManager from '../hooks/useWindowManager'
 import DesktopIcon from './DesktopIcon'
+import Sidebar from './sidebar/Sidebar'
 import Taskbar from './Taskbar'
 import Window from './Window'
 
@@ -128,7 +131,10 @@ const CASCADE_STEP = 24
 
 function Desktop() {
   const windowManager = useWindowManager(['welcome'])
+  const unloadMusic = usePlayerUnload()
   const [selectedShortcut, setSelectedShortcut] = useState(null)
+  // The widget sidebar can be folded away to a thin tab on the right edge (remembered across visits)
+  const [sidebarOpen, setSidebarOpen] = useStoredState('desktop:sidebarOpen', true)
   // The app whose splash screen is up, if any
   const [splashAppId, setSplashAppId] = useState(null)
   // Taskbar buttons by window id; minimized windows animate into these
@@ -169,6 +175,8 @@ function Desktop() {
   }
 
   function closeApp(id) {
+    // The music lives outside the Discografia window (the sidebar widget shares it), but stops with it
+    if (windowManager.windows.find((window) => window.id === id)?.appId === 'mediaPlayer') unloadMusic()
     windowManager.closeWindow(id)
     setLiveTitles(({ [id]: _closed, ...others }) => others)
   }
@@ -211,6 +219,8 @@ function Desktop() {
     <div
       // XP's "working in background" cursor (arrow and hourglass) while an app starts
       className={`xp-desktop relative h-full w-full overflow-hidden ${splashAppId ? 'cursor-progress' : ''}`}
+      // Folded, the sidebar is just its tab, and maximized windows take the space it left
+      style={sidebarOpen ? undefined : { '--sidebar-width': 'var(--sidebar-tab-width)' }}
       onPointerDown={() => setSelectedShortcut(null)}
     >
       <div className="absolute top-2 left-2 flex flex-col gap-2">
@@ -226,6 +236,13 @@ function Desktop() {
           />
         ))}
       </div>
+
+      {/* The widgets on the right; windows open over it */}
+      <Sidebar
+        open={sidebarOpen}
+        onToggle={() => setSidebarOpen((open) => !open)}
+        onOpenPlayer={() => launch('mediaPlayer')}
+      />
 
       {windowManager.windows.map((window) => {
         const { id, appId, minimized, props, cascade } = window
