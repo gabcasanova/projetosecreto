@@ -9,7 +9,8 @@ import jewelCaseIcon from '../assets/xp/icons/cd-audio.png'
 import notepadIcon from '../assets/xp/icons/notepad-2.png'
 import aboutTheBand from '../assets/desktop/Sobre a Banda.txt?raw'
 import Notepad from '../apps/notepad/Notepad'
-import futeborkutIcon from '../apps/futeborkut/assets/desktop-icon.svg'
+// A glossy football with orkut-magenta patches (recoloured from Icons-Land's 'Sport Icons')
+import futeborkutIcon from '../apps/futeborkut/assets/desktop-icon.png'
 import { FUTEBORKUT_URL } from '../apps/futeborkut/site'
 import internet from '../internet'
 import InternetExplorer from '../apps/internet-explorer/InternetExplorer'
@@ -27,15 +28,6 @@ import Window from './Window'
 // The 3D CD case pulls in three.js, so it's only downloaded the first time a case is opened
 const JewelCaseViewer = lazy(() => import('../apps/jewel-case/JewelCaseViewer'))
 
-function WelcomeMessage() {
-  return (
-    <>
-      <p>Bem-vindo ao Windows XP.</p>
-      <p className="mt-2">Arraste esta janela pela barra de título.</p>
-    </>
-  )
-}
-
 /*
  * Everything that can be opened as a window. `title` can be a function of the
  * window's props, for windows that show something specific (like one album).
@@ -43,20 +35,19 @@ function WelcomeMessage() {
  * An app with a `Splash` shows it in the middle of the screen for
  * `splashDuration` ms when launched, before its window opens.
  * `multipleWindows` apps open a new window every time they're launched.
+ * Maximizable apps can also be resized, down to `minWidth` × `minHeight`.
  */
 const APPS = {
-  welcome: {
-    title: 'Bem-vindo',
-    initialPosition: { x: 120, y: 80 },
-    width: 420,
-    Content: WelcomeMessage,
-  },
   mediaPlayer: {
     title: 'Discografia',
     icon: mediaPlayerIcon,
     // Title bar and taskbar use the hand-tuned 16px version instead of a scaled-down 48px one
     smallIcon: mediaPlayerSmallIcon,
     bodyClassName: '',
+    maximizable: true,
+    // Below this the transport bar and the list pane no longer fit
+    minWidth: 700,
+    minHeight: 460,
     initialPosition: { x: 24, y: 6 },
     width: 980,
     Content: MediaPlayer,
@@ -96,7 +87,7 @@ const APPS = {
     // Each file opens in its own window, as in XP
     multipleWindows: true,
     initialPosition: { x: 140, y: 60 },
-    width: 560,
+    width: 620,
     Content: Notepad,
   },
 }
@@ -130,7 +121,7 @@ function textFile({ id, fileName, text }) {
 const CASCADE_STEP = 24
 
 function Desktop() {
-  const windowManager = useWindowManager(['welcome'])
+  const windowManager = useWindowManager()
   const unloadMusic = usePlayerUnload()
   const [selectedShortcut, setSelectedShortcut] = useState(null)
   // The widget sidebar can be folded away to a thin tab on the right edge (remembered across visits)
@@ -259,6 +250,8 @@ function Desktop() {
             }}
             width={app.width}
             maximizable={app.maximizable}
+            minWidth={app.minWidth}
+            minHeight={app.minHeight}
             active={id === windowManager.activeId}
             minimized={minimized}
             zIndex={windowManager.zIndexOf(id)}

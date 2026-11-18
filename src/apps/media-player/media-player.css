@@ -7,6 +7,11 @@
  * one set of state rules.
  */
 
+/* Fills its window when that has a set size (maximized or resized); otherwise 684px tall */
+.window-fill .wmp {
+  height: 100%;
+}
+
 .wmp {
   font-family: 'Segoe UI', Tahoma, sans-serif;
   font-size: 11px;

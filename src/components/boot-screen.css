@@ -1,0 +1,93 @@
+/*
+ * Windows XP's boot screen (see BootScreen.jsx). Every position below is in
+ * XP's 640×480 pixels, measured from an original screenshot; the stage is
+ * then scaled up as a whole.
+ */
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #000;
+  cursor: none;
+  user-select: none;
+}
+
+.boot-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 640px;
+  height: 480px;
+  translate: -50% -50%;
+  /* XP faded its boot screen in from black */
+  animation: boot-fade-in 200ms ease-out;
+}
+@keyframes boot-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Where XP's logo sat: a 246×146 box at (209, 123); ours is fitted inside it */
+.boot-logo {
+  position: absolute;
+  top: 123px;
+  left: 209px;
+  width: 246px;
+  height: 146px;
+  object-fit: contain;
+}
+
+/* The bar's frame: XP's own 126×15 pixels at (255, 351), enlarged without smoothing */
+.boot-bar {
+  position: absolute;
+  top: 351px;
+  left: 255px;
+  width: 126px;
+  height: 15px;
+  background: url('../assets/boot/progress-frame.png') 0 0 / 100% 100% no-repeat;
+  image-rendering: pixelated;
+}
+
+/* The window the blocks travel through: 118×9 inside the frame */
+.boot-track {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 118px;
+  height: 9px;
+  overflow: hidden;
+}
+
+/*
+ * XP's three blocks (one 22×9 sprite). They don't glide: every 80 ms they
+ * jump 8 px right, coming in from behind the left edge and leaving behind
+ * the right one; after 18 jumps (1.44 s), and one step with the bar empty,
+ * they start over.
+ */
+.boot-blocks {
+  position: absolute;
+  top: 0;
+  left: -16px;
+  width: 22px;
+  height: 9px;
+  background: url('../assets/boot/progress-blocks.png') 0 0 / 100% 100% no-repeat;
+  image-rendering: pixelated;
+  animation: boot-blocks 1.44s steps(18, end) infinite;
+}
+@keyframes boot-blocks {
+  to {
+    translate: 144px 0;
+  }
+}
+
+/* "Copyright © …": Arial 13px, its capitals from y 450 to the baseline at 459, starting at x 22 */
+.boot-copyright {
+  position: absolute;
+  top: 448px;
+  left: 22px;
+  color: #efefef;
+  font: 13px/1 Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+}

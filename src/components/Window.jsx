@@ -5,7 +5,7 @@ import ResizeHandles from './ResizeHandles'
 // How much of the title bar must stay on screen so the window can always be grabbed again
 const MIN_VISIBLE = 40
 const TASKBAR_HEIGHT = 30
-// The smallest a window can be resized to
+// The smallest a window can be resized to, unless its app asks for more room
 const MIN_WIDTH = 300
 const MIN_HEIGHT = 200
 
@@ -20,6 +20,8 @@ function Window({
   width,
   // Only windows whose content can stretch to any size offer maximize, and can be resized
   maximizable = false,
+  minWidth = MIN_WIDTH,
+  minHeight = MIN_HEIGHT,
   active,
   minimized,
   zIndex,
@@ -97,7 +99,7 @@ function Window({
       onPointerDownCapture={onFocus}
     >
       {maximizable && !maximized && (
-        <ResizeHandles getRect={currentRect} onResize={handleResize} minWidth={MIN_WIDTH} minHeight={MIN_HEIGHT} />
+        <ResizeHandles getRect={currentRect} onResize={handleResize} minWidth={minWidth} minHeight={minHeight} />
       )}
       <div
         className="xp-titlebar flex items-center justify-between"

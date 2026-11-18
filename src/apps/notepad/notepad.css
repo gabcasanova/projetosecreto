@@ -3,7 +3,7 @@
 .notepad {
   display: flex;
   flex-direction: column;
-  height: 380px;
+  height: 450px;
   background: #ece9d8;
   color: #000;
 }
