@@ -1,0 +1,421 @@
+/*
+ * Show do Futebas: a mid-2000s TV quiz on a computer screen. A dark studio
+ * blue with a spotlight, glossy capsules for the answers, a gold logo.
+ */
+
+.ep {
+  --sf-gold: #ffd84a;
+  --sf-gold-dark: #c98a00;
+  --sf-navy: #06123d;
+  --sf-line: #6f9cff;
+  display: flex;
+  height: 540px;
+  background:
+    radial-gradient(ellipse 60% 55% at 38% 30%, rgb(110 160 255 / 0.35), transparent 70%),
+    linear-gradient(#0c2a7a, var(--sf-navy) 75%);
+  color: #fff;
+  font: 13px Tahoma, Verdana, sans-serif;
+  cursor: default;
+  user-select: none;
+}
+.window-fill .ep {
+  height: 100%;
+}
+
+.sf-main {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  padding: 12px 16px 14px;
+}
+
+/* ---------- Logo ---------- */
+
+.sf-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-style: italic;
+  line-height: 0.9;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+.sf-logo span {
+  background: linear-gradient(#fffbe0, var(--sf-gold) 45%, var(--sf-gold-dark) 55%, #ffe680);
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(2px 2px 0 #4a1d00) drop-shadow(0 0 6px rgb(255 200 60 / 0.5));
+}
+.sf-logo-top {
+  font-size: 34px;
+}
+.sf-logo-bottom {
+  font-size: 46px;
+}
+.sf-logo.small {
+  flex-direction: row;
+  gap: 6px;
+  transform: none;
+}
+.sf-logo.small span {
+  font-size: 20px;
+}
+
+/* ---------- Header and stage ---------- */
+
+.sf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgb(111 156 255 / 0.4);
+}
+.sf-level {
+  color: #cfe0ff;
+}
+.sf-level b {
+  color: var(--sf-gold);
+}
+
+.sf-stage {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 18px;
+  min-height: 0;
+  padding: 14px 0;
+}
+
+/* The badge on a white plaque under the spotlight (many badges come on white) */
+.sf-badge {
+  display: grid;
+  flex-shrink: 0;
+  width: 190px;
+  height: 190px;
+  place-items: center;
+  padding: 14px;
+  border: 3px solid #c8d8ff;
+  border-radius: 16px;
+  /* Plain white, so badges that come as JPEGs on white don't show their square */
+  background: #fff;
+  box-shadow:
+    inset 0 -4px 8px rgb(30 60 140 / 0.12),
+    0 0 0 2px #0a1f63,
+    0 0 26px rgb(140 180 255 / 0.65);
+}
+.sf-badge img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.sf-question {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+.sf-question-text {
+  font: bold italic 19px Verdana, Tahoma, sans-serif;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.sf-options {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* One glossy capsule per answer */
+.sf-option {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 14px 4px 5px;
+  overflow: hidden;
+  border: 2px solid var(--sf-line);
+  border-radius: 20px;
+  background: linear-gradient(#2c55c8, #10307f 50%, #0a2266 51%, #173c9e);
+  color: #fff;
+  font-weight: bold;
+  text-align: left;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35);
+}
+.sf-option:enabled:hover {
+  border-color: var(--sf-gold);
+}
+.sf-option-letter {
+  display: grid;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6c4, var(--sf-gold) 50%, var(--sf-gold-dark));
+  color: #3a2400;
+  font-family: 'Arial Black', Arial, sans-serif;
+}
+.sf-option-name {
+  position: relative;
+  z-index: 1;
+  text-shadow: 1px 1px 0 #00113d;
+}
+
+/* Picked, waiting for "Sim": orange. Then green for right, red for wrong */
+.sf-option.selected {
+  border-color: #ffe9a0;
+  background: linear-gradient(#ffb23e, #e07800 50%, #c96500 51%, #f09a20);
+}
+.sf-option.right {
+  border-color: #c9ffc4;
+  background: linear-gradient(#5fd35a, #1f9a1c 50%, #13820f 51%, #3cbd37);
+  animation: sf-blink 0.35s steps(2, jump-none) 4;
+}
+.sf-option.wrong {
+  border-color: #ffc4c4;
+  background: linear-gradient(#e85a5a, #b01717 50%, #960f0f 51%, #cf3131);
+}
+.sf-option.eliminated {
+  opacity: 0.25;
+}
+.sf-option:disabled {
+  cursor: default;
+}
+@keyframes sf-blink {
+  50% {
+    filter: brightness(1.6);
+  }
+}
+
+/* The crowd's vote: a bar filling the capsule from the left, and the percentage on the right */
+.sf-vote {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sf-vote-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: rgb(255 216 74 / 0.28);
+}
+.sf-vote-label {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  color: var(--sf-gold);
+  translate: 0 -50%;
+}
+
+/* ---------- Bottom: stakes and helps, or "Está certo disso?" ---------- */
+
+.sf-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sf-stakes {
+  display: flex;
+  gap: 8px;
+}
+.sf-stake {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.sf-stake-value {
+  min-width: 92px;
+  padding: 3px 8px;
+  border: 1px solid #fff2b0;
+  border-radius: 3px;
+  background: linear-gradient(#fff4b8, var(--sf-gold) 50%, #f0b800);
+  color: #3a2400;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}
+.sf-stake-label {
+  color: #cfe0ff;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.sf-helps {
+  display: flex;
+  gap: 6px;
+}
+
+.sf-button {
+  position: relative;
+  padding: 6px 12px;
+  border: 1px solid var(--sf-line);
+  border-radius: 4px;
+  background: linear-gradient(#3a64d8, #163a9a);
+  color: #fff;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35);
+  cursor: pointer;
+}
+.sf-button:enabled:hover {
+  border-color: var(--sf-gold);
+}
+.sf-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.sf-button-stop {
+  background: linear-gradient(#d94a4a, #8f1414);
+  border-color: #ff9c9c;
+}
+.sf-button-yes {
+  background: linear-gradient(#5fd35a, #1a7a17);
+  border-color: #c9ffc4;
+}
+.sf-button-big {
+  padding: 10px 34px;
+  font-size: 16px;
+}
+
+/* How many of a help are left, in a small gold bubble */
+.sf-help-count {
+  position: absolute;
+  top: -7px;
+  right: -6px;
+  display: grid;
+  min-width: 16px;
+  height: 16px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--sf-gold);
+  color: #3a2400;
+  font-size: 10px;
+}
+
+.sf-confirm {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 6px 0 2px;
+  font-size: 14px;
+}
+.sf-confirm span {
+  margin-right: auto;
+}
+.sf-confirm b {
+  color: var(--sf-gold);
+}
+
+/* ---------- The prize ladder ---------- */
+
+.sf-ladder {
+  display: flex;
+  width: 168px;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 8px;
+  border-left: 1px solid rgb(111 156 255 / 0.4);
+  background: rgb(0 8 40 / 0.45);
+}
+.sf-rung {
+  display: flex;
+  gap: 8px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  color: var(--sf-gold);
+  font-weight: bold;
+}
+.sf-rung-number {
+  width: 18px;
+  color: #8ea9e8;
+  text-align: right;
+}
+.sf-rung.safe {
+  color: #fff;
+}
+.sf-rung.won {
+  opacity: 0.45;
+}
+.sf-rung.current {
+  background: linear-gradient(#ffb23e, #e07800);
+  color: #fff;
+  opacity: 1;
+}
+.sf-rung.current .sf-rung-number {
+  color: #fff;
+}
+
+/* ---------- Intro and game over ---------- */
+
+.sf-screen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+.sf-tagline {
+  color: #cfe0ff;
+  font-size: 15px;
+  font-style: italic;
+}
+.sf-rules {
+  max-width: 470px;
+  padding: 12px 18px;
+  border: 1px solid rgb(111 156 255 / 0.5);
+  border-radius: 8px;
+  background: rgb(0 8 40 / 0.45);
+  line-height: 1.5;
+  list-style: disc;
+  text-align: left;
+}
+.sf-rules li {
+  margin-left: 14px;
+}
+.sf-credits {
+  color: #8ea9e8;
+  font-size: 10px;
+}
+
+.sf-outcome {
+  font: bold italic 22px Verdana, Tahoma, sans-serif;
+}
+.sf-answer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 8px;
+  background: rgb(0 8 40 / 0.45);
+}
+.sf-answer img {
+  width: 56px;
+  height: 56px;
+  padding: 4px;
+  border-radius: 6px;
+  background: #fff;
+  object-fit: contain;
+}
+.sf-prize {
+  font-size: 18px;
+}
+.sf-prize b {
+  color: var(--sf-gold);
+  font-size: 24px;
+}

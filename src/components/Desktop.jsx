@@ -23,6 +23,10 @@ import Conversation from '../apps/messenger/Conversation'
 import MessengerProvider from '../apps/messenger/MessengerProvider'
 import MessengerTrayIcon from '../apps/messenger/MessengerTrayIcon'
 import messengerIcon from '../assets/xp/icons/msn-messenger-48.png'
+import ShowDoFutebas from '../apps/show-do-futebas/ShowDoFutebas'
+// XP's gold star: a prize
+import showDoFutebasIcon from '../assets/xp/icons/star-5.png'
+import showDoFutebasSmallIcon from '../assets/xp/icons/star-2.png'
 import messengerContactListIcon from '../apps/messenger/assets/title-contactlist.png'
 import messengerConversationIcon from '../apps/messenger/assets/title-conversation.png'
 import { usePlayerUnload } from '../apps/media-player/playerContext'
@@ -98,6 +102,19 @@ const APPS = {
     width: 620,
     Content: Notepad,
   },
+  // The quiz about Rio's club badges
+  showDoFutebas: {
+    title: 'Show do Futebas',
+    icon: showDoFutebasIcon,
+    smallIcon: showDoFutebasSmallIcon,
+    bodyClassName: '',
+    maximizable: true,
+    minWidth: 760,
+    minHeight: 500,
+    initialPosition: { x: 70, y: 24 },
+    width: 820,
+    Content: ShowDoFutebas,
+  },
   // MSN Messenger 7: the contact list, then one conversation window per contact (opened with a key)
   messenger: {
     title: 'MSN Messenger',
@@ -142,6 +159,7 @@ const DESKTOP_SHORTCUTS = [
   { id: 'mediaPlayer', appId: 'mediaPlayer' },
   { id: 'internetExplorer', appId: 'internetExplorer' },
   { id: 'messenger', appId: 'messenger' },
+  { id: 'showDoFutebas', appId: 'showDoFutebas' },
   webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
   textFile({ id: 'aboutTheBand', fileName: 'Sobre a Banda', text: aboutTheBand }),
 ]
