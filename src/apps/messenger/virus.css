@@ -1,0 +1,60 @@
+/* Casanova's "photo" (see VirusAttack.jsx): XP error boxes, then XP's blue screen */
+
+.virus-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 960;
+  pointer-events: none;
+}
+
+.virus-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  pointer-events: auto;
+  animation: virus-box-in 120ms ease-out;
+}
+@keyframes virus-box-in {
+  from {
+    scale: 0.92;
+    opacity: 0.6;
+  }
+}
+.virus-box-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 10px;
+  background: #ece9d8;
+  font: 11px Tahoma, sans-serif;
+}
+.virus-box-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+.virus-box-message img {
+  flex-shrink: 0;
+}
+.virus-box-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+/* XP's stop error: white Lucida Console on the text-mode blue, edge to edge */
+.virus-bsod {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1em;
+  padding: 2.5vh 1.5vw;
+  background: #0000aa;
+  color: #fff;
+  font: clamp(12px, 1.9vh, 18px) / 1.15 'Lucida Console', 'Courier New', monospace;
+  cursor: none;
+}

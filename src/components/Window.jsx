@@ -87,6 +87,8 @@ function Window({
   return (
     <div
       ref={windowRef}
+      // Lets an app find its own window, e.g. to shake it (MSN's nudge)
+      data-window
       // A minimized window is invisible (see useMinimizeAnimation) but still in the page, so make it unclickable
       className={`absolute flex flex-col ${active ? '' : 'inactive-window'} ${fillsWindow ? 'window-fill' : ''}`}
       // Maximized, it fills the desktop above the taskbar and left of the sidebar; it remembers where it was for when it's restored

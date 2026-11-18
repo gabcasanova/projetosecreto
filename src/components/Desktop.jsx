@@ -17,6 +17,14 @@ import InternetExplorer from '../apps/internet-explorer/InternetExplorer'
 import InternetExplorerSplash from '../apps/internet-explorer/Splash'
 import CaseLoading from '../apps/jewel-case/CaseLoading'
 import MediaPlayer from '../apps/media-player/MediaPlayer'
+import ContactList from '../apps/messenger/ContactList'
+import { CONTACTS } from '../apps/messenger/contacts'
+import Conversation from '../apps/messenger/Conversation'
+import MessengerProvider from '../apps/messenger/MessengerProvider'
+import MessengerTrayIcon from '../apps/messenger/MessengerTrayIcon'
+import messengerIcon from '../assets/xp/icons/msn-messenger-48.png'
+import messengerContactListIcon from '../apps/messenger/assets/title-contactlist.png'
+import messengerConversationIcon from '../apps/messenger/assets/title-conversation.png'
 import { usePlayerUnload } from '../apps/media-player/playerContext'
 import useStoredState from '../hooks/useStoredState'
 import useWindowManager from '../hooks/useWindowManager'
@@ -90,6 +98,34 @@ const APPS = {
     width: 620,
     Content: Notepad,
   },
+  // MSN Messenger 7: the contact list, then one conversation window per contact (opened with a key)
+  messenger: {
+    title: 'MSN Messenger',
+    icon: messengerIcon,
+    // MSN 7.5's own 16px icons in the title bar and taskbar
+    smallIcon: messengerContactListIcon,
+    bodyClassName: '',
+    initialPosition: { x: 110, y: 40 },
+    // 285px inside the frame, as in MSN 7.5
+    width: 295,
+    maximizable: true,
+    minWidth: 230,
+    minHeight: 380,
+    Content: ContactList,
+  },
+  messengerConversation: {
+    title: ({ contactId }) => `${CONTACTS.find((contact) => contact.id === contactId)?.name ?? contactId} - Conversa`,
+    icon: messengerIcon,
+    smallIcon: messengerConversationIcon,
+    bodyClassName: '',
+    initialPosition: { x: 420, y: 60 },
+    width: 497,
+    // It can grow, but not shrink below MSN's own size: the panes are laid out for at least that much room
+    maximizable: true,
+    minWidth: 497,
+    minHeight: 420,
+    Content: Conversation,
+  },
 }
 
 function staticTitleOf(appId, props) {
@@ -105,6 +141,7 @@ function staticTitleOf(appId, props) {
 const DESKTOP_SHORTCUTS = [
   { id: 'mediaPlayer', appId: 'mediaPlayer' },
   { id: 'internetExplorer', appId: 'internetExplorer' },
+  { id: 'messenger', appId: 'messenger' },
   webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
   textFile({ id: 'aboutTheBand', fileName: 'Sobre a Banda', text: aboutTheBand }),
 ]
@@ -120,7 +157,7 @@ function textFile({ id, fileName, text }) {
 // How far each extra window of the same app is moved down and right
 const CASCADE_STEP = 24
 
-function Desktop() {
+function Desktop({ onReboot }) {
   const windowManager = useWindowManager()
   const unloadMusic = usePlayerUnload()
   const [selectedShortcut, setSelectedShortcut] = useState(null)
@@ -214,6 +251,15 @@ function Desktop() {
       style={sidebarOpen ? undefined : { '--sidebar-width': 'var(--sidebar-tab-width)' }}
       onPointerDown={() => setSelectedShortcut(null)}
     >
+      <MessengerProvider
+        onOpenConversation={(contactId) => windowManager.openWindow('messengerConversation', { contactId }, contactId)}
+        onOpenContactList={() => openApp('messenger')}
+        onCrash={() => {
+          // The virus crashed the computer: stop the music and start over from the boot screen
+          unloadMusic()
+          onReboot()
+        }}
+      >
       <div className="absolute top-2 left-2 flex flex-col gap-2">
         {DESKTOP_SHORTCUTS.map(({ id, appId, props, label, icon, badge }) => (
           <DesktopIcon
@@ -279,7 +325,9 @@ function Desktop() {
         items={taskbarItems}
         onItemClick={windowManager.toggleFromTaskbar}
         buttonRef={registerTaskbarButton}
+        tray={<MessengerTrayIcon />}
       />
+      </MessengerProvider>
     </div>
   )
 }

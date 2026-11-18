@@ -5,8 +5,9 @@ import VolumeControl from './VolumeControl'
 /**
  * `items` is one entry per open window: { id, title, icon, active }.
  * `buttonRef(id)` registers each button so windows can animate into it.
+ * `tray` holds apps' own notification-area icons (MSN), left of the volume.
  */
-function Taskbar({ items, onItemClick, buttonRef }) {
+function Taskbar({ items, onItemClick, buttonRef, tray }) {
   return (
     <div className="xp-taskbar absolute inset-x-0 bottom-0 z-[1000] flex items-center">
       {/* No start menu yet, so the button only shows its hover/pressed states */}
@@ -31,6 +32,7 @@ function Taskbar({ items, onItemClick, buttonRef }) {
       </div>
 
       <div className="xp-tray flex items-center gap-2 px-3 text-white">
+        {tray}
         <VolumeControl />
         <Clock />
       </div>

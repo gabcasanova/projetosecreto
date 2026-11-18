@@ -1,0 +1,555 @@
+/*
+ * MSN Messenger 7.5's conversation window. Positions are measured on the
+ * owner's reference screenshot (487 × 436 inside the frame), so most parts
+ * are placed with plain pixel offsets. The window can be resized: the panes
+ * on the left stretch, while the pictures and the logo stay on the right
+ * (offsets measured from the right and bottom edges keep that size's look).
+ */
+
+.msn-cv {
+  /* The dark lines around the panes: blue, greyed while the window is inactive */
+  --msn-line: #4e6ba0;
+  /* Below the toolbar band MSN's own chrome runs down both sides: a pale strip and a thin grey line */
+  --msn-chrome-sides: inset 3px 0 #ccd7f5, inset 4px 0 #b0b9c8, inset -3px 0 #d2dcf8, inset -4px 0 #b0b9c8;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 436px;
+  background: #d9e3f6;
+}
+/* Resized or maximized, it fills the window instead */
+.window-fill .msn-cv {
+  height: 100%;
+}
+.inactive-window .msn-cv {
+  --msn-line: #5b6475;
+}
+
+/* ---------- The glossy band with the big buttons ---------- */
+
+.msn-cv-band {
+  position: relative;
+  flex-shrink: 0;
+  height: 58px;
+}
+/* Left part, up to where the band curves down: the gradient is conv-corner-57x58's first column */
+.msn-cv-band-main {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 130px;
+  left: 0;
+  border-top-left-radius: 3px;
+  box-shadow: inset 1px 0 #b5c2c9;
+  background: linear-gradient(
+    #aebbd4 0 1px,
+    #ccd5e6 1px 2px,
+    #e2e7f2 2px 3px,
+    #eef2f8 3px 4px,
+    #f4f7fc 5px 12px,
+    #eaf0f9 15px,
+    #d7e1f2 19px,
+    #c2d0eb 23px,
+    #aec1e4 29px,
+    #c1cfeb 33px,
+    #d8e2f3 37px,
+    #eaf0f9 41px,
+    #f4f7fc 46px 52px,
+    #ebf0f7 54px,
+    #dee4f0 55px,
+    #c8d1e3 56px,
+    #a8b6d1 57px
+  );
+}
+.msn-cv-band-curve {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 73px;
+  width: 57px;
+  height: 58px;
+  background: url('./assets/conv-corner-57x58.png');
+}
+/* The thin strip along the top on the right, behind the logo */
+.msn-cv-band-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 73px;
+  height: 21px;
+  background: url('./assets/topbar-1x21.png') repeat-x;
+}
+/* The small tray under it holding Bloquear and Esquema de cores, ending in its own curve */
+.msn-cv-band-tray {
+  position: absolute;
+  top: 21px;
+  right: 37px;
+  width: 80px;
+  height: 26px;
+  background: linear-gradient(#c7d6f2, #e4ebf9 5px, #f4f7fc 9px 18px, #e8eef9 21px, #c8d4ea 24px, #b8c6e1);
+}
+.msn-cv-band-tray-end {
+  position: absolute;
+  top: 21px;
+  right: 2px;
+  width: 35px;
+  height: 26px;
+  background: url('./assets/conv-corner-35x26.png');
+}
+.msn-cv-logo {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 52px;
+}
+.msn-round-button {
+  position: absolute;
+  z-index: 2;
+  top: 24px;
+  display: grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  background: url('./assets/btn-round-normal.png');
+}
+.msn-round-button:enabled:hover {
+  background-image: url('./assets/btn-round-hover.png');
+}
+.msn-round-button:enabled:active {
+  background-image: url('./assets/btn-round-pressed.png');
+}
+.msn-cv-block {
+  right: 64px;
+}
+.msn-cv-colors {
+  right: 39px;
+}
+
+.msn-cv-band-toggle {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+}
+
+.msn-cv-tools {
+  position: absolute;
+  top: 3px;
+  left: 20px;
+  display: flex;
+}
+.msn-cv-tool {
+  display: flex;
+  height: 50px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: #464e5b;
+  white-space: nowrap;
+}
+.msn-cv-tool:enabled:hover {
+  border-color: #a8b8d8;
+  background: #f2f5fb;
+}
+.msn-cv-tool img {
+  height: 29px;
+  object-fit: none;
+}
+.msn-cv-tool span {
+  margin-top: 0;
+  line-height: 13px;
+}
+
+/* ---------- The body: history, composer and pictures ---------- */
+
+.msn-cv-body {
+  position: relative;
+  flex: 1;
+  box-shadow: var(--msn-chrome-sides);
+  background:
+    url('./assets/conv-background-485x324.png') right bottom no-repeat,
+    linear-gradient(#dde2f7, #d6e2f6 40px, #d9e4f5);
+}
+
+/* Upper pane: "Para:" bar and the messages */
+.msn-history {
+  position: absolute;
+  top: 8px;
+  right: 144px;
+  bottom: 136px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--msn-line);
+  border-radius: 5px 5px 0 0;
+  background: #fff;
+}
+.msn-to-bar {
+  position: relative;
+  flex-shrink: 0;
+  height: 33px;
+  padding: 4px 30px 0 37px;
+  border-bottom: 1px solid var(--msn-line);
+  border-radius: 4px 4px 0 0;
+  background: #ebf1fa;
+  color: #3c4d81;
+  line-height: 14px;
+}
+.msn-to-label {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  color: #454c5e;
+}
+.msn-to-contact {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.msn-to-scroll {
+  position: absolute;
+  top: 2px;
+  right: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.msn-to-scroll img {
+  margin-bottom: -2px;
+}
+
+.msn-history-messages {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 4px 6px;
+  font-size: 13px;
+  line-height: 16px;
+  overflow-wrap: anywhere;
+  user-select: text;
+  cursor: text;
+}
+.msn-nudge-line {
+  margin-bottom: 7px;
+}
+.msn-nudge-line hr {
+  width: 47px;
+  margin: 7px 0 0;
+  border: 0;
+  border-top: 1px solid #a0a4ad;
+}
+.msn-message-group + .msn-message-group,
+.msn-message-group + .msn-nudge-line {
+  margin-top: 6px;
+}
+.msn-message-sender {
+  color: #595b5e;
+}
+.msn-message {
+  margin-top: 3px;
+  padding-left: 14px;
+  white-space: pre-wrap;
+}
+.msn-file-link {
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.msn-file-size {
+  color: #595b5e;
+}
+
+/* Lower pane: format bar, typing box with Enviar, status line */
+.msn-composer {
+  position: absolute;
+  right: 144px;
+  bottom: 13px;
+  left: 12px;
+  display: flex;
+  height: 114px;
+  flex-direction: column;
+  border: 1px solid var(--msn-line);
+  border-radius: 5px;
+  background: #fff;
+}
+
+.msn-format-bar {
+  position: relative;
+  flex-shrink: 0;
+  height: 23px;
+  border-bottom: 1px solid var(--msn-line);
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(#d5ddf8, #edf2fe 8px, #e2eafa 14px, #cad9f0);
+}
+.msn-format-button {
+  position: absolute;
+  top: 1px;
+  display: flex;
+  height: 20px;
+  align-items: center;
+  gap: 4px;
+  padding: 0 2px;
+}
+.msn-format-label {
+  margin-left: -1px;
+  color: #434c5d;
+}
+.msn-format-button:disabled .msn-format-label {
+  color: inherit;
+}
+.msn-nudge-button {
+  left: 283px;
+}
+
+.msn-input-area {
+  position: relative;
+  flex: 1;
+  border-bottom: 1px solid var(--msn-line);
+  background: #fff;
+}
+.msn-input {
+  position: absolute;
+  inset: 0 60px 0 0;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  font: 13px/16px Tahoma, sans-serif;
+  outline: none;
+  resize: none;
+  user-select: text;
+}
+.msn-send {
+  position: absolute;
+  top: 17px;
+  right: 3px;
+  width: 54px;
+  height: 37px;
+  border-image: url('./assets/btn-enviar-normal-9slice.png') 7 fill / 7px;
+  color: #2f4a8f;
+  font-weight: bold;
+}
+.msn-send:enabled:hover {
+  border-image-source: url('./assets/btn-enviar-hover-9slice.png');
+}
+.msn-send:enabled:active {
+  border-image-source: url('./assets/btn-enviar-pressed-9slice.png');
+}
+.msn-send:disabled {
+  color: #92a1c6;
+  opacity: 0.7;
+}
+
+.msn-status-line {
+  position: relative;
+  flex-shrink: 0;
+  height: 20px;
+  padding-left: 5px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(#d6e0f2, #f0f4fb 8px, #d6e0f2 16px, #cbd8ef);
+  color: #404b5e;
+  line-height: 20px;
+}
+.msn-status-text {
+  display: block;
+  overflow: hidden;
+  margin-right: 72px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.msn-ink-tabs {
+  position: absolute;
+  top: -1px;
+  right: 12px;
+  display: flex;
+}
+.msn-ink-tab {
+  position: relative;
+  display: grid;
+  width: 28px;
+  height: 20px;
+  place-items: center;
+  border-image: url('./assets/tab-ink-normal-13x21.png') 0 6 6 6 fill / 0 6px 6px 6px;
+}
+.msn-ink-tab.selected {
+  border-image-source: url('./assets/tab-ink-selected-13x21.png');
+}
+/* The selected tab's orange underline */
+.msn-ink-tab.selected::after {
+  content: '';
+  position: absolute;
+  right: 7px;
+  bottom: 1px;
+  left: 7px;
+  height: 3px;
+  background: url('./assets/tab-ink-hover-line.png') center / 100% 3px;
+}
+
+/* Display pictures on the right: the contact's on top, yours at the bottom */
+.msn-cv-picture {
+  position: absolute;
+  right: 20px;
+  width: 115px;
+  padding: 4px 0 0 7px;
+  border-image: url('./assets/dp-frame-9slice-11x13.png') 6 5 6 5 fill / 6px 5px;
+}
+.msn-cv-picture .msn-dp-frame {
+  padding: 0;
+  border-image: none;
+}
+.msn-cv-picture .msn-dp-frame img {
+  box-sizing: content-box;
+  border: 1px solid #5c6b7d;
+  border-radius: 5px;
+}
+.msn-cv-picture .msn-caret {
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+}
+.msn-cv-picture-contact {
+  top: 8px;
+  height: 166px;
+}
+.msn-cv-picture-mine {
+  bottom: 28px;
+  height: 120px;
+  text-align: left;
+  cursor: pointer;
+}
+.msn-cv-flyin {
+  position: absolute;
+  top: 13px;
+  right: 14px;
+  width: 8px;
+  height: 35px;
+  background: url('./assets/flyin-left-selected.png');
+}
+.msn-cv-flyin:hover {
+  background-image: url('./assets/flyin-left-hover.png');
+}
+.msn-cv-webcam {
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  width: 115px;
+  color: #0000ff;
+  text-align: center;
+  text-decoration: underline;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ---------- Bottom bar ---------- */
+
+.msn-cv-footer {
+  position: relative;
+  flex-shrink: 0;
+  height: 21px;
+  padding: 2px 0 0 18px;
+  border-top: 1px solid var(--msn-line);
+  box-shadow: var(--msn-chrome-sides), inset 0 -1px #afb7c2;
+  background: #f9fbfd;
+  line-height: 18px;
+}
+.msn-cv-customize {
+  color: #434b56;
+  font-weight: bold;
+  cursor: pointer;
+}
+.msn-cv-customize:hover {
+  color: #0000ff;
+  text-decoration: underline;
+}
+.msn-cv-footer::after {
+  content: '';
+  position: absolute;
+  right: 3px;
+  bottom: 1px;
+  width: 12px;
+  height: 12px;
+  /* Just the dots out of MSN's gripper corner */
+  background: url('./assets/conv-gripper-corner.png') -29px -26px;
+}
+
+/* ---------- Nudge: the whole window shakes ---------- */
+
+.msn-shaking {
+  animation: msn-shake 700ms linear;
+}
+@keyframes msn-shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  10% {
+    translate: -8px 4px;
+  }
+  20% {
+    translate: 7px -5px;
+  }
+  30% {
+    translate: -7px -3px;
+  }
+  40% {
+    translate: 8px 5px;
+  }
+  50% {
+    translate: -6px 4px;
+  }
+  60% {
+    translate: 6px -4px;
+  }
+  70% {
+    translate: -5px -3px;
+  }
+  80% {
+    translate: 4px 3px;
+  }
+  90% {
+    translate: -2px 1px;
+  }
+}
+
+/* ---------- Emoticons ---------- */
+
+/* MSN's 19px emoticons sit on the text's baseline, a little lower */
+.msn-emoticon {
+  display: inline-block;
+  vertical-align: -5px;
+}
+
+.msn-emoticon-picker {
+  position: absolute;
+  z-index: 5;
+  top: 1px;
+}
+.msn-emoticon-picker .msn-format-button {
+  position: static;
+}
+/* The grid MSN dropped down under the smiley: white, a thin blue border, 10 to a row */
+.msn-emoticon-grid {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(10, 23px);
+  gap: 1px;
+  margin-bottom: 2px;
+  padding: 4px;
+  border: 1px solid #7a96df;
+  background: #fff;
+  box-shadow: 2px 2px 3px rgb(0 0 0 / 0.3);
+}
+.msn-emoticon-option {
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border: 1px solid transparent;
+}
+.msn-emoticon-option:hover {
+  border-color: #316ac5;
+  background: #c1d2ee;
+}

@@ -1,0 +1,97 @@
+/* MSN's "Imagem de exibição" dialog (PictureDialog.jsx), an ordinary XP dialog */
+
+/* Centred over the desktop; only the dialog itself takes clicks */
+.msn-picture-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.msn-picture-dialog {
+  display: flex;
+  flex-direction: column;
+  width: 430px;
+  pointer-events: auto;
+}
+
+.msn-picture-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 11px;
+  background: #ece9d8;
+  color: #000;
+  font: 11px Tahoma, sans-serif;
+  cursor: default;
+}
+
+.msn-picture-columns {
+  display: flex;
+  gap: 10px;
+}
+
+/* XP's group box: a thin etched line with the caption sitting on it */
+.msn-picture-group {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 7px 8px;
+  border: 1px solid #d0d0bf;
+  border-radius: 3px;
+}
+.msn-picture-group legend {
+  padding: 0 2px;
+  color: #0046d5;
+}
+
+/* The list of pictures: a white, sunken box with 4 per row */
+.msn-picture-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  height: 200px;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid #7f9db9;
+  background: #fff;
+}
+.msn-picture-option {
+  display: grid;
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 2px;
+  border: 1px solid transparent;
+}
+.msn-picture-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.msn-picture-option:hover {
+  border-color: #a8b8d8;
+}
+/* The chosen one gets the list selection's blue */
+.msn-picture-option.selected {
+  border-color: #316ac5;
+  background: #316ac5;
+}
+
+.msn-picture-side {
+  display: flex;
+  width: 108px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.msn-picture-side .msn-dp-frame {
+  align-self: center;
+  margin-bottom: 6px;
+}
+
+.msn-picture-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}

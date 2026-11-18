@@ -174,13 +174,15 @@ function personOfAccount(account) {
 }
 
 // Someone from people.json: { name, friends? }, with an optional photo named after their id
-function createPerson(id, { name = id, friends } = {}) {
+// `unknown` marks someone made up on the spot because an id wasn't found (see resolvePerson)
+function createPerson(id, { name = id, friends } = {}, unknown = false) {
   const person = {
     uid: uidForId(id),
     name,
     photo: photoNamed(id),
     account: null,
     friendCount: friends ?? stableNumber(id, 40, 600),
+    unknown,
   }
   peopleById.set(id, person)
   peopleByUid.set(person.uid, person)
@@ -205,7 +207,20 @@ function resolvePerson(id) {
 
   // A typo or someone missing from people.json: still shown (under their id), but worth fixing
   console.warn(`futeborkut: "${id}" não está em people/people.json nem em profiles/`)
-  return createPerson(id)
+  return createPerson(id, {}, true)
+}
+
+/**
+ * Everyone the site knows by id, for other apps (MSN uses them as contacts):
+ * the band members by folder name, then the people in people.json.
+ */
+export function everyone() {
+  const members = [...accountsById.entries()]
+    .filter(([, account]) => !account.isVisitor)
+    .map(([id, account]) => ({ id, ...personOfAccount(account) }))
+  // Only the people really listed in people.json, not the made-up ones for ids that weren't found
+  const others = [...peopleById.entries()].filter(([, person]) => !person.unknown).map(([id, person]) => ({ id, ...person }))
+  return [...members, ...others]
 }
 
 // A date from the data: "2025-11-13" or "2025-11-13T21:04". A date without a time would be read

@@ -11,7 +11,8 @@ import './menu.css'
  */
 
 // The row of menus under the title bar: Arquivo, Editar, Exibir...
-export function MenuBar({ menus }) {
+// `inertMenusOpen`: menus where nothing works still open (greyed items inside), instead of greying the whole menu
+export function MenuBar({ menus, inertMenusOpen = false }) {
   const [openIndex, setOpenIndex] = useState(null)
   const barRef = useRef(null)
   const close = useCallback(() => setOpenIndex(null), [])
@@ -26,7 +27,7 @@ export function MenuBar({ menus }) {
             role="menuitem"
             className={`xp-menubar-item ${openIndex === index ? 'open' : ''}`}
             // A menu where nothing works is greyed out as a whole
-            disabled={menu.items.every(isInert)}
+            disabled={!inertMenusOpen && menu.items.every(isInert)}
             onPointerDown={() => setOpenIndex((current) => (current === index ? null : index))}
             // Once a menu is open, sliding along the bar opens the others, as in Windows
             onPointerEnter={() => openIndex !== null && setOpenIndex(index)}

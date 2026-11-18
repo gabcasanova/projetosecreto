@@ -193,3 +193,30 @@ body {
   gap: 3px;
   white-space: nowrap;
 }
+
+/* XP's rounded push button (dialogs' OK, Cancelar...) */
+.xp-push-button {
+  min-width: 75px;
+  height: 23px;
+  border: 1px solid #003c74;
+  border-radius: 3px;
+  background: linear-gradient(#fff, #ece9d8 86%, #d6d0c5);
+  box-shadow: inset 0 0 0 1px #fff;
+  font: 11px Tahoma, sans-serif;
+  color: #000;
+}
+.xp-push-button:disabled {
+  border-color: #c9c7ba;
+  background: #f5f4ea;
+  box-shadow: none;
+  color: #aca899;
+}
+.xp-push-button:enabled:hover {
+  box-shadow:
+    inset 0 0 0 1px #fff,
+    inset 0 -2px 0 1px #f8b330,
+    inset 0 2px 0 1px #fce7a8;
+}
+.xp-push-button:enabled:active {
+  background: linear-gradient(#e5e3d9, #ece9d8);
+}

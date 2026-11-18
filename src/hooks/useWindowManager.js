@@ -35,9 +35,10 @@ function useWindowManager(initiallyOpen = []) {
     setStack((current) => [...current.filter((stackedId) => stackedId !== id), id])
   }
 
-  // Opens an app's one window; if it's already open, restores it and swaps in the new props
-  function openWindow(appId, props = {}) {
-    const id = appId
+  // Opens an app's one window; if it's already open, restores it and swaps in the new props.
+  // `key` gives an app one window per thing it shows (one MSN conversation per contact).
+  function openWindow(appId, props = {}, key = null) {
+    const id = key === null ? appId : `${appId}:${key}`
     setWindows((current) =>
       current.some((window) => window.id === id)
         ? current.map((window) => (window.id === id ? { ...window, minimized: false, props } : window))
