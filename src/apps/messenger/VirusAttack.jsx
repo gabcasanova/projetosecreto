@@ -3,6 +3,7 @@ import errorIcon from '../../assets/xp/xp-error-32.png'
 import infoIcon from '../../assets/xp/xp-info-32.png'
 import questionIcon from '../../assets/xp/xp-question-32.png'
 import warningIcon from '../../assets/xp/xp-warning-32.png'
+import { useDisplayScale } from '../../hooks/displayScale'
 import { playSound } from '../../sounds/sounds'
 import './virus.css'
 
@@ -67,6 +68,8 @@ function messageBoxes(fileName) {
 
 function VirusAttack({ fileName, onSurvived, onCrashed }) {
   const [popups, setPopups] = useState([])
+  // The screen's size in the desktop's own (possibly zoomed) pixels, so the boxes land on screen
+  const { scale } = useDisplayScale()
   const [spawned, setSpawned] = useState(0)
   const boxes = useRef(messageBoxes(fileName))
   const finished = useRef(false)
@@ -89,8 +92,8 @@ function VirusAttack({ fileName, onSurvived, onCrashed }) {
         return {
           id,
           ...boxes.current[id % boxes.current.length],
-          x: Math.random() * Math.max(0, window.innerWidth - POPUP_WIDTH - 260),
-          y: Math.random() * Math.max(0, window.innerHeight - POPUP_HEIGHT - 60),
+          x: Math.random() * Math.max(0, window.innerWidth / scale - POPUP_WIDTH - 260),
+          y: Math.random() * Math.max(0, window.innerHeight / scale - POPUP_HEIGHT - 60),
         }
       })
       setPopups((current) => [...current, ...newPopups])
@@ -98,7 +101,7 @@ function VirusAttack({ fileName, onSurvived, onCrashed }) {
       playSound(KINDS[newPopups[0].kind].sound)
     }, delay)
     return () => clearTimeout(timer)
-  }, [spawned, blueScreen])
+  }, [spawned, blueScreen, scale])
 
   // All out and all closed: survived
   useEffect(() => {

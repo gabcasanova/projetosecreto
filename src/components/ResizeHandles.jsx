@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useDisplayScale } from '../hooks/displayScale'
 
 // Which way each handle moves the window's edges: -1 the left/top edge, 1 the right/bottom one
 const HANDLES = [
@@ -24,6 +25,8 @@ const HANDLES = [
 function ResizeHandles({ getRect, onResize, minWidth, minHeight }) {
   // The pointer position and window rect when the drag started
   const drag = useRef(null)
+  // Pointer distances are in screen pixels; divided by the zoom they're the desktop's own
+  const { scale } = useDisplayScale()
 
   function handlePointerDown(event, handle) {
     event.stopPropagation()
@@ -34,8 +37,8 @@ function ResizeHandles({ getRect, onResize, minWidth, minHeight }) {
   function handlePointerMove(event) {
     if (!drag.current) return
     const { handle, pointerX, pointerY, rect } = drag.current
-    const horizontal = resizeAxis(rect.x, rect.width, event.clientX - pointerX, handle.x, minWidth, -Infinity)
-    const vertical = resizeAxis(rect.y, rect.height, event.clientY - pointerY, handle.y, minHeight, 0)
+    const horizontal = resizeAxis(rect.x, rect.width, (event.clientX - pointerX) / scale, handle.x, minWidth, -Infinity)
+    const vertical = resizeAxis(rect.y, rect.height, (event.clientY - pointerY) / scale, handle.y, minHeight, 0)
     onResize({ x: horizontal.start, width: horizontal.size, y: vertical.start, height: vertical.size })
   }
 

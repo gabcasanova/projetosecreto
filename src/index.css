@@ -220,3 +220,13 @@ body {
 .xp-push-button:enabled:active {
   background: linear-gradient(#e5e3d9, #ece9d8);
 }
+
+/* The display size popup: the volume popup's frame, with a list of sizes */
+.xp-scale-popup {
+  width: 120px;
+  align-items: flex-start;
+  padding: 6px 10px 8px;
+}
+.xp-scale-popup p {
+  align-self: center;
+}

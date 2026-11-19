@@ -7,6 +7,8 @@ import ErrorPage from './ErrorPage'
 import ExplorerBar from './ExplorerBar'
 import './internet-explorer.css'
 import { MenuBar } from '../../components/menu/Menu'
+import useStoredState from '../../hooks/useStoredState'
+import { playSound } from '../../sounds/sounds'
 import { buildMenus } from './menus'
 import StatusBar from './StatusBar'
 import Toolbar from './Toolbar'
@@ -80,6 +82,9 @@ function InternetExplorer({ site, url: startUrl, bars: initialBars = DEFAULT_BAR
     return findPage(site, url) ?? (url === 'about:blank' ? BLANK_PAGE : null)
   }
 
+  // Hides the old-web ads on every site; remembered between visits
+  const [adsBlocked, setAdsBlocked] = useStoredState('ie:adsBlocked', false)
+
   const browser = {
     id,
     currentUrl,
@@ -121,6 +126,12 @@ function InternetExplorer({ site, url: startUrl, bars: initialBars = DEFAULT_BAR
       if (content) window.getSelection().selectAllChildren(content)
     },
     openAbout: () => setAboutOpen(true),
+    adsBlocked,
+    toggleAdBlocker() {
+      // Turning it on gets XP's "pop-up blocked" sound
+      if (!adsBlocked) playSound('xpPopupBlocked')
+      setAdsBlocked(!adsBlocked)
+    },
     // Arquivo > Novo > Janela: another IE window showing the same site
     newWindow: openWindow && (() => openWindow('internetExplorer')),
     closeWindow,
@@ -168,7 +179,7 @@ function InternetExplorer({ site, url: startUrl, bars: initialBars = DEFAULT_BAR
             />
           )}
           {/* Re-keyed per finished load, so every page starts scrolled to the top and Atualizar re-mounts it */}
-          <div key={navigation.loadCount} id={`${id}-content`} className="ie-content">
+          <div key={navigation.loadCount} id={`${id}-content`} className={`ie-content ${adsBlocked ? 'ads-blocked' : ''}`}>
             {currentUrl &&
               (page ? (
                 <page.Content url={currentUrl} navigate={browser.navigate} />

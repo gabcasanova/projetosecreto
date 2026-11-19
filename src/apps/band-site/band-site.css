@@ -1,0 +1,275 @@
+/*
+ * The band's GeoCities-style home page. Garish on purpose: a tiled dark
+ * background, Comic Sans and Times, yellow on purple, rainbow letters,
+ * blinking text, thick bevelled table borders.
+ */
+
+.geo {
+  min-height: 100%;
+  /* Without the tiled background GIF, a starry-night colour of the same mood */
+  background: #000020 repeat;
+  color: #ffff00;
+  font: 15px/1.4 'Comic Sans MS', 'Comic Sans', 'Chalkboard SE', cursive;
+  cursor: default;
+  user-select: text;
+}
+.geo a {
+  color: #00ffff;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.geo a:visited {
+  color: #ff66ff;
+}
+.geo a:hover {
+  background: #ff0000;
+  color: #ffff00;
+}
+.geo .geo-dead {
+  color: #00ffff;
+  font-weight: bold;
+  text-decoration: underline;
+  opacity: 0.6;
+}
+
+.geo-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 14px 10px 30px;
+  text-align: center;
+}
+
+.geo-gif {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+}
+.geo-block {
+  display: block;
+  margin: 10px auto;
+}
+.geo-inline {
+  max-height: 32px;
+}
+.geo-flip {
+  transform: scaleX(-1);
+}
+.geo-gifrow {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 8px 0;
+}
+.geo-gifrow .geo-gif {
+  max-height: 28px;
+}
+
+/* ---------- Title ---------- */
+
+.geo-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.geo-top .geo-gif {
+  max-height: 70px;
+}
+.geo h1 {
+  font: bold 44px/1.1 Impact, 'Arial Black', sans-serif;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #000, 5px 5px 0 #ff00ff;
+}
+.geo h2 {
+  margin: 18px 0 8px;
+  color: #ff9900;
+  font: bold 24px Impact, 'Arial Black', sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #000;
+}
+.geo h3 {
+  margin-bottom: 6px;
+  color: #ff0000;
+  font: bold 18px 'Arial Black', sans-serif;
+}
+
+/* Every letter a step further round the colour wheel, and the wheel keeps turning */
+.geo-rainbow span {
+  color: hsl(calc(var(--n) * 25) 100% 60%);
+  animation: geo-rainbow 2s linear infinite;
+  animation-delay: calc(var(--n) * -0.1s);
+}
+@keyframes geo-rainbow {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.geo-tagline {
+  margin: 6px 0;
+  color: #00ff00;
+  font: bold 16px 'Courier New', monospace;
+}
+
+.geo-marquee {
+  display: block;
+  margin: 10px 0;
+  padding: 4px 0;
+  border: 3px ridge #ff00ff;
+  background: #000;
+  color: #00ff00;
+  font: bold 16px 'Courier New', monospace;
+}
+
+/* The <blink> tag, which modern browsers dropped */
+.geo-blink {
+  color: #ff3333;
+  font-weight: bold;
+  animation: geo-blink 1s steps(1, end) infinite;
+}
+@keyframes geo-blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+/* ---------- The menu and "Quem somos" table ---------- */
+
+.geo-table {
+  width: 100%;
+  margin: 12px 0;
+  border: 5px outset #c0c0c0;
+  border-collapse: separate;
+  background: #330066;
+}
+.geo-table td {
+  padding: 10px;
+  border: 2px inset #c0c0c0;
+  vertical-align: top;
+}
+.geo-menu {
+  width: 190px;
+  background: #000066;
+  text-align: left;
+}
+.geo-menu ul {
+  margin-bottom: 8px;
+}
+.geo-menu li {
+  margin: 6px 0;
+}
+.geo-main {
+  color: #ffffff;
+  font: 16px/1.5 'Times New Roman', Times, serif;
+  text-align: left;
+}
+.geo-main h2 {
+  text-align: center;
+}
+.geo-main p {
+  margin-bottom: 10px;
+  text-indent: 2em;
+}
+.geo-lineup {
+  margin: 0 auto;
+  color: #ffff00;
+  font-family: 'Comic Sans MS', cursive;
+}
+.geo-lineup td {
+  padding: 2px 12px;
+  border: 0;
+}
+
+.geo-center {
+  text-align: center;
+}
+.geo-divider {
+  display: block;
+  max-width: 100%;
+  margin: 16px auto;
+}
+.geo-hr {
+  height: 6px;
+  margin: 18px 0;
+  border: 0;
+  background: linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, magenta);
+}
+
+/* ---------- Photos ---------- */
+
+.geo-photos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+.geo-photos img {
+  display: block;
+  border: 4px ridge #ffcc00;
+  object-fit: cover;
+}
+.geo-photos a:hover {
+  background: none;
+}
+.geo-photos a:hover img {
+  border-color: #ff0000;
+}
+
+.geo-services {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font-size: 17px;
+}
+
+/* ---------- Discography ---------- */
+
+.geo-releases td {
+  vertical-align: middle;
+  text-align: left;
+}
+.geo-releases img {
+  border: 3px ridge #ffcc00;
+}
+.geo-release-title {
+  color: #00ffff;
+  font-size: 18px;
+}
+
+/* ---------- Footer ---------- */
+
+.geo-footer p {
+  margin: 10px 0;
+}
+.geo-footer .geo-gif {
+  max-height: 80px;
+}
+/* An odometer-style hit counter: white digits in black boxes */
+.geo-counter {
+  display: inline-flex;
+  gap: 2px;
+  margin-top: 4px;
+}
+.geo-counter span {
+  width: 18px;
+  padding: 2px 0;
+  border: 1px solid #666;
+  background: linear-gradient(#333, #000 50%, #222);
+  color: #fff;
+  font: bold 18px 'Courier New', monospace;
+}
+.geo-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+.geo-webring {
+  color: #ffffff;
+}
+.geo-small {
+  color: #aaaaaa;
+  font: 11px Verdana, sans-serif;
+}

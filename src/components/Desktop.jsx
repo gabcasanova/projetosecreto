@@ -27,6 +27,9 @@ import MessengerProvider from '../apps/messenger/MessengerProvider'
 import MessengerTrayIcon from '../apps/messenger/MessengerTrayIcon'
 import messengerIcon from '../assets/xp/icons/msn-messenger-48.png'
 import ShowDoFutebas from '../apps/show-do-futebas/ShowDoFutebas'
+import SportsHeads from '../apps/sports-heads/SportsHeads'
+// The Flash Player icon: it's a Flash game
+import sportsHeadsIcon from '../apps/sports-heads/icon.png'
 // XP's gold star: a prize
 import showDoFutebasIcon from '../assets/xp/icons/star-5.png'
 import showDoFutebasSmallIcon from '../assets/xp/icons/star-2.png'
@@ -118,6 +121,21 @@ const APPS = {
     width: 820,
     Content: ShowDoFutebas,
   },
+  // Mousebreaker's football game, embedded from MiniJogos
+  sportsHeads: {
+    title: 'Sports Heads: Football Championship',
+    shortcutLabel: 'Sports Heads',
+    icon: sportsHeadsIcon,
+    bodyClassName: '',
+    maximizable: true,
+    // The game's own screen is 961×692: the window keeps that shape however it's resized or maximized
+    contentAspectRatio: 961 / 692,
+    minWidth: 480,
+    minHeight: 380,
+    initialPosition: { x: 90, y: 30 },
+    width: 820,
+    Content: SportsHeads,
+  },
   // MSN Messenger 7: the contact list, then one conversation window per contact (opened with a key)
   messenger: {
     title: 'MSN Messenger',
@@ -159,13 +177,14 @@ function staticTitleOf(appId, props) {
  * text files open in Notepad. Label and icon default to the app's own.
  */
 const DESKTOP_SHORTCUTS = [
+  textFile({ id: 'aboutTheBand', fileName: 'Sobre a Banda', text: aboutTheBand }),
   { id: 'mediaPlayer', appId: 'mediaPlayer' },
+  webShortcut({ id: 'bairrolog', label: 'Bairrolog', icon: bairrologIcon, url: BAIRROLOG_URL }),
+  webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
   { id: 'internetExplorer', appId: 'internetExplorer' },
   { id: 'messenger', appId: 'messenger' },
   { id: 'showDoFutebas', appId: 'showDoFutebas' },
-  webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
-  webShortcut({ id: 'bairrolog', label: 'Bairrolog', icon: bairrologIcon, url: BAIRROLOG_URL }),
-  textFile({ id: 'aboutTheBand', fileName: 'Sobre a Banda', text: aboutTheBand }),
+  { id: 'sportsHeads', appId: 'sportsHeads' },
 ]
 
 function webShortcut({ id, label, icon, url }) {
@@ -320,6 +339,7 @@ function Desktop({ onReboot }) {
             maximizable={app.maximizable}
             minWidth={app.minWidth}
             minHeight={app.minHeight}
+            contentAspectRatio={app.contentAspectRatio}
             active={id === windowManager.activeId}
             minimized={minimized}
             zIndex={windowManager.zIndexOf(id)}

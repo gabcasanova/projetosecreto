@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { ADS } from '../../../components/retro-ads/ads'
+import { WithSideAds } from '../../../components/retro-ads/RetroAds'
 import Link from './Link'
 import logoHeader from '../assets/logo-header.svg'
 import logo from '../assets/logo.svg'
@@ -16,15 +18,21 @@ function Layout({ left, right, children, navigate }) {
   return (
     <div className="futeborkut">
       <Header navigate={navigate} />
-      <div className="container">
-        {left && <div className="lbox">{left}</div>}
-        {right && <div className="rbox">{right}</div>}
-        <div className={centreClass(left, right)}>{children}</div>
-        <Footer />
-      </div>
+      {/* Under the header, the page sits between two columns of 2000s ads (when the window is wide enough) */}
+      <WithSideAds left={LEFT_ADS} right={RIGHT_ADS} contentWidth="minmax(920px, 1003px)">
+        <div className="container">
+          {left && <div className="lbox">{left}</div>}
+          {right && <div className="rbox">{right}</div>}
+          <div className={centreClass(left, right)}>{children}</div>
+          <Footer />
+        </div>
+      </WithSideAds>
     </div>
   )
 }
+
+const LEFT_ADS = [ADS.webshots, ADS.livrariaCultura]
+const RIGHT_ADS = [ADS.napster, ADS.icq]
 
 // Three columns, two (no right column), or just the centre (error pages)
 function centreClass(left, right) {

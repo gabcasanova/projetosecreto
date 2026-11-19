@@ -1,4 +1,6 @@
-import bandLogo from '../../assets/futeboldebairroxp.png'
+import { ADS } from '../../components/retro-ads/ads'
+import { RetroAd, WithSideAds } from '../../components/retro-ads/RetroAds'
+import { INSTAGRAM, MUSIC_SERVICES } from '../../components/sidebar/externalLinks'
 import { BAND_MEMBERS } from '../futeborkut/data/database'
 import { FUTEBORKUT_URL } from '../futeborkut/links'
 import BrowserLink from '../internet-explorer/BrowserLink'
@@ -7,69 +9,125 @@ import { SHOWS } from './shows'
 import './bairrolog.css'
 
 /*
- * Bairrolog's pages: one photo with its text and guestbook (PostPage), the
- * mosaic of every photo (MosaicPage) and the "not found" page. They share
- * Fotolog's frame: the header bar, the username, and the sidebar.
+ * Bairrolog's pages, laid out like a member's page on Fotolog in 2008
+ * (rebuilt from archived captures): the search strip and menu across the
+ * top, the member's title, then three columns on a photo's page (recent
+ * photos, the photo with its guestbook, friends and links). The mosaic
+ * of every photo is the front page.
  */
 
-// When the band "joined" Bairrolog: the day of its first show
-const MEMBER_SINCE = SHOWS.at(-1)?.date ?? null
-// How many of the latest photos the sidebar shows
-const RECENT_COUNT = 9
+const TITLE = 'Futebol de Bairro'
+const SUBTITLE = 'galeria de shows do futebol de bairro'
+// How many of the neighbouring photos the left column shows, like Fotolog's "Fotos Recentes"
+const RECENT_COUNT = 6
+// The 2000s ads in the margins either side of the page
+const LEFT_ADS = [ADS.emoticons, ADS.icq]
+const RIGHT_ADS = [ADS.vanillaCoke, ADS.livrariaCultura]
 
-/** /futeboldebairro/ and /futeboldebairro/<id>/: one photo */
+/** /futeboldebairro/ and /futeboldebairro/mosaic/: every show's photos as squares, newest first */
+export function MosaicPage() {
+  return (
+    <Frame>
+      <div className="blog-mosaic">
+        {SHOWS.map((show) => (
+          <section key={show.id} className="blog-mosaic-show">
+            <h3>
+              {show.title}
+              <span>
+                {show.place} · {shortDate(show.date)} · {photosLabel(show.photos.length)}
+              </span>
+            </h3>
+            <div className="blog-mosaic-grid">
+              {POSTS.filter((post) => post.show === show).map((post) => (
+                <BrowserLink key={post.id} href={links.post(post)} className="blog-thumb" title={post.show.title}>
+                  <img src={post.photo.thumb} alt="" width={100} height={100} loading="lazy" decoding="async" />
+                </BrowserLink>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </Frame>
+  )
+}
+
+/** /futeboldebairro/<id>/: one photo */
 export function PostPage({ url }) {
-  const post = postFromUrl(url)
+  const post = findPost(new URL(url).pathname.split('/').filter(Boolean)[1])
   if (!post) return <ErrorPage />
 
   const index = POSTS.indexOf(post)
-  // The list runs newest first, so "older" is further down it
-  const newer = POSTS[index - 1] ?? null
-  const older = POSTS[index + 1] ?? null
+  // The list runs newest first: "Anterior" goes back to the newer one, "Próxima" on to the older
+  const previous = POSTS[index - 1] ?? null
+  const next = POSTS[index + 1] ?? null
   const { show } = post
   // The guestbook belongs to the show's first photo
   const comments = post.position === 1 ? show.comments : []
 
   return (
     <Frame>
-      <article className="blog-post">
-        <PostNavigation newer={newer} older={older} />
-        <div className="blog-photo">
-          <img src={post.photo.src} alt={`${show.title}, foto ${post.position}`} />
-        </div>
-        <PostNavigation newer={newer} older={older} />
+      <div className="blog-wrapper">
+        <RecentPhotos current={post} />
 
-        <h1 className="blog-title">{show.title}</h1>
-        <p className="blog-meta">
-          {show.place} · {longDate(show.date)} · foto {post.position} de {show.photos.length}
-        </p>
-        <p className="blog-desc">{show.desc}</p>
-
-        <Guestbook comments={comments} />
-      </article>
-    </Frame>
-  )
-}
-
-/** /futeboldebairro/mosaic/: every show's photos as small squares, newest first */
-export function MosaicPage() {
-  return (
-    <Frame>
-      <section className="blog-mosaic">
-        <h1 className="blog-section-title">Mosaico</h1>
-        {SHOWS.map((show) => (
-          <div key={show.id} className="blog-mosaic-show">
-            <h2>
-              {show.title} <span>{shortDate(show.date)}</span>
-            </h2>
-            <div className="blog-mosaic-grid">
-              {POSTS.filter((post) => post.show === show).map((post) => (
-                <Thumbnail key={post.id} post={post} size={96} />
-              ))}
-            </div>
+        <main className="blog-center">
+          <div className="blog-mainphoto">
+            <PhotoNavigation previous={previous} next={next} />
+            <img src={post.photo.src} alt={`${show.title}, foto ${post.position}`} />
+            <ul className="blog-phototools">
+              <li>{shortDate(show.date)}</li>
+              <li>Câmera: Não especificada</li>
+            </ul>
+            <ul className="blog-phototools">
+              <li>
+                <Dead>Enviar esta foto por e-mail</Dead>
+              </li>
+              <li>
+                <BrowserLink href={links.post(post)}>Permalink</BrowserLink>
+              </li>
+            </ul>
           </div>
-        ))}
-      </section>
+
+          <div className="blog-description">
+            <h1>{show.title}</h1>
+            <p className="blog-where">
+              {show.place} · foto {post.position} de {show.photos.length}
+            </p>
+            <p>{show.desc}</p>
+          </div>
+
+          <Guestbook comments={comments} />
+          <PhotoNavigation previous={previous} next={next} />
+        </main>
+
+        <aside className="blog-col blog-right">
+          <h3>Amigos/Favoritos</h3>
+          <div className="blog-sidethumbs">
+            {BAND_MEMBERS.map((member) => (
+              <div key={member.uid} className="blog-friend">
+                <BrowserLink href={`${FUTEBORKUT_URL}Profile.aspx?uid=${member.uid}`} title={`${member.name} no futeborkut`}>
+                  {member.photo && <img src={member.photo} alt="" width={100} height={100} />}
+                </BrowserLink>
+                <div className="blog-friend-name">{member.name.split(' ')[0].toLowerCase()}</div>
+                <div>Rio de Janeiro, Brasil</div>
+              </div>
+            ))}
+          </div>
+          <div className="blog-divider" />
+
+          <h3>Grupos Favoritos</h3>
+          <p className="blog-note">{USERNAME} ainda não adicionou nenhum grupo.</p>
+          <div className="blog-divider" />
+
+          <h3>Links</h3>
+          <ul className="blog-links">
+            <ExternalLink href={INSTAGRAM.url}>Instagram</ExternalLink>
+            <ExternalLink href={MUSIC_SERVICES.spotify}>Spotify</ExternalLink>
+            <ExternalLink href={MUSIC_SERVICES.deezer}>Deezer</ExternalLink>
+            <ExternalLink href={MUSIC_SERVICES.youtubemusic}>YouTube Music</ExternalLink>
+            <ExternalLink href={MUSIC_SERVICES.applemusic}>Apple Music</ExternalLink>
+          </ul>
+        </aside>
+      </div>
     </Frame>
   )
 }
@@ -78,179 +136,180 @@ export function MosaicPage() {
 export function ErrorPage() {
   return (
     <Frame>
-      <section className="blog-error">
-        <h1 className="blog-section-title">Página não encontrada</h1>
+      <div className="blog-error">
+        <h1>Página não encontrada</h1>
         <p>A foto ou o fotolog que você procura não existe ou foi removido.</p>
         <p>
-          <BrowserLink href={links.home}>Voltar para o fotolog de {USERNAME}</BrowserLink>
+          <BrowserLink href={links.home}>Voltar para {TITLE}</BrowserLink>
         </p>
-      </section>
+      </div>
     </Frame>
   )
 }
 
-// "/futeboldebairro/31003001/" -> that post; "/futeboldebairro/" -> the newest
-function postFromUrl(url) {
-  const part = new URL(url).pathname.split('/').filter(Boolean)[1]
-  return part ? findPost(part) : (POSTS[0] ?? null)
-}
-
 /*
- * Fotolog's page frame: the bar across the top with the logo and the site's
- * menu (only the band's own pages exist, so the rest is greyed out), the
- * username in big letters, then the page with the sidebar on the right.
+ * Every page's frame: the search strip and the site menu (only the band's
+ * own pages exist, so the rest is greyed out), the logo, the member's title
+ * with its subtitle and place, the page itself, and the footer.
  */
 function Frame({ children }) {
   return (
     <div className="blog">
-      <header className="blog-topbar">
-        <BrowserLink href={links.home} className="blog-logo" title="Bairrolog">
-          bairro<span>log</span>
-        </BrowserLink>
-        <nav className="blog-menu">
-          <Dead>Página inicial</Dead>
-          <Dead>Explorar</Dead>
-          <Dead>Grupos</Dead>
-          <Dead>Gold</Dead>
-          <Dead>Entrar</Dead>
-          <Dead>Cadastre-se</Dead>
+      <WithSideAds left={LEFT_ADS} right={RIGHT_ADS}>
+      <div className="blog-page">
+        <div className="blog-hat">
+          <div className="blog-search">
+            <label>
+              <input type="radio" name="blog-search" defaultChecked disabled /> Bairrolog
+            </label>
+            <label>
+              <input type="radio" name="blog-search" disabled /> Web
+            </label>
+            <input type="text" disabled aria-label="Pesquisar" />
+            <span className="blog-button blog-dead">Pesquisar</span>
+          </div>
+          <div className="blog-account">
+            <Dead>Entre</Dead> | <Dead>Seja um membro!</Dead> | <Dead>Ajuda</Dead>
+            <div className="blog-languages">
+              <Dead>Deutsch</Dead> <Dead>English</Dead> <Dead>Español</Dead> <Dead>Français</Dead> <b>Português</b>{' '}
+              <Dead>Svenska</Dead>
+            </div>
+          </div>
+        </div>
+
+        <div className="blog-header">
+          <BrowserLink href={links.home} className="blog-logo" title="Bairrolog">
+            <span className="blog-logo-square" />
+            BAIRROLOG<sup>™</sup>
+          </BrowserLink>
+          {/* Fotolog's banner ad, beside the logo */}
+          <RetroAd ad={ADS.msnCeline} />
+        </div>
+
+        <nav className="blog-homenav">
+          <span>
+            <Dead>Seja um membro!</Dead> » <Dead>Crie sua página</Dead> <Dead>Faça um tour</Dead>
+          </span>
+          <span>
+            <Dead>Descubra</Dead> » <Dead>Votação</Dead> <Dead>Grupos</Dead> <Dead>Membros</Dead> <Dead>Gold Camera</Dead>{' '}
+            <Dead>Classificados</Dead>
+          </span>
         </nav>
-      </header>
 
-      <div className="blog-user">
-        <BrowserLink href={links.home}>{USERNAME}</BrowserLink>
+        <div className="blog-title">
+          <h2>
+            <BrowserLink href={links.home}>{TITLE}</BrowserLink>
+          </h2>
+          <p className="blog-subtitle">{SUBTITLE}</p>
+          <p className="blog-geo">
+            <Dead>Sobre {USERNAME}</Dead> · Rio de Janeiro, RJ, Brasil
+          </p>
+        </div>
+
+        {children}
+
+        <footer className="blog-footer">
+          <ul>
+            {['Quem somos', 'Dúvidas', 'Política de Privacidade', 'Termos de Uso', 'Regras da Comunidade', 'Imprensa', 'Anunciantes', 'Contato'].map(
+              (label) => (
+                <li key={label}>
+                  <Dead>{label}</Dead>
+                </li>
+              ),
+            )}
+          </ul>
+          <p>© 2002-2008 Bairrolog, Inc. Bairrolog ® é uma marca registrada de Bairrolog, Inc.</p>
+        </footer>
       </div>
-
-      <div className="blog-columns">
-        <main className="blog-main">{children}</main>
-        <Sidebar />
-      </div>
-
-      <footer className="blog-footer">
-        <Dead>Sobre o Bairrolog</Dead> · <Dead>Termos de uso</Dead> · <Dead>Privacidade</Dead> · <Dead>Ajuda</Dead>
-        <br />© 2006 Bairrolog
-      </footer>
+      </WithSideAds>
     </div>
   )
 }
 
-function Sidebar() {
-  const recent = POSTS.slice(0, RECENT_COUNT)
+// The left column: thumbnails of the photos around this one, with their dates; » marks the one open
+function RecentPhotos({ current }) {
+  const index = POSTS.indexOf(current)
+  const start = Math.max(0, Math.min(index - Math.floor(RECENT_COUNT / 2), POSTS.length - RECENT_COUNT))
+  const nearby = POSTS.slice(start, start + RECENT_COUNT)
 
   return (
-    <aside className="blog-side">
-      <section className="blog-box blog-profile">
-        <img src={bandLogo} alt="" className="blog-avatar" />
-        <div>
-          <b>{USERNAME}</b>
-          <span className="blog-gold" title="Membro Gold">
-            GOLD
-          </span>
-          <br />
-          Futebol de Bairro
-          <br />
-          Rio de Janeiro, Brasil
-        </div>
-        <dl className="blog-stats">
-          {MEMBER_SINCE && (
-            <>
-              <dt>membro desde</dt>
-              <dd>{shortDate(MEMBER_SINCE)}</dd>
-            </>
-          )}
-          <dt>fotos</dt>
-          <dd>{POSTS.length}</dd>
-          <dt>shows</dt>
-          <dd>{SHOWS.length}</dd>
-        </dl>
-      </section>
-
-      <section className="blog-box">
-        <h3>Últimas fotos</h3>
-        <div className="blog-thumbs">
-          {recent.map((post) => (
-            <Thumbnail key={post.id} post={post} size={56} />
-          ))}
-        </div>
-        <BrowserLink href={links.mosaic} className="blog-more">
-          ver mosaico completo »
-        </BrowserLink>
-      </section>
-
-      <section className="blog-box">
-        <h3>Shows</h3>
-        <ul className="blog-archive">
-          {SHOWS.map((show) => (
-            <li key={show.id}>
-              <BrowserLink href={links.post(POSTS.find((post) => post.show === show))}>{show.title}</BrowserLink>
-              <span>{shortDate(show.date)}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="blog-box">
-        <h3>Amigos/Favoritos</h3>
-        <div className="blog-friends">
-          {BAND_MEMBERS.map((member) => (
-            <BrowserLink
-              key={member.uid}
-              href={`${FUTEBORKUT_URL}Profile.aspx?uid=${member.uid}`}
-              className="blog-friend"
-              title={`Perfil de ${member.name} no futeborkut`}
-            >
-              {member.photo && <img src={member.photo} alt="" />}
-              <span>{member.name.split(' ')[0].toLowerCase()}</span>
+    <aside className="blog-col blog-left">
+      <h3>
+        Fotos Recentes
+        <br />
+        de {USERNAME}
+      </h3>
+      <ul className="blog-recent">
+        {nearby.map((post) => (
+          <li key={post.id} className={post === current ? 'selected' : ''}>
+            <BrowserLink href={links.post(post)} className="blog-thumb">
+              <img src={post.photo.thumb} alt="" width={100} height={100} loading="lazy" decoding="async" />
             </BrowserLink>
-          ))}
-        </div>
-      </section>
+            <p>
+              {shortDate(post.show.date)}
+              {post === current && ' »'}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <p className="blog-more">
+        <BrowserLink href={links.mosaic}>Mais</BrowserLink>
+      </p>
+      <div className="blog-divider" />
+      <p className="blog-feed">
+        <Dead>RSS de {USERNAME}</Dead>
+      </p>
     </aside>
   )
 }
 
-// « mais nova · mais antiga »: Fotolog's arrows between posts
-function PostNavigation({ newer, older }) {
+// « Anterior | Próxima »
+function PhotoNavigation({ previous, next }) {
   return (
-    <nav className="blog-nav">
-      {newer ? <BrowserLink href={links.post(newer)}>« mais nova</BrowserLink> : <Dead>« mais nova</Dead>}
-      <BrowserLink href={links.mosaic}>mosaico</BrowserLink>
-      {older ? <BrowserLink href={links.post(older)}>mais antiga »</BrowserLink> : <Dead>mais antiga »</Dead>}
-    </nav>
+    <ul className="blog-photonav">
+      <li>
+        « {previous ? <BrowserLink href={links.post(previous)}>Anterior</BrowserLink> : <Dead>Anterior</Dead>}
+      </li>
+      <li>
+        {next ? <BrowserLink href={links.post(next)}>Próxima</BrowserLink> : <Dead>Próxima</Dead>} »
+      </li>
+    </ul>
   )
 }
 
 /*
- * The guestbook under a photo. Signing it needs an account, which nobody
- * has here, so that link is greyed out.
+ * The guestbook under a photo. Only members could sign one, and nobody
+ * here is a member, so it ends with Fotolog's own "sorry" note.
  */
 function Guestbook({ comments }) {
   return (
-    <section className="blog-guestbook">
-      <h2 className="blog-section-title">
-        Livro de visitas <span>({comments.length})</span>
-      </h2>
-      {comments.length === 0 && <p className="blog-empty">Nenhum comentário nesta foto ainda.</p>}
+    <div className="blog-guestbook">
+      <h3>Mensagens do livro de visitas ({comments.length})</h3>
       {comments.map((comment, index) => (
         <div key={index} className="blog-comment">
-          <div className="blog-comment-head">
-            <b>{comment.name}</b> {comment.date && <span>em {shortDate(comment.date)}</span>} disse:
-          </div>
+          <p>
+            <b>{comment.name}</b>
+            {comment.date && <span className="blog-said"> disse em {shortDate(comment.date)}…</span>}
+          </p>
           <p>{comment.text}</p>
         </div>
       ))}
-      <p className="blog-sign">
-        <Dead>Assine o livro de visitas</Dead> (é preciso entrar no Bairrolog)
-      </p>
-    </section>
+      <div className="blog-nopost">
+        Desculpe, mas somente membros do Bairrolog podem enviar comentários. <Dead>Faça o login</Dead> ou{' '}
+        <Dead>crie sua conta agora</Dead> - é grátis!
+      </div>
+    </div>
   )
 }
 
-function Thumbnail({ post, size }) {
+// A link out of the simulation, to the band's real pages, in a new tab of the real browser
+function ExternalLink({ href, children }) {
   return (
-    <BrowserLink href={links.post(post)} className="blog-thumb" title={`${post.show.title} (${post.position})`}>
-      <img src={post.photo.src} alt="" width={size} height={size} loading="lazy" decoding="async" />
-    </BrowserLink>
+    <li>
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    </li>
   )
 }
 
@@ -263,12 +322,9 @@ function Dead({ children }) {
   )
 }
 
-// "sábado, 7 de novembro de 2026"
-function longDate(date) {
-  return date.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
-}
+const photosLabel = (count) => (count === 1 ? '1 foto' : `${count} fotos`)
 
-// "07/11/2026"
+// "07/11/26", as Fotolog wrote dates
 function shortDate(date) {
-  return date.toLocaleDateString('pt-BR')
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' })
 }

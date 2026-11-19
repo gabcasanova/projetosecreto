@@ -11,6 +11,10 @@
  *
  * A new show is just a new folder with the next number. Shows are listed
  * newest first (highest folder number first), photos in their number order.
+ *
+ * The originals can be huge, so `python scripts/miniaturas.py` makes light
+ * copies next to them (_thumbs/ for the small squares, _web/ for the big
+ * photo). Photos without them yet just use the original.
  */
 
 const infos = import.meta.glob('/fotos/*/info.json', { eager: true, import: 'default' })
@@ -18,6 +22,8 @@ const pictures = import.meta.glob('/fotos/*/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PN
   eager: true,
   import: 'default',
 })
+const thumbs = import.meta.glob('/fotos/*/_thumbs/*.webp', { eager: true, import: 'default' })
+const webSized = import.meta.glob('/fotos/*/_web/*.webp', { eager: true, import: 'default' })
 
 // "/fotos/12/3.jpg" -> { folder: 12, number: 3 }
 function parsePath(path) {
@@ -31,14 +37,24 @@ function parseDate(text) {
   return new Date(2000 + year, month - 1, day)
 }
 
+// "/fotos/3/7.jpg" -> its light copy in `versions` ("/fotos/3/_thumbs/7.webp"), if it's been made
+function versionOf(versions, kind, path) {
+  const [, folder, name] = path.match(/^\/fotos\/([^/]+)\/(.+)\.[^.]+$/)
+  return versions[`/fotos/${folder}/${kind}/${name}.webp`] ?? null
+}
+
 function photosOf(folder) {
   return Object.entries(pictures)
-    .map(([path, src]) => ({ ...parsePath(path), src }))
+    .map(([path, original]) => ({
+      ...parsePath(path),
+      src: versionOf(webSized, '_web', path) ?? original,
+      thumb: versionOf(thumbs, '_thumbs', path) ?? original,
+    }))
     .filter((picture) => picture.folder === folder)
     .sort((a, b) => a.number - b.number)
 }
 
-/** Every show, newest first: { id, title, place, date, desc, comments, photos: [{ id, src }] } */
+/** Every show, newest first: { id, title, place, date, desc, comments, photos: [{ id, src, thumb }] } */
 export const SHOWS = Object.entries(infos)
   .map(([path, info]) => {
     const { folder } = parsePath(path)
@@ -52,7 +68,7 @@ export const SHOWS = Object.entries(infos)
         ...comment,
         date: comment.date ? parseDate(comment.date) : null,
       })),
-      photos: photosOf(folder).map((photo) => ({ id: `${folder}-${photo.number}`, src: photo.src })),
+      photos: photosOf(folder).map((photo) => ({ id: `${folder}-${photo.number}`, src: photo.src, thumb: photo.thumb })),
     }
   })
   .filter((show) => show.photos.length > 0)

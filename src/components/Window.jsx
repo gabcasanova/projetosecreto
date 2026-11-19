@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useDisplayScale } from '../hooks/displayScale'
 import useMinimizeAnimation from '../hooks/useMinimizeAnimation'
 import ResizeHandles from './ResizeHandles'
 
@@ -22,6 +23,8 @@ function Window({
   maximizable = false,
   minWidth = MIN_WIDTH,
   minHeight = MIN_HEIGHT,
+  // Content width ÷ height to keep while resizing (e.g. a game's screen); null resizes freely
+  contentAspectRatio = null,
   active,
   minimized,
   zIndex,
@@ -32,26 +35,56 @@ function Window({
   children,
 }) {
   const [position, setPosition] = useState(initialPosition)
+  const { scale } = useDisplayScale()
   const [maximized, setMaximized] = useState(false)
+  // Where a proportional window goes when maximized (see largestProportionalRect)
+  const [maximizedRect, setMaximizedRect] = useState(null)
   // Height starts out as whatever the content needs, until the window is resized
   const [size, setSize] = useState({ width, height: null })
   // Offset between the pointer and the window's top-left corner while dragging
   const dragOffset = useRef(null)
   const windowRef = useRef(null)
+  const bodyRef = useRef(null)
 
   useMinimizeAnimation(windowRef, minimized, getTaskbarButton)
 
   function toggleMaximized() {
-    if (maximizable) setMaximized((current) => !current)
+    if (!maximizable) return
+    // Content with fixed proportions can't fill the whole screen: it gets the biggest box that fits, measured now
+    if (!maximized && contentAspectRatio) setMaximizedRect(largestProportionalRect())
+    setMaximized((current) => !current)
+  }
+
+  /*
+   * The biggest window, keeping its content's proportions, that fits the
+   * space a maximized window gets (above the taskbar, left of the sidebar),
+   * centred across it.
+   */
+  function largestProportionalRect() {
+    const desktop = windowRef.current.offsetParent
+    const sidebar = parseFloat(getComputedStyle(desktop).getPropertyValue('--sidebar-width')) || 0
+    const areaWidth = desktop.clientWidth - sidebar
+    const areaHeight = desktop.clientHeight - TASKBAR_HEIGHT
+    const frameWidth = windowRef.current.offsetWidth - bodyRef.current.offsetWidth
+    const frameHeight = windowRef.current.offsetHeight - bodyRef.current.offsetHeight
+
+    let height = areaHeight
+    let width = (height - frameHeight) * contentAspectRatio + frameWidth
+    if (width > areaWidth) {
+      width = areaWidth
+      height = (width - frameWidth) / contentAspectRatio + frameHeight
+    }
+    return { x: Math.round((areaWidth - width) / 2), width: Math.round(width), height: Math.round(height) }
   }
 
   function handlePointerDown(event) {
     // Let the caption buttons receive their own clicks; a maximized window can't be dragged
     if (event.target.closest('button') || maximized) return
 
+    // The pointer reports real screen pixels; the window lives in the (possibly zoomed) desktop's
     dragOffset.current = {
-      x: event.clientX - position.x,
-      y: event.clientY - position.y,
+      x: event.clientX / scale - position.x,
+      y: event.clientY / scale - position.y,
     }
     event.currentTarget.setPointerCapture(event.pointerId)
   }
@@ -59,11 +92,11 @@ function Window({
   function handlePointerMove(event) {
     if (!dragOffset.current) return
 
-    const maxX = window.innerWidth - MIN_VISIBLE
-    const maxY = window.innerHeight - TASKBAR_HEIGHT - MIN_VISIBLE
+    const maxX = window.innerWidth / scale - MIN_VISIBLE
+    const maxY = window.innerHeight / scale - TASKBAR_HEIGHT - MIN_VISIBLE
     setPosition({
-      x: clamp(event.clientX - dragOffset.current.x, MIN_VISIBLE - size.width, maxX),
-      y: clamp(event.clientY - dragOffset.current.y, 0, maxY),
+      x: clamp(event.clientX / scale - dragOffset.current.x, MIN_VISIBLE - size.width, maxX),
+      y: clamp(event.clientY / scale - dragOffset.current.y, 0, maxY),
     })
   }
 
@@ -76,9 +109,32 @@ function Window({
     return { ...position, width: size.width, height: windowRef.current.offsetHeight }
   }
 
-  function handleResize({ x, y, width: newWidth, height }) {
+  function handleResize(rect) {
+    const { x, y, width: newWidth, height } = contentAspectRatio ? keepAspectRatio(rect) : rect
     setPosition({ x, y })
     setSize({ width: newWidth, height })
+  }
+
+  /*
+   * Bends a resize so the content keeps its proportions. Dragging a side
+   * edge (or a corner) sets the width and the height follows; dragging the
+   * top or bottom edge sets the height and the width follows. The window's
+   * title bar and frame don't scale, so they're taken out of the sums, and
+   * the edge opposite the one being dragged stays put.
+   */
+  function keepAspectRatio(rect) {
+    const before = currentRect()
+    const frameWidth = windowRef.current.offsetWidth - bodyRef.current.offsetWidth
+    const frameHeight = windowRef.current.offsetHeight - bodyRef.current.offsetHeight
+
+    if (rect.width !== before.width) {
+      const height = Math.round((rect.width - frameWidth) / contentAspectRatio + frameHeight)
+      // Dragging from the top: the bottom edge stays where it was
+      const y = rect.y !== before.y ? before.y + before.height - height : rect.y
+      return { ...rect, y, height }
+    }
+    const width = Math.round((rect.height - frameHeight) * contentAspectRatio + frameWidth)
+    return { ...rect, width }
   }
 
   // Content stretches to fill the window once it has a set height
@@ -93,9 +149,11 @@ function Window({
       className={`absolute flex flex-col ${active ? '' : 'inactive-window'} ${fillsWindow ? 'window-fill' : ''}`}
       // Maximized, it fills the desktop above the taskbar and left of the sidebar; it remembers where it was for when it's restored
       style={
-        maximized
-          ? { left: 0, top: 0, width: 'calc(100% - var(--sidebar-width, 0px))', height: `calc(100% - ${TASKBAR_HEIGHT}px)`, zIndex }
-          : { left: position.x, top: position.y, width: size.width, height: size.height ?? undefined, zIndex }
+        maximized && maximizedRect
+          ? { left: maximizedRect.x, top: 0, width: maximizedRect.width, height: maximizedRect.height, zIndex }
+          : maximized
+            ? { left: 0, top: 0, width: 'calc(100% - var(--sidebar-width, 0px))', height: `calc(100% - ${TASKBAR_HEIGHT}px)`, zIndex }
+            : { left: position.x, top: position.y, width: size.width, height: size.height ?? undefined, zIndex }
       }
       inert={minimized}
       onPointerDownCapture={onFocus}
@@ -127,7 +185,9 @@ function Window({
         </div>
       </div>
       <div className="xp-frame">
-        <div className={bodyClassName}>{children}</div>
+        <div ref={bodyRef} className={bodyClassName}>
+          {children}
+        </div>
       </div>
     </div>
   )

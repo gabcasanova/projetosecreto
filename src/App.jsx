@@ -1,8 +1,10 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import PlayerProvider from './apps/media-player/PlayerProvider'
 import BootScreen from './components/BootScreen'
 import Desktop from './components/Desktop'
 import WelcomeBox from './components/WelcomeBox'
+import { DisplayScaleContext, SCALE_OPTIONS } from './hooks/displayScale'
+import useStoredState from './hooks/useStoredState'
 import { playSound } from './sounds/sounds'
 
 /*
@@ -30,11 +32,23 @@ function App() {
     setStage('boot')
   }, [])
 
+  // How big the desktop is drawn, picked from the taskbar and remembered (see hooks/displayScale.js)
+  const [storedScale, setScale] = useStoredState('display:scale', 1)
+  const scale = SCALE_OPTIONS.includes(storedScale) ? storedScale : 1
+  const displayScale = useMemo(() => ({ scale, setScale }), [scale, setScale])
+
   return (
     <PlayerProvider>
-      {stage === 'running' && <Desktop key={bootCount} onReboot={reboot} />}
-      {stage === 'welcome' && <WelcomeBox onOk={startDesktop} />}
-      {stage === 'boot' && <BootScreen onDone={showWelcome} />}
+      <DisplayScaleContext.Provider value={displayScale}>
+        {stage === 'running' && (
+          // Zoomed as a whole. Percentage sizes aren't zoomed, so at 100% × 100% it still fills the screen exactly
+          <div style={{ zoom: scale, width: '100%', height: '100%' }}>
+            <Desktop key={bootCount} onReboot={reboot} />
+          </div>
+        )}
+        {stage === 'welcome' && <WelcomeBox onOk={startDesktop} />}
+        {stage === 'boot' && <BootScreen onDone={showWelcome} />}
+      </DisplayScaleContext.Provider>
     </PlayerProvider>
   )
 }

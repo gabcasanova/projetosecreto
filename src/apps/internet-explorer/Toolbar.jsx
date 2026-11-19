@@ -1,6 +1,8 @@
 import backIcon from '../../assets/ie/back.png'
 import editIcon from '../../assets/ie/edit.png'
 import favoritesIcon from '../../assets/ie/favorites.png'
+// XP's red "no" sign, for the ad blocker
+import adBlockerIcon from '../../assets/xp/icons/forbidden-4.png'
 import forwardIcon from '../../assets/ie/forward.png'
 import historyIcon from '../../assets/ie/history.png'
 import homeIcon from '../../assets/ie/home.png'
@@ -65,6 +67,15 @@ function Toolbar({ browser }) {
       <ToolbarButton icon={printIcon} label="Imprimir" small />
       <ToolbarButton icon={editIcon} label="Editar" />
       <ToolbarButton icon={messengerIcon} label="Windows Messenger" />
+      <Separator />
+      <ToolbarButton
+        icon={adBlockerIcon}
+        label="Bloquear anúncios"
+        showLabel
+        small
+        pressed={browser.adsBlocked}
+        onClick={browser.toggleAdBlocker}
+      />
     </div>
   )
 }
