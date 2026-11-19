@@ -230,3 +230,12 @@ body {
 .xp-scale-popup p {
   align-self: center;
 }
+
+/* A plain clickable line in a notification-area popup (MSN's "Abrir") */
+.xp-tray-menu-item {
+  padding: 0 2px;
+  text-align: left;
+}
+.xp-tray-menu-item:hover {
+  text-decoration: underline;
+}

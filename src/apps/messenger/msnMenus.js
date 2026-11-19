@@ -90,6 +90,7 @@ export function contactListMenus(messenger, closeWindow) {
       label: 'Ferramentas',
       items: [
         { label: 'Sempre visível', shortcut: 'Ctrl+T' },
+        { label: 'Sons', checked: messenger.soundsOn, action: messenger.toggleSounds },
         separator,
         { label: 'Emoticons...' },
         { label: 'Winks...' },
@@ -155,6 +156,7 @@ export function conversationMenus(messenger, { nudge, closeWindow }) {
       items: [
         { label: 'Alterar status', items: statusItems(messenger) },
         { label: 'Alterar imagem de exibição...', action: messenger.openPictureDialog },
+        { label: 'Sons', checked: messenger.soundsOn, action: messenger.toggleSounds },
         separator,
         { label: 'Bloquear' },
         { label: 'Emoticons...' },

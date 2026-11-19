@@ -24,6 +24,13 @@ export function setMusicPlaying(playing) {
   musicPlaying = playing
 }
 
+// MSN's own "Sons" switch (Ferramentas, or the MSN icon in the notification area)
+let msnMuted = false
+
+export function setMsnMuted(muted) {
+  msnMuted = muted
+}
+
 /**
  * Plays one of the sounds. Browsers refuse to play anything before the
  * visitor has clicked or typed on the page; with `retryWithin` (ms) a sound
@@ -33,7 +40,7 @@ export function setMusicPlaying(playing) {
 export function playSound(name, { retryWithin = 0 } = {}) {
   const src = SOUNDS[name]
   if (!src || masterVolume <= 0) return null
-  if (musicPlaying && name.startsWith('msn')) return null
+  if ((musicPlaying || msnMuted) && name.startsWith('msn')) return null
 
   const audio = new Audio(src)
   audio.volume = masterVolume

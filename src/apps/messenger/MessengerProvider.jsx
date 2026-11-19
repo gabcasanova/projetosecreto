@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useStoredState from '../../hooks/useStoredState'
-import { playSound } from '../../sounds/sounds'
+import { playSound, setMsnMuted } from '../../sounds/sounds'
 import { CONTACTS, ME, VIRUS_SENDER_ID } from './contacts'
 import { displayPictureSrc } from './displayPictures'
 import { MessengerContext } from './messengerContext'
@@ -51,6 +51,11 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
   const [myPersonalMessage, setMyPersonalMessage] = useState('')
   // The id of one of MSN's display pictures, kept between visits (null: futeborkut's photo, or the default buddy)
   const [myPicture, setMyPicture] = useStoredState('msn:displayPicture', null)
+  // MSN's sounds on or off, kept between visits
+  const [soundsOn, setSoundsOn] = useStoredState('msn:soundsOn', true)
+  useEffect(() => {
+    setMsnMuted(!soundsOn)
+  }, [soundsOn])
   const [pictureDialogOpen, setPictureDialogOpen] = useState(false)
   const [statuses, setStatuses] = useState(() => Object.fromEntries(CONTACTS.map((contact) => [contact.id, 'offline'])))
   const [conversations, setConversations] = useState({})
@@ -168,6 +173,8 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
       signedIn: true,
       me: { ...ME, picture: displayPictureSrc(myPicture) ?? ME.picture, status: myStatus, personalMessage: myPersonalMessage },
       setMyStatus,
+      soundsOn,
+      toggleSounds: () => setSoundsOn((current) => !current),
       setMyPersonalMessage,
       openPictureDialog: () => setPictureDialogOpen(true),
       contacts: CONTACTS.map((contact) => ({ ...contact, status: statuses[contact.id] })),
@@ -200,7 +207,21 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
       },
       showToast,
     }),
-    [myPicture, myStatus, myPersonalMessage, statuses, conversations, virus, openConversation, addMessages, receiveMessages, showToast, later],
+    [
+      myPicture,
+      myStatus,
+      myPersonalMessage,
+      soundsOn,
+      setSoundsOn,
+      statuses,
+      conversations,
+      virus,
+      openConversation,
+      addMessages,
+      receiveMessages,
+      showToast,
+      later,
+    ],
   )
 
   function handleSurvived() {
