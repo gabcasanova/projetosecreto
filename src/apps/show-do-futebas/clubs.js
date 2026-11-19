@@ -9,10 +9,10 @@
  * town, "Futebol Clube" for "Esporte Clube", a neighbouring town's league,
  * or another real club that could be mistaken for it.
  *
- * `kind` is 'club' or 'league' (it changes the question). `level` sets when
- * it can come up: 'easy' (the big Série A clubs), 'medium' (Série A2 and
+ * `kind` is 'club' or 'league' (it changes the question). `level` is how
+ * well known it is: 'easy' (the big Série A clubs), 'medium' (Série A2 and
  * B1), 'hard' (Série B2 and C) or 'expert' (the capital's amateur clubs
- * and the town leagues).
+ * and the town leagues). Any of them can come up at any question.
  */
 const PROFESSIONAL = [
   // Série A

@@ -14,19 +14,19 @@ import VirusAttack from './VirusAttack'
  * sign in one by one (with a toast in the corner and MSN's sound) whether or
  * not its window is open, and messages keep arriving.
  *
- * The prank: a while after you first open MSN, Casanova sends a "photo of
+ * The prank: a while after you first open MSN, Marcio sends a "photo of
  * you". Its conversation pops up; if you close MSN without clicking it, it
  * pops up again the next time MSN is opened. Clicking it starts the virus
- * (see VirusAttack): survive it and Casanova laughs at you, lose and the
+ * (see VirusAttack): survive it and Marcio laughs at you, lose and the
  * computer crashes (`onCrash` reboots the desktop).
  *
  * `onOpenConversation(contactId)` and `onOpenContactList()` come from the
  * desktop, which owns the windows.
  */
 
-// How long after you first open MSN Casanova sends the photo
+// How long after you first open MSN Marcio sends the photo
 const VIRUS_DELAY = 25000
-// If Casanova is still offline by then, he signs in and sends it this long after
+// If Marcio is still offline by then, he signs in and sends it this long after
 const VIRUS_SIGN_IN_GAP = 3000
 // How long a toast stays up, and how long it takes to slide back down
 const TOAST_DURATION = 5000
@@ -69,6 +69,21 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
     currentStatuses.current = statuses
   })
 
+  // One-off timers (toasts going away, Marcio's replies), all cancelled when the desktop goes away
+  // so nothing pops up or plays a sound after a restart
+  const pendingTimers = useRef(new Set())
+  const later = useCallback((callback, delay) => {
+    const timer = setTimeout(() => {
+      pendingTimers.current.delete(timer)
+      callback()
+    }, delay)
+    pendingTimers.current.add(timer)
+  }, [])
+  useEffect(() => {
+    const timers = pendingTimers.current
+    return () => timers.forEach(clearTimeout)
+  }, [])
+
   const addMessages = useCallback((contactId, ...messages) => {
     setConversations((current) => ({ ...current, [contactId]: [...(current[contactId] ?? []), ...messages] }))
   }, [])
@@ -76,16 +91,16 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
   // A toast slides away first (`leaving`), then it's gone
   const dismissToast = useCallback((id) => {
     setToasts((current) => current.map((toast) => (toast.id === id ? { ...toast, leaving: true } : toast)))
-    setTimeout(() => setToasts((current) => current.filter((other) => other.id !== id)), TOAST_EXIT_DURATION)
-  }, [])
+    later(() => setToasts((current) => current.filter((other) => other.id !== id)), TOAST_EXIT_DURATION)
+  }, [later])
 
   const showToast = useCallback(
     (toast) => {
       const id = newId()
       setToasts((current) => [...current.slice(-2), { ...toast, id, leaving: false }])
-      setTimeout(() => dismissToast(id), TOAST_DURATION)
+      later(() => dismissToast(id), TOAST_DURATION)
     },
-    [dismissToast],
+    [dismissToast, later],
   )
 
   const openConversation = useCallback((contactId) => desktop.current.onOpenConversation(contactId), [])
@@ -122,14 +137,14 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
     [addMessages, showToast],
   )
 
-  // Casanova's "photo", a while after you first open MSN (signing him in first if he isn't yet)
+  // Marcio's "photo", a while after you first open MSN (signing him in first if he isn't yet)
   useEffect(() => {
     if (virus !== 'scheduled') return
     let sendTimer
     const timer = setTimeout(() => {
-      const casanova = contactById(VIRUS_SENDER_ID)
+      const sender = contactById(VIRUS_SENDER_ID)
       const offline = currentStatuses.current[VIRUS_SENDER_ID] === 'offline'
-      if (offline) signInContact(casanova)
+      if (offline) signInContact(sender)
       sendTimer = setTimeout(
         () => {
           receiveMessages(VIRUS_SENDER_ID, message(VIRUS_SENDER_ID, VIRUS_MESSAGE), message(VIRUS_SENDER_ID, VIRUS_FILE, 'link'))
@@ -159,7 +174,7 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
       conversationWith: (contactId) => conversations[contactId] ?? [],
       virusState: virus,
 
-      // The contact list window calls this when it opens: the first time starts Casanova's countdown,
+      // The contact list window calls this when it opens: the first time starts Marcio's countdown,
       // and his unopened photo comes back if it was left behind
       contactListOpened() {
         setVirus((current) => (current === 'idle' ? 'scheduled' : current))
@@ -170,10 +185,10 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
 
       sendMessage(contactId, text) {
         addMessages(contactId, message('me', text))
-        // Nobody answers, except Casanova insisting you open the photo
+        // Nobody answers, except Marcio insisting you open the photo
         if (contactId === VIRUS_SENDER_ID && virus === 'sent') {
           const reply = VIRUS_PESTER[pesterCount.current++ % VIRUS_PESTER.length]
-          setTimeout(() => receiveMessages(VIRUS_SENDER_ID, message(VIRUS_SENDER_ID, reply)), 1800)
+          later(() => receiveMessages(VIRUS_SENDER_ID, message(VIRUS_SENDER_ID, reply)), 1800)
         }
       },
       sendNudge(contactId) {
@@ -185,12 +200,12 @@ function MessengerProvider({ onOpenConversation, onOpenContactList, onCrash, chi
       },
       showToast,
     }),
-    [myPicture, myStatus, myPersonalMessage, statuses, conversations, virus, openConversation, addMessages, receiveMessages, showToast],
+    [myPicture, myStatus, myPersonalMessage, statuses, conversations, virus, openConversation, addMessages, receiveMessages, showToast, later],
   )
 
   function handleSurvived() {
     setVirus('survived')
-    setTimeout(() => receiveMessages(VIRUS_SENDER_ID, message(VIRUS_SENDER_ID, VIRUS_SURVIVED)), 1500)
+    later(() => receiveMessages(VIRUS_SENDER_ID, message(VIRUS_SENDER_ID, VIRUS_SURVIVED)), 1500)
   }
 
   function handleCrashed() {

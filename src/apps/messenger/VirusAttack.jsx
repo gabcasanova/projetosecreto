@@ -7,7 +7,7 @@ import { playSound } from '../../sounds/sounds'
 import './virus.css'
 
 /*
- * What happens when you open Casanova's "photo": XP message boxes start
+ * What happens when you open Marcio's "photo": XP message boxes start
  * popping up all over the desktop (errors, warnings, questions...), each
  * with its Windows sound, faster and faster. Close them all and you survive
  * (`onSurvived`). Let too many pile up and the computer gives up with XP's

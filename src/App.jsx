@@ -2,29 +2,38 @@ import { useCallback, useState } from 'react'
 import PlayerProvider from './apps/media-player/PlayerProvider'
 import BootScreen from './components/BootScreen'
 import Desktop from './components/Desktop'
+import WelcomeBox from './components/WelcomeBox'
 import { playSound } from './sounds/sounds'
 
+/*
+ * The computer's life: the boot screen, then just the wallpaper with the
+ * welcome message, and only after OK the desktop itself starts (with XP's
+ * startup tune; MSN signs in and everything else begins from that moment).
+ * `stage` is 'boot', 'welcome' or 'running'.
+ */
 function App() {
-  // XP's boot screen comes first; the desktop loads underneath it
-  const [booting, setBooting] = useState(true)
+  const [stage, setStage] = useState('boot')
   // Bumped when the computer "restarts" (after the virus's blue screen): a fresh desktop, a new MSN session
   const [bootCount, setBootCount] = useState(0)
-  // The desktop appears with XP's startup tune. On the very first boot the browser may hold it back
-  // until the visitor clicks something; it then plays on that first click, if it comes soon enough
-  const finishBooting = useCallback(() => {
-    setBooting(false)
-    playSound('xpStartup', { retryWithin: 15000 })
+
+  const showWelcome = useCallback(() => setStage('welcome'), [])
+
+  const startDesktop = useCallback(() => {
+    setStage('running')
+    // Pressing OK is the visitor's first click, so the browser lets the sound play
+    playSound('xpStartup')
   }, [])
 
   const reboot = useCallback(() => {
     setBootCount((count) => count + 1)
-    setBooting(true)
+    setStage('boot')
   }, [])
 
   return (
     <PlayerProvider>
-      <Desktop key={bootCount} onReboot={reboot} />
-      {booting && <BootScreen onDone={finishBooting} />}
+      {stage === 'running' && <Desktop key={bootCount} onReboot={reboot} />}
+      {stage === 'welcome' && <WelcomeBox onOk={startDesktop} />}
+      {stage === 'boot' && <BootScreen onDone={showWelcome} />}
     </PlayerProvider>
   )
 }

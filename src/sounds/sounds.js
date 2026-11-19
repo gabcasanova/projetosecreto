@@ -17,6 +17,13 @@ export function setSoundVolume(volume) {
   masterVolume = volume
 }
 
+// While the media player is playing, MSN keeps quiet so it doesn't talk over the music
+let musicPlaying = false
+
+export function setMusicPlaying(playing) {
+  musicPlaying = playing
+}
+
 /**
  * Plays one of the sounds. Browsers refuse to play anything before the
  * visitor has clicked or typed on the page; with `retryWithin` (ms) a sound
@@ -25,13 +32,16 @@ export function setSoundVolume(volume) {
  */
 export function playSound(name, { retryWithin = 0 } = {}) {
   const src = SOUNDS[name]
-  if (!src || masterVolume <= 0) return
+  if (!src || masterVolume <= 0) return null
+  if (musicPlaying && name.startsWith('msn')) return null
 
   const audio = new Audio(src)
   audio.volume = masterVolume
   audio.play().catch((error) => {
     if (error.name === 'NotAllowedError' && retryWithin > 0) playOnFirstInteraction(audio, retryWithin)
   })
+  // Callers that need to know when it ends (or to stop it) get the audio element; null when nothing played
+  return audio
 }
 
 function playOnFirstInteraction(audio, within) {

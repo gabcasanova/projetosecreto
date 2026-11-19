@@ -14,14 +14,14 @@ import { everyone, VISITOR } from '../futeborkut/data/database'
  *   their name.
  */
 const MSN_DETAILS = {
+  // Says hi, then sends the "photo" a while after you first open MSN (see MessengerProvider)
   marcio: { status: 'online', signInAfter: 12, greeting: 'eae, beleza?' },
-  // Sends the "photo" a while after you first open MSN (see MessengerProvider)
   casanova: { status: 'online', signInAfter: 22, personalMessage: '' },
   asafe: { status: 'away', signInAfter: 50, greeting: 'oii' },
   yuri: { status: 'busy', signInAfter: 85, greeting: 'salve!' },
 }
 
-export const VIRUS_SENDER_ID = 'casanova'
+export const VIRUS_SENDER_ID = 'marcio'
 
 // "ana-clara" -> "ana_clara@hotmail.com": everyone had a Hotmail back then
 function emailOf(id) {

@@ -28,7 +28,7 @@ const PARTNER_TABS = [
 
 /*
  * MSN Messenger 7.5's main window: the contact list. You're signed in from the
- * start; opening it the first time starts Casanova's countdown (see MessengerProvider).
+ * start; opening it the first time starts Marcio's countdown (see MessengerProvider).
  */
 function ContactList({ closeWindow }) {
   const messenger = useMessenger()

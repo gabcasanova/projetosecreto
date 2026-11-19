@@ -2,8 +2,8 @@ import { CLUBS } from './clubs'
 
 /*
  * The rules of Show do Futebas. Twelve badges, each worth more than the
- * last: the big clubs first, then the lower divisions, and for the last two
- * the capital's amateur clubs and the town leagues. At every question you can:
+ * last. Which club comes up has nothing to do with the prize: any club or
+ * league can appear at any question. At every question you can:
  * - answer right and go on (and win the next prize),
  * - stop and keep what you have,
  * - or answer wrong and leave with the last safe prize.
@@ -14,17 +14,20 @@ export const PRIZES = [500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 20000
 // Once one of these is won, it's yours even if you get a later one wrong
 const SAFE_LEVELS = [3, 7]
 
-// Which clubs can come up at each question
-const LEVELS = ['easy', 'easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard', 'expert', 'expert']
+// Seconds to answer each question: less and less time as the prize grows
+export const QUESTION_SECONDS = [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 11, 10]
 
 // The help you get once per game
-export const HELPS = { skip: 2, eliminate: 1, crowd: 1 }
+export const HELPS = { skip: 2, eliminate: 2 }
 
-/** "R$ 500", "R$ 20 mil", "R$ 1 milhão" */
+// The prizes are paid in xibiblhões, the show's own currency
+const CURRENCY = '$Xib'
+
+/** "$Xib 500", "$Xib 20 mil", "$Xib 1 milhão" */
 export function formatPrize(value) {
-  if (value >= 1000000) return 'R$ 1 milhão'
-  if (value >= 1000) return `R$ ${value / 1000} mil`
-  return `R$ ${value}`
+  if (value >= 1000000) return `${CURRENCY} 1 milhão`
+  if (value >= 1000) return `${CURRENCY} ${value / 1000} mil`
+  return `${CURRENCY} ${value}`
 }
 
 /** True if `level` is one of the safe prizes */
@@ -58,56 +61,23 @@ function makeQuestion(club) {
 }
 
 /**
- * A new game: one question per prize, plus spare questions of each level
- * for when you skip one.
+ * A new game: twelve questions drawn at random from every club and league,
+ * plus the rest of the shuffled deck as spares for when you skip one.
  */
 export function createGame() {
-  const pools = {
-    easy: shuffle(CLUBS.filter((club) => club.level === 'easy')),
-    medium: shuffle(CLUBS.filter((club) => club.level === 'medium')),
-    hard: shuffle(CLUBS.filter((club) => club.level === 'hard')),
-    expert: shuffle(CLUBS.filter((club) => club.level === 'expert')),
-  }
-  return {
-    questions: LEVELS.map((level) => makeQuestion(pools[level].pop())),
-    spares: {
-      easy: pools.easy.map(makeQuestion),
-      medium: pools.medium.map(makeQuestion),
-      hard: pools.hard.map(makeQuestion),
-      expert: pools.expert.map(makeQuestion),
-    },
-  }
+  const deck = shuffle(CLUBS).map(makeQuestion)
+  return { questions: deck.slice(0, PRIZES.length), spares: deck.slice(PRIZES.length) }
 }
 
-/** The game with question `level` swapped for a spare of the same level */
+/** The game with question `level` swapped for the next spare */
 export function skipQuestion(game, level) {
-  const pool = game.spares[LEVELS[level]]
-  if (pool.length === 0) return game
+  if (game.spares.length === 0) return game
   const questions = [...game.questions]
-  questions[level] = pool[0]
-  return { questions, spares: { ...game.spares, [LEVELS[level]]: pool.slice(1) } }
+  questions[level] = game.spares[0]
+  return { questions, spares: game.spares.slice(1) }
 }
 
 /** Two wrong answers to hide for "Eliminar duas" */
 export function twoWrongOptions(question) {
   return shuffle(question.options.filter((option) => option !== question.club.name)).slice(0, 2)
-}
-
-/**
- * The crowd's vote, in percent per option. The crowd knows the big clubs
- * well and the small ones much less, so the right answer leads by less the
- * further you go (and at the top it may well not win).
- */
-export function crowdVote(question, level, hidden) {
-  const confidence = level < 4 ? 0.75 : level < 8 ? 0.5 : level < 10 ? 0.3 : 0.2
-  const visible = question.options.filter((option) => !hidden.includes(option))
-  const weights = visible.map((option) =>
-    option === question.club.name ? confidence + Math.random() * 0.25 : Math.random() * (1 - confidence),
-  )
-  const total = weights.reduce((sum, weight) => sum + weight, 0)
-  const percents = weights.map((weight) => Math.round((weight / total) * 100))
-  // Rounding can leave it at 99 or 101; the leader absorbs the difference
-  const leader = percents.indexOf(Math.max(...percents))
-  percents[leader] += 100 - percents.reduce((sum, percent) => sum + percent, 0)
-  return Object.fromEntries(visible.map((option, index) => [option, percents[index]]))
 }

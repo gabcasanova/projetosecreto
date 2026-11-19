@@ -1,0 +1,65 @@
+/* The welcome message box shown over the bare wallpaper (WelcomeBox.jsx) */
+
+.welcome-screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.welcome-box {
+  display: flex;
+  width: min(440px, calc(100vw - 24px));
+  flex-direction: column;
+  animation: welcome-in 160ms ease-out;
+}
+@keyframes welcome-in {
+  from {
+    scale: 0.94;
+    opacity: 0.5;
+  }
+}
+
+.welcome-body {
+  display: flex;
+  max-height: calc(100vh - 60px);
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  overflow-y: auto;
+  background: #ece9d8;
+  color: #000;
+  font: 11px/1.4 Tahoma, sans-serif;
+  cursor: default;
+}
+
+.welcome-message {
+  display: flex;
+  gap: 12px;
+}
+.welcome-message img {
+  flex-shrink: 0;
+}
+.welcome-message p {
+  margin-top: 8px;
+}
+
+.welcome-title {
+  font: bold 22px/1.1 Tahoma, sans-serif;
+  color: #0a246a;
+}
+
+.welcome-ok {
+  align-self: center;
+  min-width: 90px;
+}
+
+/* The info balloon keeps its own size instead of stretching down the text */
+.welcome-message img {
+  align-self: flex-start;
+}
+
+/* Here the Instagram card has room to put its icon and text in the middle */
+.welcome-box .links-instagram {
+  justify-content: center;
+}

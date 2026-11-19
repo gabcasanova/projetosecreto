@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { setSoundVolume } from '../../sounds/sounds'
+import { setMusicPlaying, setSoundVolume } from '../../sounds/sounds'
 
 // Pressing "previous" this far into a song restarts it instead of going back
 const RESTART_THRESHOLD_SECONDS = 3
@@ -51,6 +51,11 @@ function usePlayer() {
     audio.volume = volume * masterVolume
     audio.muted = muted || masterMuted
   }, [audio, volume, muted, masterVolume, masterMuted])
+
+  // MSN stays silent while there's music
+  useEffect(() => {
+    setMusicPlaying(isPlaying)
+  }, [isPlaying])
 
   // Windows' and MSN's sound effects follow Windows' volume too
   useEffect(() => {
