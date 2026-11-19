@@ -12,6 +12,9 @@ import Notepad from '../apps/notepad/Notepad'
 // A glossy football with orkut-magenta patches (recoloured from Icons-Land's 'Sport Icons')
 import futeborkutIcon from '../apps/futeborkut/assets/desktop-icon.png'
 import { FUTEBORKUT_URL } from '../apps/futeborkut/site'
+import { BAIRROLOG_URL } from '../apps/bairrolog/site'
+// XP's digital camera, for the band's photo log
+import bairrologIcon from '../assets/xp/icons/camera-2.png'
 import internet from '../internet'
 import InternetExplorer from '../apps/internet-explorer/InternetExplorer'
 import InternetExplorerSplash from '../apps/internet-explorer/Splash'
@@ -161,6 +164,7 @@ const DESKTOP_SHORTCUTS = [
   { id: 'messenger', appId: 'messenger' },
   { id: 'showDoFutebas', appId: 'showDoFutebas' },
   webShortcut({ id: 'futeborkut', label: 'futeborkut', icon: futeborkutIcon, url: FUTEBORKUT_URL }),
+  webShortcut({ id: 'bairrolog', label: 'Bairrolog', icon: bairrologIcon, url: BAIRROLOG_URL }),
   textFile({ id: 'aboutTheBand', fileName: 'Sobre a Banda', text: aboutTheBand }),
 ]
 

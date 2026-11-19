@@ -23,7 +23,7 @@ body {
   user-select: none;
 }
 
-/* The gradient only shows while the wallpaper is loading (or if it's missing) */
+/* Black while the wallpaper is loading (or if it's missing), as a real screen would be */
 .xp-desktop {
   /* The widget column on the right (components/sidebar); maximized windows stop at its edge */
   --sidebar-open-width: 232px;
@@ -32,7 +32,7 @@ body {
   --sidebar-tab-width: 14px;
   background:
     url('/wallpaper.webp') center / cover no-repeat,
-    linear-gradient(to bottom, #3a7bd5 0%, #8ec5f5 55%, #6fbf3a 56%, #3f8f1f 100%);
+    #000;
 }
 
 /* ---------- Window ---------- */
